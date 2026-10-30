@@ -3,6 +3,7 @@ using Game.Scripts.ECS.Components.Movement;
 using Game.Scripts.ECS.Components.Player;
 using Game.Scripts.Services.Input;
 using Leopotam.EcsLite;
+using UnityEngine;
 
 namespace Game.Scripts.ECS.Systems
 {
@@ -14,6 +15,7 @@ namespace Game.Scripts.ECS.Systems
         private EcsPool<HorizontalMovement> _horizontalPool;
         private EcsPool<MouseInputDirection> _lookPool;
         private EcsPool<InteractInput> _interactPool;
+        private EcsPool<InputBlocked> _blockedPool;
         private bool _interactWasPressed;
 
         public PlayerInputSystem(IInputService inputService)
@@ -28,6 +30,7 @@ namespace Game.Scripts.ECS.Systems
             _horizontalPool = world.GetPool<HorizontalMovement>();
             _lookPool = world.GetPool<MouseInputDirection>();
             _interactPool = world.GetPool<InteractInput>();
+            _blockedPool = world.GetPool<InputBlocked>();
         }
 
         public void Run(IEcsSystems systems)
@@ -38,14 +41,15 @@ namespace Game.Scripts.ECS.Systems
             
             foreach (int entity in _filter)
             {
+                bool blocked = _blockedPool.Has(entity);
                 ref HorizontalMovement horizontalMovement = ref _horizontalPool.Get(entity);
                 ref MouseInputDirection mouseInputDirection = ref _lookPool.Get(entity);
 
-                mouseInputDirection.Direction = _inputService.Look.CurrentValue;
-                horizontalMovement.Direction = _inputService.Move.CurrentValue;
-                
+                mouseInputDirection.Direction = blocked ? Vector2.zero : _inputService.Look.CurrentValue;
+                horizontalMovement.Direction = blocked ? Vector2.zero : _inputService.Move.CurrentValue;
+
                 ref InteractInput interactInput = ref _interactPool.Get(entity);
-                interactInput.IsInteractPressed = justPressed;
+                interactInput.IsInteractPressed = blocked == false && justPressed;
             }
         }
     }

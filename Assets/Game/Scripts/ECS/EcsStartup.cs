@@ -2,6 +2,7 @@ using System;
 using Game.Scripts.Configs;
 using Game.Scripts.ECS.Systems;
 using Game.Scripts.ECS.Systems.Camera;
+using Game.Scripts.ECS.Systems.Cursor;
 using Game.Scripts.ECS.Systems.DebugHelpers;
 using Game.Scripts.ECS.Systems.Doors;
 using Game.Scripts.ECS.Systems.Interaction;
@@ -82,7 +83,8 @@ namespace Game.Scripts.ECS
                 .Add(new CameraCutsceneSystem())
                 .Add(new CameraApplySystem())
                 .Add(new OutlineViewSystem())
-                .Add(new DoorAnimationSystem());
+                .Add(new DoorAnimationSystem())
+                .Add(new CursorLockSystem());
         }
 
         private void AddDebugSystems()
@@ -90,7 +92,8 @@ namespace Game.Scripts.ECS
 #if UNITY_EDITOR
             _systems.Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
                 .Add(new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem())
-                .Add(new DebugDrawSystem());
+                .Add(new DebugDrawSystem())
+                .Add(new InputBlockToggleDebugSystem());
 #endif
         }
 
