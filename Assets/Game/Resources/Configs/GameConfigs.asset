@@ -17,3 +17,4 @@ MonoBehaviour:
   _gravityConfigs: {fileID: 11400000, guid: 1ac5fc2e1318c5846be3d093ef8970e0, type: 2}
   _fearConfig: {fileID: 11400000, guid: 956736063f08a834aa7c81645cad9095, type: 2}
   _interactionPromptConfig: {fileID: 11400000, guid: 331f62f6db79a4946a3475dac0c786ee, type: 2}
+  _screenFadeConfig: {fileID: 11400000, guid: 4a381e34b7b843a4a8af5260555850ca, type: 2}

@@ -12,6 +12,9 @@ namespace Game.Scripts.Configs
         [SerializeField] private FearConfig _fearConfig;
         [SerializeField] private InteractionPromptConfig _interactionPromptConfig;
 
+        [SerializeField] private ScreenFadeConfig _screenFadeConfig;
+
+        public ScreenFadeConfig ScreenFadeConfig => _screenFadeConfig;
         public PlayerConfig PlayerConfig => _playerConfig;
         public WalkConfig WalkConfig => _walkConfig;
         public GravityConfig GravityConfig => _gravityConfigs;

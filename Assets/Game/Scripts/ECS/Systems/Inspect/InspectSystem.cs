@@ -37,7 +37,7 @@ namespace Game.Scripts.ECS.Systems.Inspect
                 if (keys != null && keys.Length > 0)
                 {
                     int index = inspectable.Count < keys.Length ? inspectable.Count : keys.Length - 1;
-                    _world.RequestThought(keys[index]);
+                    _world.RequestThought(keys[index], inspectable.Interrupt);
                 }
 
                 inspectable.Count++;

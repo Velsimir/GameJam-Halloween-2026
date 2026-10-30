@@ -85,6 +85,13 @@
   Замок двери — `RequiredItem` в `DoorAuthoring` → `Locked`; без ключа мысль + `DoorRattle`
   (дёргание, числа в authoring), с ключом `Locked` снимается и дверь открывается. Образцы в `PlayRoom`:
   `KeyTable`/`Pickup_Key`, `Door_Locked`.
+- Переходы между локациями: `TransitionDoorAuthoring` (`_spawnPoint` — позиция и направление взгляда,
+  опционально `_requiredItem` → `Locked`, `_enterThoughtKey`) → `TransitionDoorInteractionSystem` вешает на игрока
+  `Transitioning` + `InputBlocked`; `TransitionSystem` ведёт FadeOut → телепорт (CharacterController
+  выключается на время переноса) → Hold → FadeIn через `ScreenFadeView` (чёрная `CanvasGroup` `ScreenFade`,
+  последняя на Canvas). Тайминги — `ScreenFadeConfig` (`Resources/Configs/Transition/`). Во время перехода
+  курсор остаётся захваченным (`CursorLockSystem`). Образцы в `PlayRoom`: `TransitionDoor_ToCorridor` (заперта
+  ключом), `TransitionDoor_ToRoom`, коридор `Corridor` в точке (0, 0, -60).
 - Без комментариев в коде.
 
 ## Ловушки

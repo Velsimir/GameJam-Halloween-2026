@@ -10,6 +10,7 @@ using Game.Scripts.ECS.Systems.Inspect;
 using Game.Scripts.ECS.Systems.Interaction;
 using Game.Scripts.ECS.Systems.Items;
 using Game.Scripts.ECS.Systems.Thoughts;
+using Game.Scripts.ECS.Systems.Transition;
 using Game.Scripts.ECS.Systems.Walk;
 using Game.Scripts.Services.Input;
 using Game.Scripts.Views;
@@ -27,11 +28,13 @@ namespace Game.Scripts.ECS
         private readonly GameConfigs _gameConfigs;
         private readonly InteractionPromptView _interactionPromptView;
         private readonly DialoguePlayer _thoughtPlayer;
+        private readonly ScreenFadeView _screenFadeView;
         private EcsSystems _systems;
 
         public EcsStartup(IInputService inputService, IEcsWorldProvider ecsWorldProvider, GameConfigs gameConfigs,
-            InteractionPromptView interactionPromptView, DialoguePlayer thoughtPlayer)
+            InteractionPromptView interactionPromptView, DialoguePlayer thoughtPlayer, ScreenFadeView screenFadeView)
         {
+            _screenFadeView = screenFadeView;
             _thoughtPlayer = thoughtPlayer;
             _interactionPromptView = interactionPromptView;
             _inputService = inputService;
@@ -90,7 +93,9 @@ namespace Game.Scripts.ECS
                 .Add(new FearZoneContactSystem())
                 .Add(new FearFactorSystem(_gameConfigs.FearConfig))
                 .Add(new ScareRequestSystem(_gameConfigs.FearConfig))
-                .Add(new DoorInteractionSystem());
+                .Add(new DoorInteractionSystem())
+                .Add(new TransitionDoorInteractionSystem())
+                .Add(new TransitionSystem(_gameConfigs.ScreenFadeConfig, _screenFadeView));
         }
 
         private void AddPresentationSystems()
