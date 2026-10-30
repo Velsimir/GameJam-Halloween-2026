@@ -3,6 +3,7 @@ using Game.Scripts.ECS.Components.Camera;
 using Game.Scripts.ECS.Components.Fear;
 using Game.Scripts.ECS.Components.Input;
 using Game.Scripts.ECS.Components.Interaction;
+using Game.Scripts.ECS.Components.Items;
 using Game.Scripts.ECS.Components.Movement;
 using Game.Scripts.ECS.Components.Player;
 using Game.Scripts.ECS.Components.Walk;
@@ -32,6 +33,7 @@ namespace Game.Scripts.ECS.Authoring
             _ecsWorldProvider.World.GetPool<FearZoneContact>().Add(player);
             _ecsWorldProvider.World.GetPool<InteractInput>().Add(player);
             _ecsWorldProvider.World.GetPool<CameraOffset>().Add(player);
+            _ecsWorldProvider.World.GetPool<Inventory>().Add(player);
             
             ref var playerRefs = ref _ecsWorldProvider.World.GetPool<PlayerRefs>().Add(player);
             playerRefs.CharacterController = _characterController;

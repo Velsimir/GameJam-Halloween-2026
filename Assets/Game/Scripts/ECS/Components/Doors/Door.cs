@@ -13,5 +13,9 @@ namespace Game.Scripts.ECS.Components.Doors
         public bool IsOpen;
         public string OpenPromptKey;
         public string ClosePromptKey;
+        public string LockedPromptKey;
+        public float RattleDuration;
+        public float RattleAngle;
+        public float RattleCycles;
     }
 }

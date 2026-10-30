@@ -78,6 +78,13 @@
   `FearZoneAuthoring`, побеждает максимальный `Target`) и `ScareRequestSystem`. Пугать из кода —
   создать сущность с `ScareRequest { Strength }`; уборщик один — `ClearScareRequestSystem`.
   Числа — `FearConfig` (`Resources/Configs/Fear/`). В редакторе F2 = скример (дублирует `ScareZone`), F1 = блокировка ввода.
+- Предметы и замки: `ItemDefinition` (SO, `Resources/Configs/Items/`) — только данные; подбор —
+  `PickupAuthoring` (`Pickup { Item }`) → `PickupSystem` кладёт предмет в `Inventory` игрока (список
+  создаёт `IEcsAutoReset`), просит мысль и вешает `PickedUp`; `PickupViewSystem` выключает объект и
+  удаляет сущность. Проверка из любой механики — `world.HasItem(item)` (`EcsWorldInventoryExtensions`).
+  Замок двери — `RequiredItem` в `DoorAuthoring` → `Locked`; без ключа мысль + `DoorRattle`
+  (дёргание, числа в authoring), с ключом `Locked` снимается и дверь открывается. Образцы в `PlayRoom`:
+  `KeyTable`/`Pickup_Key`, `Door_Locked`.
 - Без комментариев в коде.
 
 ## Ловушки

@@ -8,6 +8,7 @@ using Game.Scripts.ECS.Systems.Doors;
 using Game.Scripts.ECS.Systems.Fear;
 using Game.Scripts.ECS.Systems.Inspect;
 using Game.Scripts.ECS.Systems.Interaction;
+using Game.Scripts.ECS.Systems.Items;
 using Game.Scripts.ECS.Systems.Thoughts;
 using Game.Scripts.ECS.Systems.Walk;
 using Game.Scripts.Services.Input;
@@ -84,6 +85,7 @@ namespace Game.Scripts.ECS
                 .Add(new InteractionRaycastSystem())
                 .Add(new InteractionRequestSystem())
                 .Add(new InspectSystem())
+                .Add(new PickupSystem())
                 .Add(new GravitySystem())
                 .Add(new FearZoneContactSystem())
                 .Add(new FearFactorSystem(_gameConfigs.FearConfig))
@@ -101,6 +103,7 @@ namespace Game.Scripts.ECS
                 .Add(new FearPostProcessSystem(_gameConfigs.FearConfig))
                 .Add(new CameraCutsceneSystem())
                 .Add(new CameraApplySystem())
+                .Add(new PickupViewSystem())
                 .Add(new OutlineViewSystem())
                 .Add(new DoorAnimationSystem())
                 .Add(new CursorLockSystem())

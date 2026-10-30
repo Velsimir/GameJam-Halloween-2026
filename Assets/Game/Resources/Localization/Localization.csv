@@ -12,3 +12,7 @@ ui.inspect.box.1,Осмотр: ящик 1,Just an old crate. Nothing special.,С
 ui.inspect.box.2,Осмотр: ящик 2,The lid is nailed shut. [warn]From the inside?[/warn],Крышка забита гвоздями. [warn]Изнутри?[/warn],
 ui.inspect.box.3,Осмотр: ящик 3,I should stop staring at it.,Хватит на него смотреть.,
 ui.inspect.doll.1,Осмотр: кукла,[warn]Its eyes just moved.[/warn],[warn]Её глаза только что шевельнулись.[/warn],
+item.key.name,Предмет: ключ,Key,Ключ,
+ui.thought.key_taken,Мысль при подборе ключа,Rusty key. It must fit something.,Ржавый ключ. Он должен что-то открывать.,
+ui.thought.door_locked,Мысль: дверь заперта,Locked. I need a key.,Заперто. Нужен ключ.,
+ui.thought.door_unlocked,Мысль: дверь отперта,The key fits.,Ключ подошёл.,
