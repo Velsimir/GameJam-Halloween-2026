@@ -5,6 +5,7 @@ using Game.Scripts.ECS.Systems.Camera;
 using Game.Scripts.ECS.Systems.Cursor;
 using Game.Scripts.ECS.Systems.DebugHelpers;
 using Game.Scripts.ECS.Systems.Doors;
+using Game.Scripts.ECS.Systems.Fear;
 using Game.Scripts.ECS.Systems.Interaction;
 using Game.Scripts.ECS.Systems.Walk;
 using Game.Scripts.Services.Input;
@@ -60,6 +61,9 @@ namespace Game.Scripts.ECS
         private void AddInputSystems()
         {
             _systems.Add(new PlayerInputSystem(_inputService));
+#if UNITY_EDITOR
+            _systems.Add(new ScareDebugSystem());
+#endif
         }
 
         private void AddSimulationSystems()
@@ -71,6 +75,9 @@ namespace Game.Scripts.ECS
                 .Add(new InteractionRaycastSystem())
                 .Add(new InteractionRequestSystem())
                 .Add(new GravitySystem())
+                .Add(new FearZoneContactSystem())
+                .Add(new FearFactorSystem(_gameConfigs.FearConfig))
+                .Add(new ScareRequestSystem(_gameConfigs.FearConfig))
                 .Add(new DoorInteractionSystem());
         }
 
@@ -80,6 +87,8 @@ namespace Game.Scripts.ECS
                 .Add(new ClearCameraOffsetSystem())
                 .Add(new CameraWalkBobSystem())
                 .Add(new CameraFearShakeSystem())
+                .Add(new CameraScareShakeSystem(_gameConfigs.FearConfig))
+                .Add(new FearPostProcessSystem(_gameConfigs.FearConfig))
                 .Add(new CameraCutsceneSystem())
                 .Add(new CameraApplySystem())
                 .Add(new OutlineViewSystem())
@@ -99,7 +108,9 @@ namespace Game.Scripts.ECS
 
         private void AddCleanupSystems()
         {
-            _systems.Add(new ClearInteractionRequestSystem());
+            _systems
+                .Add(new ClearInteractionRequestSystem())
+                .Add(new ClearScareRequestSystem());
         }
     }
 }

@@ -45,6 +45,9 @@ namespace Game.Scripts.ECS.Systems.Camera
                 cinemachineRefs.CameraMixing.Weight0 = noiseBlend.Idle;
                 cinemachineRefs.CameraMixing.Weight1 = noiseBlend.Tense;
                 cinemachineRefs.CameraMixing.Weight2 = noiseBlend.Panic;
+
+                for (int i = 0; i < cinemachineRefs.Cameras.Length; i++)
+                    cinemachineRefs.Cameras[i].Lens.FieldOfView = cinemachineRefs.BaseFov[i] + cameraOffset.FovDelta;
             }
         }
     }

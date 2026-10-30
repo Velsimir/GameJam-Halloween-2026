@@ -29,6 +29,7 @@ namespace Game.Scripts.ECS.Authoring
             _ecsWorldProvider.World.GetPool<MouseInputDirection>().Add(player);
             _ecsWorldProvider.World.GetPool<LookRotation>().Add(player);
             _ecsWorldProvider.World.GetPool<FearFactor>().Add(player);
+            _ecsWorldProvider.World.GetPool<FearZoneContact>().Add(player);
             _ecsWorldProvider.World.GetPool<InteractInput>().Add(player);
             _ecsWorldProvider.World.GetPool<CameraOffset>().Add(player);
             

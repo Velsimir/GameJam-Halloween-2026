@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68ccc29898c7914caa99b3b4d8a127e, type: 3}
+  m_Name: FearConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.FearConfig
+  _growthSpeed: 0.6
+  _decaySpeed: 0.25
+  _maxValue: 1
+  _scareFearBoost: 0.6
+  _scareDuration: 0.7
+  _scarePositionAmplitude: 0.08
+  _scareRotationAmplitude: 4
+  _scareFovAmplitude: 12
+  _scareFrequency: 28
+  _vignetteMax: 0.5
+  _vignetteSmoothness: 0.5
+  _filmGrainMax: 0.6
+  _chromaticAberrationMax: 0.7
+  _postProcessResponse: 4
