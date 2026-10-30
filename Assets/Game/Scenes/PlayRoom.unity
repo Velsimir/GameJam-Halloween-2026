@@ -3850,6 +3850,7 @@ MonoBehaviour:
   _thoughtKeys:
   - ui.inspect.doll.1
   _oneShot: 1
+  _interruptThought: 1
   _scareStrength: 1
 --- !u!23 &1025218133
 MeshRenderer:
@@ -5926,6 +5927,7 @@ MonoBehaviour:
   - ui.inspect.box.2
   - ui.inspect.box.3
   _oneShot: 0
+  _interruptThought: 1
   _scareStrength: 0
 --- !u!23 &2007890662
 MeshRenderer:
