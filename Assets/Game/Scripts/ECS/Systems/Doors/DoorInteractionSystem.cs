@@ -9,6 +9,7 @@ namespace Game.Scripts.ECS.Systems.Doors
         private EcsFilter _filter;
         private EcsPool<Door> _poolDoor;
         private EcsPool<Acting> _poolActing;
+        private EcsPool<InteractionPrompt> _poolPrompt;
 
         public void Init(IEcsSystems systems)
         {
@@ -17,6 +18,7 @@ namespace Game.Scripts.ECS.Systems.Doors
             _filter = world.Filter<Door>().Inc<InteractionRequest>().End();
             _poolDoor = world.GetPool<Door>();
             _poolActing = world.GetPool<Acting>();
+            _poolPrompt = world.GetPool<InteractionPrompt>();
         }
 
         public void Run(IEcsSystems systems)
@@ -25,6 +27,9 @@ namespace Game.Scripts.ECS.Systems.Doors
             {
                 ref var door = ref _poolDoor.Get(entity);
                 door.IsOpen = !door.IsOpen;
+
+                if (_poolPrompt.Has(entity))
+                    _poolPrompt.Get(entity).Key = door.IsOpen ? door.ClosePromptKey : door.OpenPromptKey;
                 
                 if (_poolActing.Has(entity) == false)
                     _poolActing.Add(entity);

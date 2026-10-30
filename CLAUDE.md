@@ -71,6 +71,9 @@
 - `LoadingService` не показывает `Curtain` (закомментировано) — для затемнения звать
   `ICurtain` напрямую или вернуть вызовы.
 - Play Mode с бута — меню `PlayFromBootstrap/Enebled` (`EntryPointSceneAutoLoader`).
+  Какую сцену грузить после `Init` — `PlayFromBootstrap/Scene/{PlayRoom,ModelTest}` (EditorPrefs, только в
+  редакторе; в билде всегда `Playroom`). `ModelTest.unity` — копия `PlayRoom` без тестовых механик,
+  моделек кладут под корень `Models`.
 
 ## Поиск по коду
 Через `codegraph explore` (индекс `.codegraph/`, конфиг `codegraph.json`), не Grep.
@@ -80,6 +83,9 @@
 Готово: WASD + гравитация, взгляд мышью, покачивание камеры, смешивание шумов
 Idle/Tense/Panic от `FearFactor`, луч взаимодействия с обводкой, дверь открыть/закрыть,
 захват курсора и блокировка ввода, зоны страха, скример (тряска + FOV), постобработка от страха
-(виньетка, film grain, хроматическая аберрация; runtime-копия профиля `Global Volume`).
-Нет: HUD-текста, инвентаря, переходов, интерактивных пространств, постоянных источников страха
+(виньетка, film grain, хроматическая аберрация; runtime-копия профиля `Global Volume`),
+подсказка взаимодействия (`InteractionPrompt { Key }` ← поле `_promptKey` в `InteractionObjectAuthoring`,
+дверь переключает `ui.interact.open/close`; `InteractionPromptView` на Canvas + `InteractionPromptViewSystem`,
+тайминги — `InteractionPromptConfig`) и точка-прицел (скрыты при `InputBlocked`).
+Нет: остального HUD-текста, инвентаря, переходов, интерактивных пространств, постоянных источников страха
 кроме тестовой зоны. `CameraCutsceneSystem` — пустая заглушка.

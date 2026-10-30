@@ -10,10 +10,12 @@ namespace Game.Scripts.Configs
         [SerializeField] private WalkConfig _walkConfig;
         [SerializeField] private GravityConfig _gravityConfigs;
         [SerializeField] private FearConfig _fearConfig;
+        [SerializeField] private InteractionPromptConfig _interactionPromptConfig;
 
         public PlayerConfig PlayerConfig => _playerConfig;
         public WalkConfig WalkConfig => _walkConfig;
         public GravityConfig GravityConfig => _gravityConfigs;
         public FearConfig FearConfig => _fearConfig;
+        public InteractionPromptConfig InteractionPromptConfig => _interactionPromptConfig;
     }
 }

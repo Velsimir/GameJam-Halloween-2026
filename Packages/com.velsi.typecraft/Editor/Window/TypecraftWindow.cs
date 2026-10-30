@@ -95,7 +95,7 @@ namespace Velsi.Typecraft.Editor.Window
 
             _editor = new EditorTab();
             _editor.FollowSelection();
-            _localization = new LocalizationTab();
+            _localization = new LocalizationTab { TargetSelected = target => _editor?.ShowTableKey(target) };
             _library = new LibraryTab();
             _fonts = new FontsTab();
             ShowTab(0);

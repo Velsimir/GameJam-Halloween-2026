@@ -26,10 +26,22 @@ namespace Game.Scripts.Services.Booststraps
         {
             ILoadingOperation[] operations =
             {
-                new LoadingSceneOperation(_sceneLoader, ScenesName.Playroom) 
+                new LoadingSceneOperation(_sceneLoader, ResolveGameScene())
             };
 
             _loadingService.BeginLoadingAsync(operations).Forget();
         }
+
+        private static ScenesName ResolveGameScene()
+        {
+#if UNITY_EDITOR
+            string saved = UnityEditor.EditorPrefs.GetString(EditorGameSceneKey, ScenesName.Playroom.ToString());
+            if (System.Enum.TryParse(saved, out ScenesName scene) && scene != ScenesName.Init)
+                return scene;
+#endif
+            return ScenesName.Playroom;
+        }
+
+        public const string EditorGameSceneKey = "PlayFromBootstrapGameScene";
     }
 }

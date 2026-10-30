@@ -34,6 +34,7 @@ namespace Game.Scripts.Services.SceneLoader
     public enum ScenesName
     {
         Init,
-        Playroom
+        Playroom,
+        ModelTest
     }
 }

@@ -16,3 +16,4 @@ MonoBehaviour:
   _walkConfig: {fileID: 11400000, guid: 7675cc7a58200ee4db0cdd2ba7ac2b0e, type: 2}
   _gravityConfigs: {fileID: 11400000, guid: 1ac5fc2e1318c5846be3d093ef8970e0, type: 2}
   _fearConfig: {fileID: 11400000, guid: 956736063f08a834aa7c81645cad9095, type: 2}
+  _interactionPromptConfig: {fileID: 11400000, guid: 331f62f6db79a4946a3475dac0c786ee, type: 2}

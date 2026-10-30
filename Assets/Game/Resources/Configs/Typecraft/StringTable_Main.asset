@@ -42,3 +42,31 @@ MonoBehaviour:
       _text: "\u041F\u043E\u0434\u0432\u0430\u043B"
     - _locale: zh-Hans
       _text: "\u5730\u4E0B\u5BA4"
+  - _key: ui.interact.open
+    _comment: "\u041F\u043E\u0434\u0441\u043A\u0430\u0437\u043A\u0430: \u043E\u0442\u043A\u0440\u044B\u0442\u044C"
+    _values:
+    - _locale: en
+      _text: Open {key:Interact}
+    - _locale: ru
+      _text: "\u041E\u0442\u043A\u0440\u044B\u0442\u044C {key:Interact}"
+  - _key: ui.interact.close
+    _comment: "\u041F\u043E\u0434\u0441\u043A\u0430\u0437\u043A\u0430: \u0437\u0430\u043A\u0440\u044B\u0442\u044C"
+    _values:
+    - _locale: en
+      _text: Close {key:Interact}
+    - _locale: ru
+      _text: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C {key:Interact}"
+  - _key: ui.interact.inspect
+    _comment: "\u041F\u043E\u0434\u0441\u043A\u0430\u0437\u043A\u0430: \u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C"
+    _values:
+    - _locale: en
+      _text: Inspect {key:Interact}
+    - _locale: ru
+      _text: "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C {key:Interact}"
+  - _key: ui.interact.take
+    _comment: "\u041F\u043E\u0434\u0441\u043A\u0430\u0437\u043A\u0430: \u0432\u0437\u044F\u0442\u044C"
+    _values:
+    - _locale: en
+      _text: Take {key:Interact}
+    - _locale: ru
+      _text: "\u0412\u0437\u044F\u0442\u044C {key:Interact}"

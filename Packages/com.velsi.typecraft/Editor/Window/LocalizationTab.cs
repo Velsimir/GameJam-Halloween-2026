@@ -12,6 +12,7 @@ using Velsi.Typecraft.Editor.Window.Dialogs;
 using Velsi.Typecraft.Editor.Window.Layout;
 using Velsi.Typecraft.Editor.Window.Markup;
 using Velsi.Typecraft.Editor.Window.Preview;
+using Velsi.Typecraft.Editor.Window.Targets;
 using Velsi.Typecraft.Fonts;
 using Velsi.Typecraft.Markup;
 using Velsi.Typecraft.Text;
@@ -504,6 +505,25 @@ namespace Velsi.Typecraft.Editor.Window
             UpdateLayerPanel();
             UpdatePreview();
             _grid?.RefreshItems();
+            PublishTarget();
+        }
+
+        public Action<ITextEditTarget> TargetSelected;
+
+        private void PublishTarget()
+        {
+            if (TargetSelected == null || _key == null)
+                return;
+
+            ITableBackend backend = _backend;
+            string table = _table;
+            string key = _key;
+            string locale = _locale;
+            TargetSelected(new CallbackTarget(
+                MarkupLayers.Display(backend, table, key, locale),
+                markup => MarkupLayers.Write(backend, table, key, locale, markup),
+                $"{table}/{key} [{locale}]",
+                null));
         }
 
         private void ShowCell(bool show) => _body.SetFixedVisible(show);

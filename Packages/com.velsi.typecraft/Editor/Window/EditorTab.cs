@@ -257,6 +257,14 @@ namespace Velsi.Typecraft.Editor.Window
             SetTarget(target);
         }
 
+        public void ShowTableKey(ITextEditTarget target)
+        {
+            if (_lockToggle.value || _prompting || !ResolvePendingWordChange())
+                return;
+
+            SetTarget(target);
+        }
+
         public void FollowSelection()
         {
             if (_lockToggle.value || _prompting)

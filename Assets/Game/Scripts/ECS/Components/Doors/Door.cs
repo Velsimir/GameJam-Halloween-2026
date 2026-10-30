@@ -11,5 +11,7 @@ namespace Game.Scripts.ECS.Components.Doors
         public float CloseAngle;
         public float Speed;
         public bool IsOpen;
+        public string OpenPromptKey;
+        public string ClosePromptKey;
     }
 }

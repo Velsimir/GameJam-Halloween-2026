@@ -9,6 +9,7 @@ using Game.Scripts.ECS.Systems.Fear;
 using Game.Scripts.ECS.Systems.Interaction;
 using Game.Scripts.ECS.Systems.Walk;
 using Game.Scripts.Services.Input;
+using Game.Scripts.Views;
 using Leopotam.EcsLite;
 using Zenject;
 
@@ -20,10 +21,13 @@ namespace Game.Scripts.ECS
 
         private readonly IEcsWorldProvider _ecsWorldProvider;
         private readonly GameConfigs _gameConfigs;
+        private readonly InteractionPromptView _interactionPromptView;
         private EcsSystems _systems;
 
-        public EcsStartup(IInputService inputService, IEcsWorldProvider ecsWorldProvider, GameConfigs gameConfigs)
+        public EcsStartup(IInputService inputService, IEcsWorldProvider ecsWorldProvider, GameConfigs gameConfigs,
+            InteractionPromptView interactionPromptView)
         {
+            _interactionPromptView = interactionPromptView;
             _inputService = inputService;
             _ecsWorldProvider = ecsWorldProvider;
             _gameConfigs = gameConfigs;
@@ -93,7 +97,8 @@ namespace Game.Scripts.ECS
                 .Add(new CameraApplySystem())
                 .Add(new OutlineViewSystem())
                 .Add(new DoorAnimationSystem())
-                .Add(new CursorLockSystem());
+                .Add(new CursorLockSystem())
+                .Add(new InteractionPromptViewSystem(_interactionPromptView));
         }
 
         private void AddDebugSystems()

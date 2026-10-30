@@ -2,3 +2,7 @@
 ui.door.locked,Подсказка у запертой двери,The door is [warn]locked[/warn]. Press {key:Interact} to inspect the lock.,"Дверь [warn]заперта[/warn]. Нажми {key:Interact}, чтобы осмотреть замок.",门[warn]锁着[/warn]。按 {key:Interact} 检查门锁。
 ui.whisper.still_here,Шёпот после закрытия двери,[whisper]It is still here…[/whisper],[whisper]Он всё ещё здесь…[/whisper],
 ui.location.basement,Заголовок локации,[title]Basement[/title],[title]Подвал[/title],[title]地下室[/title]
+ui.interact.open,Подсказка: открыть,Open {key:Interact},Открыть {key:Interact},
+ui.interact.close,Подсказка: закрыть,Close {key:Interact},Закрыть {key:Interact},
+ui.interact.inspect,Подсказка: осмотреть,Inspect {key:Interact},Осмотреть {key:Interact},
+ui.interact.take,Подсказка: взять,Take {key:Interact},Взять {key:Interact},

@@ -8,7 +8,8 @@ namespace Game.Scripts.ECS.Authoring
     public abstract class InteractionObjectAuthoring : MonoBehaviour
     {
         [SerializeField] private OutlineRefs _outlineRefs;
-            
+        [SerializeField] private string _promptKey;
+
         [Inject] private IEcsWorldProvider EcsWorldProvider;
         private EcsPackedEntity _entity;
         
@@ -26,6 +27,9 @@ namespace Game.Scripts.ECS.Authoring
             poolOutlineRefs.MeshRenderer = _outlineRefs.MeshRenderer;
             poolOutlineRefs.WithOutline = _outlineRefs.WithOutline;
             poolOutlineRefs.Default = _outlineRefs.Default;
+
+            if (string.IsNullOrEmpty(_promptKey) == false)
+                EcsWorldProvider.World.GetPool<InteractionPrompt>().Add(entity).Key = _promptKey;
 
             AddSpecificTag(EcsWorldProvider.World, entity);
             
