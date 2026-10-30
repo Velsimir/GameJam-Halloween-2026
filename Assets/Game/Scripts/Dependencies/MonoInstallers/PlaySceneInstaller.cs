@@ -1,5 +1,6 @@
 using Game.Scripts.ECS;
 using Game.Scripts.Views;
+using Velsi.Typecraft.Dialogue;
 using Zenject;
 
 namespace Game.Scripts.Dependencies.MonoInstallers
@@ -9,6 +10,7 @@ namespace Game.Scripts.Dependencies.MonoInstallers
         public override void InstallBindings()
         {
             Container.Bind<InteractionPromptView>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<DialoguePlayer>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesTo<EcsStartup>().AsSingle().NonLazy();
         }
     }

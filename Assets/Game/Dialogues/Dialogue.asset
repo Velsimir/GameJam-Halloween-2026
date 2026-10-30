@@ -43,6 +43,6 @@ MonoBehaviour:
         _table: 
         _key: 
         _variants: []
-        _advance: 0
+        _advance: 1
         _seconds: 0
         _next: bcb1f12c46bf48dd996fce7100c63533

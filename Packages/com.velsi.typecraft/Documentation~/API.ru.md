@@ -2,7 +2,7 @@
 
 [Русский](API.ru.md) · [English](API.en.md) · [Руководство](Manual.ru.md) · [Manual](Manual.en.md) · [README](../README.md)
 
-Версия пакета `0.2.0` (до 1.0 публичный API может меняться). Unity 6000.0+, TextMeshPro (`com.unity.ugui` 2.0), пространство имён `Velsi.Typecraft.*`.
+Версия пакета `0.3.0` (до 1.0 публичный API может меняться). Unity 6000.0+, TextMeshPro (`com.unity.ugui` 2.0), пространство имён `Velsi.Typecraft.*`.
 
 Документ описывает всё публичное API пакета: рантайм, модуль диалогов и Editor-часть, включая точки встраивания (`[TypecraftMarkup]`, `TypecraftEditor.Edit`, `MarkupTextField`, `ITypecraftTab`). Примеры сверены с исходниками пакета; комментариев в коде нет намеренно. Фрагменты без обрамляющего типа (отдельные вызовы и присваивания) предполагается выполнять внутри метода.
 
@@ -27,7 +27,7 @@
 
 ## 1. Установка и зависимости
 
-Основной способ — архив `com.velsi.typecraft-0.2.0.tgz`: положить в `Packages/` проекта и поставить через `Package Manager → + → Install package from tarball…`. Подходят и embedded (папка в `Packages/`), и git-URL.
+Основной способ — архив `com.velsi.typecraft-0.3.0.tgz`: положить в `Packages/` проекта и поставить через `Package Manager → + → Install package from tarball…`. Подходят и embedded (папка в `Packages/`), и git-URL.
 
 При первой загрузке сборка `Velsi.Typecraft.Editor.Welcome` (без зависимостей, компилируется всегда) доставляет обязательное и открывает окно Welcome:
 
@@ -465,7 +465,7 @@ LocalizedText.Request("Main", "ui.door.locked", null, (markup, formatted) =>
 | `IReadOnlyList<StringTable> Tables` | Таблицы |
 | `TextEntry Lookup(string table, string key, string locale)` | Строка на языке; нет — на основном (`TextEntry.Locale` отразит фактический); нет и там — `Missing` |
 | `StringTable FindTable(string table, string key = null)` | Таблица по id; при пустом `table` — первая, содержащая ключ |
-| `Request`, `Activate`, `SelectLocale` | Реализация `ITextSource`; `SelectLocale` вызывает `Typecraft.SetLocale` |
+| `Request`, `Activate`, `SelectLocale` | Реализация `ITextSource`; `SelectLocale` вызывает `Typecraft.SetLocale`. Только в редакторе: `SelectLocale` запоминает язык из списка `Locales` в EditorPrefs (`Typecraft.SceneLocale`), `Activate` при старте (в том числе Play Mode) применяет его через `Typecraft.SetLocale`. В билде `Activate` язык не меняет |
 
 `StringTable` (`Typecraft/String Table`): `string TableId` (пустое поле — имя ассета), `IReadOnlyList<StringEntry> Entries`, `bool TryGet(string key, string locale, out string value)` (пустые значения считаются отсутствующими), `bool Contains(string key)`.
 
@@ -1131,7 +1131,7 @@ public interface ITextEditTarget
 | `Reference` | `TMP_Text` для размеров превью (может быть `null`) |
 | `Write(markup)` | Записать результат («Применить») |
 
-Готовые реализации: `CallbackTarget(string markup, Action<string> onApply, string title, TMP_Text reference)`, `PropertyTarget(SerializedProperty)`, `TmpTextTarget(TMP_Text)`, `TypecraftTextTarget(TypecraftText)` (+ `Component`), `LocalizedTextTarget(TypecraftText text, Func<string> locale)` (+ `TableText`, `Subject`, `bool ChangesWords(string markup)`, `TransferResult RestoreWords(string markup)`, `IEnumerable<string> AllMarkups()`), `ScratchTarget` (пустая рабочая область).
+Готовые реализации: `CallbackTarget(string markup, Action<string> onApply, string title, TMP_Text reference)`, `TableKeyTarget(ITableBackend backend, string table, string key, Func<string> locale)` (строка таблицы: `Markup` — `MarkupLayers.Display` на текущем языке, `Write` — `MarkupLayers.Write`; для псевдолокали — оформленный основной язык через `Pseudolocalizer`, `CanWrite == false`; `locale` вернул `null` — берётся `Typecraft.Locale`; `bool IsPinned`, `TableKeyTarget Pinned(string locale)` — копия, закреплённая на языке, `TableKeyTarget Followed()` — копия, снова следующая за `locale`), `PropertyTarget(SerializedProperty)`, `TmpTextTarget(TMP_Text)`, `TypecraftTextTarget(TypecraftText)` (+ `Component`), `LocalizedTextTarget(TypecraftText text, Func<string> locale)` (+ `TableText`, `Subject`, `bool ChangesWords(string markup)`, `TransferResult RestoreWords(string markup)`, `IEnumerable<string> AllMarkups()`), `ScratchTarget` (пустая рабочая область).
 
 `PlayModeEdits` (`static`): `bool KeepAfterPlay { get; set; }` (EditorPrefs, по умолчанию включено), `static void Record(TMP_Text text, string markup)` — запомнить правку, сделанную в Play Mode, и применить после выхода из него (по `GlobalObjectId`; объекты, созданные в рантайме, не переживают выход).
 
@@ -1423,7 +1423,8 @@ public static class PreviewExample
 
 ### 10.10. Вкладки, формы, раскладка
 
-- `ITypecraftTab` — дополнительная вкладка окна (см. [11.4](#114-своя-вкладка-окна)). Встроенные вкладки: `EditorTab`, `LocalizationTab`, `LibraryTab`, `FontsTab` (`VisualElement`, у каждой `Reload`/`Tick`/`Dispose` и свои методы; публичные члены `EditorTab`: `Overlay`, `Target`, `SetTarget(ITextEditTarget)`, `Pin(ITextEditTarget)`, `FollowSelection()`, `HasPendingWordChange`, `ResolvePendingWordChange()`, `OpenStyleForm(bool fromSelection)`, `OpenMaterialForm(string roleId)`, `OpenEffectForm()`, `Tick`, `RefreshAll`, `Dispose`).
+- `ITypecraftTab` — дополнительная вкладка окна (см. [11.4](#114-своя-вкладка-окна)). Встроенные вкладки: `EditorTab`, `LocalizationTab`, `LibraryTab`, `FontsTab` (`VisualElement`, у каждой `Reload`/`Tick`/`Dispose` и свои методы; публичные члены `EditorTab`: `Overlay`, `Target`, `SetTarget(ITextEditTarget)`, `Pin(ITextEditTarget)`, `ShowTableKey(ITextEditTarget)`, `FollowSelection()`, `HasPendingWordChange`, `ResolvePendingWordChange()`, `OpenStyleForm(bool fromSelection)`, `OpenMaterialForm(string roleId)`, `OpenEffectForm()`, `Tick`, `RefreshAll`, `Dispose`; у `LocalizationTab` — поле `Action<ITextEditTarget> TargetSelected`).
+- `LocalizationTab.TargetSelected` вызывается, когда строку выбирает пользователь (клик по ячейке, правый клик по ключу, добавление ключа), с `TableKeyTarget` на общем языке (`() => Typecraft.Locale`, а не язык кликнутой колонки; заголовок `таблица/ключ [язык]`, `Reference == null`). Undo/Redo, перепроверка, синхронизация, импорт и перезагрузка вкладки его не вызывают. `TypecraftWindow` связывает его с `EditorTab.ShowTableKey`: та ставит цель, как `SetTarget`, но ничего не делает при включённом замке, открытом окне «было / стало» и неприменённых правках без смены слов (как `FollowSelection`), а незаписанные слова строки из сцены сначала отдаёт в `ResolvePendingWordChange()` (отмена — цель не меняется).
 - `FormOverlay` (`VisualElement`) — слой форм поверх вкладки: `IsOpen`, `Form`, `Show(TypecraftForm)`, `Close()`, `Tick`. `TypecraftForm` — абстрактная форма: `protected TypecraftForm(string title)`, событие `Closed`, `Tick`, `Dispose`, `bool Submit()`, защищённые `Fields`, `Side`, `SaveButton`, `abstract bool Save()`, `SetError(string)`, `Close()`, `static Section(string title)`. Наследники: `StyleForm`, `MaterialPresetForm`, `EffectForm`.
 - `ColumnsLayout`, `SplitPane`, `TypecraftLayout` — помощники адаптивной раскладки (узкая ширина — `TypecraftLayout.NarrowWidth = 700f`): `ColumnsLayout(string key, VisualElement list, VisualElement center, VisualElement side, float listWidth, float sideWidth, float sideHeight, float narrowWidth)` (`MenuButton`, `IsNarrow`, `ListShown`, `ShowList()`, `HideList()`); `SplitPane(string key, VisualElement first, VisualElement second, bool fixedFirst, float defaultWidth, float defaultHeight, float minFixed, float minFlex)` (`Vertical`, `NarrowWidth`, `FixedPane`, `ReleaseFixed()`, `RestoreFixed()`, `SetFixedVisible(bool)`, `SetFixedAuto(bool)`); `TypecraftLayout.VerticalScroll(string className = null)`, `FitScroll`, `Responsive`, `Dialog`, `ButtonRow`, `TruncatedTooltips`, константа `FitClass`.
 
@@ -1484,8 +1485,8 @@ Vector2 SuggestPosition();
 
 **Вкладки окна `Window → Typecraft`.**
 
-- **Редактор** (`EditorTab`) — разметка с подсветкой и автодополнением, живое превью с машинкой, галерея стилей, иконок и эффектов, выделение мышью прямо в превью; правки в Play Mode переживают выход из него (`PlayModeEdits`).
-- **Локализация** (`LocalizationTab`) — сетка «ключ × язык» со строками таблицы; флаги `CellIssue`: «нет перевода», «не помещается», «нет символа», «разметка расходится»; ✦ — есть разметка в слое, ⚠ — строка изменилась и разметка не применяется (фильтр «Только изменившиеся»); синхронизация с CSV/TSV, Excel и Google Sheets; экспорт в `.xlsx`/CSV/TSV/JSON; поиск использований ключа; псевдолокаль `pseudo`.
+- **Редактор** (`EditorTab`) — разметка с подсветкой и автодополнением, живое превью с машинкой, галерея стилей, иконок и эффектов, выделение мышью прямо в превью; правки в Play Mode переживают выход из него (`PlayModeEdits`). Список «Язык превью» общий с «Сцена:» и «Диалогами»: выбор вызывает `ITextSource.SelectLocale`, а список, превью и текст строки таблицы (`TableKeyTarget` без неприменённых правок) следуют за `Typecraft.Locale`, откуда бы его ни сменили. При неприменённых правках `RefreshLocales` закрепляет `TableKeyTarget` на прежнем языке (`Pinned`), без правок — возвращает к общему (`Followed`) и перечитывает текст.
+- **Локализация** (`LocalizationTab`) — сетка «ключ × язык» со строками таблицы; флаги `CellIssue`: «нет перевода», «не помещается», «нет символа», «разметка расходится»; ✦ — есть разметка в слое, ⚠ — строка изменилась и разметка не применяется (фильтр «Только изменившиеся»); синхронизация с CSV/TSV, Excel и Google Sheets; экспорт в `.xlsx`/CSV/TSV/JSON; поиск использований ключа; псевдолокаль `pseudo`. Выбранная строка заодно открывается во вкладке «Редактор» без переключения вкладки (`TargetSelected` → `EditorTab.ShowTableKey`).
 - **Библиотека** (`LibraryTab`) — наборы иконок (перетаскивание PNG), редактор стилей, «стиль из `TMP_Text`», пресеты материалов и свои эффекты. Переименование стиля или иконки переписывает теги в таблицах и сценах (`MarkupRewriter`).
 - **Шрифты** (`FontsTab`) — роли × языки, покрытие символов, сборщик статического шрифта по набору символов из строк (для CJK).
 - **Диалоги** (`DialoguesTab`) — граф или список нод, инспектор ноды, проигрывание и проверка.
@@ -1500,7 +1501,7 @@ Vector2 SuggestPosition();
 - Слои перечислены в `TypecraftSettings → Markup Layers` и создаются сами при первой разметке рядом с таблицей. Таблица находится по id (у Unity Localization — по имени коллекции) и коду языка.
 - В игре: если снимок совпадает с текущей строкой таблицы — показывается текст из слоя, иначе чистая строка таблицы. Так работает и встроенный источник, и Unity Localization; псевдолокаль `pseudo` строится из оформленного текста основного языка.
 - Строку в таблице поменяли (переводчик, импорт CSV) — оформление перестаёт применяться, ячейка во вкладке «Локализация» помечена ⚠. «Перенести теги» переставляет оформление на новый текст по совпадающим словам (что не удалось привязать точно — покажет и спросит; `Decoration.Transfer`), «Сбросить разметку» удаляет запись слоя.
-- Вкладка «Редактор» показывает текст из слоя. «Применить» без изменения слов пишет только в слой; если слова изменились — окно «было / стало» (`TextChangeDialog`) с выбором «Записать в таблицу» или «Вернуть слова». Оно же появляется при уходе с объекта и при закрытии окна с незаписанными словами.
+- Вкладка «Редактор» показывает текст из слоя. «Применить» без изменения слов пишет только в слой; если слова изменились — окно «было / стало» (`TextChangeDialog`) с выбором «Записать в таблицу» или «Вернуть слова». Оно же появляется при уходе с объекта и при закрытии окна с незаписанными словами. Исключение — строка, открытая выбором во вкладке «Локализация»: `MarkupLayers.Write` пишет изменённые слова в таблицу сразу, оформление — в слой. Пока в «Редакторе» нет неприменённых правок, он показывает текущий текст таблицы (правки ячейки и смена языка подхватываются сами); с неприменёнными правками текст не обновляется, и «Применить» запишет его поверх правок ячейки. Смена языка при неприменённых правках закрепляет строку на языке правки (он виден в заголовке), «Применить» пишет в него; после записи или отката строка снова следует за общим языком.
 - Старые таблицы с оформлением прямо в ячейках: `Tools/Typecraft/Move Markup To Layers`.
 - Переименование стиля во вкладке «Библиотека» переписывает слои; иконки `{…}` живут в таблице и переписываются там (и в снимках слоя, чтобы оформление не устарело).
 
@@ -1539,7 +1540,7 @@ Vector2 SuggestPosition();
 **Вкладка «Диалоги».**
 
 - Слева — диалоги, говорящие и флаги («+» у раздела создаёт новый; новый флаг заводит каталог, если его нет).
-- В центре — доска: граф (порты, перетаскивание связей, пробел или правый клик — новая нода, мини-карта) или список нод; переключатель вида и язык текстов — на панели.
+- В центре — доска: граф (порты, перетаскивание связей, пробел или правый клик — новая нода, мини-карта) или список нод; переключатель вида и язык текстов — на панели. Язык глобальный: выбор вызывает `ITextSource.SelectLocale`, как «Сцена:» во вкладке «Локализация» (запоминается в редакторе, действует в Edit и Play Mode), а список при перестройке панели следует за `Typecraft.Locale`.
 - Справа — инспектор выделенной ноды: говорящий и эмоция из списков, ключ с поиском и превью текста, «Создать ключ» — строка в таблице прямо из инспектора (текст на основном языке, оформление `[стиль]` и `<тег>` уходит в слой разметки), условия с выбором флага.
 - Внизу — «▶ Проигрывание» без запуска игры: с начала или с выделенной ноды, печать, выбор, флаги проигрывания (правятся на лету, «Сбросить»), лог; текущая нода подсвечивается на доске.
 - «Проверить» — проблемы диалога (нет старта, пустые и битые связи, недостижимые ноды, пустой или отсутствующий ключ, нет перевода, устаревшая разметка, нет символов в шрифте, необъявленный флаг или не тот тип, неизвестная эмоция…), клик — к ноде; «Проверить все» — по всему проекту. Переименование флага во вкладке переписывает его во всех диалогах (`DialogueFlagRename`).
@@ -2056,7 +2057,7 @@ public sealed class DialogueSaver : MonoBehaviour
 
 ### 12.3. Язык и устройство
 
-Typecraft не сохраняет выбранный язык и устройство. Сохраняй их в своих настройках и восстанавливай через `Typecraft.SetLocale(code)` (или `ITextSource.SelectLocale`, для Unity Localization — `LocalizationSettings.SelectedLocale`) и `Typecraft.SetDevice(device)`.
+Typecraft не сохраняет выбранный язык и устройство в игре (язык, выбранный в «Сцена:», в «Языке превью» вкладки «Редактор» или в списке вкладки «Диалоги», у встроенного источника запоминается только в редакторе, см. [7.3](#73-встроенные-таблицы-velsitypecrafttexttables)). Сохраняй их в своих настройках и восстанавливай через `Typecraft.SetLocale(code)` (или `ITextSource.SelectLocale`, для Unity Localization — `LocalizationSettings.SelectedLocale`) и `Typecraft.SetDevice(device)`.
 
 ### 12.4. Что пакет хранит в проекте
 
@@ -2110,6 +2111,7 @@ Typecraft не сохраняет выбранный язык и устройс�
 - Google Sheets: нужен доступ «Все, у кого есть ссылка — читатель»; закрытая таблица даёт ошибку «Таблица закрыта». Ссылка на таблицу попадает в репозиторий (`ProjectSettings/TypecraftTableSync.asset`).
 - Источники синхронизации и настройки хранятся в `ProjectSettings`/EditorPrefs/SessionState и в билд не попадают.
 - Вручную добавленный `TMPAnimator` по умолчанию берёт базу анимаций TMPEffects; для своих эффектов выбери в нём базу проекта.
+- Строка, открытая во вкладке «Редактор» выбором в «Локализации», при неприменённых правках не следит за таблицей: если в это время поправить ячейку, «Применить» запишет текст «Редактора» поверх без окна «было / стало». Сначала примени или откати правку. Смена языка в это время безопасна: строка остаётся на языке правки.
 - До версии 1.0 `public`-типы Editor, не перечисленные в начале [раздела 10](#10-editor-api) как точки встраивания, могут менять сигнатуры.
 
 ---

@@ -96,7 +96,7 @@ namespace Velsi.Typecraft.Editor.Window
             _localeField.AddToClassList("tc-toolbar__locale");
             _localeField.RegisterValueChangedCallback(evt =>
             {
-                _locale = evt.newValue;
+                Typecraft.Settings?.TextSource?.SelectLocale(evt.newValue);
                 RefreshAll();
             });
             toolbar.Add(_localeField);
@@ -259,7 +259,7 @@ namespace Velsi.Typecraft.Editor.Window
 
         public void ShowTableKey(ITextEditTarget target)
         {
-            if (_lockToggle.value || _prompting || !ResolvePendingWordChange())
+            if (_lockToggle.value || _prompting || (_dirty && !HasPendingWordChange) || !ResolvePendingWordChange())
                 return;
 
             SetTarget(target);
@@ -368,7 +368,23 @@ namespace Velsi.Typecraft.Editor.Window
             if (locales.Count == 0)
                 locales.Add(settings != null ? settings.DefaultLocale : "en");
 
-            _locale ??= Typecraft.Locale;
+            string previous = _locale;
+            _locale = Typecraft.Locale;
+            if (_target is TableKeyTarget keyTarget)
+            {
+                if (_dirty)
+                {
+                    if (previous != null && previous != _locale && !keyTarget.IsPinned)
+                        _target = keyTarget.Pinned(previous);
+                }
+                else if (keyTarget.IsPinned || (previous != null && previous != _locale))
+                {
+                    _target = keyTarget.Followed();
+                    _working = _target.Markup;
+                    _markupField.SetValue(_working, notify: false);
+                }
+            }
+
             if (!locales.Contains(_locale))
                 locales.Insert(0, _locale);
 

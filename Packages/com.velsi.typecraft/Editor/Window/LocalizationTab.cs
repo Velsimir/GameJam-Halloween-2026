@@ -439,13 +439,13 @@ namespace Velsi.Typecraft.Editor.Window
             _grid?.Focus();
             if (cell[1] == null && evt.clickCount >= 2)
             {
-                Select(cell[0], _locale);
+                PickCell(cell[0], _locale);
                 string key = cell[0];
                 EditorApplication.delayCall += () => ShowUsages(key);
                 return;
             }
 
-            Select(cell[0], cell[1] ?? _locale ?? _backend.BaseLocale);
+            PickCell(cell[0], cell[1] ?? _locale ?? _backend.BaseLocale);
         }
 
         private void FillKeyMenu(Label label, ContextualMenuPopulateEvent evt)
@@ -454,7 +454,7 @@ namespace Velsi.Typecraft.Editor.Window
                 return;
 
             string key = cell[0];
-            Select(key, _locale);
+            PickCell(key, _locale);
             evt.menu.AppendAction("Где используется", _ => ShowUsages(key));
             evt.menu.AppendAction("Переименовать… (F2)", _ => RenameKey());
             evt.menu.AppendAction("Удалить ключ", _ => RemoveKey());
@@ -505,6 +505,11 @@ namespace Velsi.Typecraft.Editor.Window
             UpdateLayerPanel();
             UpdatePreview();
             _grid?.RefreshItems();
+        }
+
+        private void PickCell(string key, string locale)
+        {
+            Select(key, locale);
             PublishTarget();
         }
 
@@ -515,15 +520,7 @@ namespace Velsi.Typecraft.Editor.Window
             if (TargetSelected == null || _key == null)
                 return;
 
-            ITableBackend backend = _backend;
-            string table = _table;
-            string key = _key;
-            string locale = _locale;
-            TargetSelected(new CallbackTarget(
-                MarkupLayers.Display(backend, table, key, locale),
-                markup => MarkupLayers.Write(backend, table, key, locale, markup),
-                $"{table}/{key} [{locale}]",
-                null));
+            TargetSelected(new TableKeyTarget(_backend, _table, _key, () => Typecraft.Locale));
         }
 
         private void ShowCell(bool show) => _body.SetFixedVisible(show);
@@ -662,7 +659,7 @@ namespace Velsi.Typecraft.Editor.Window
 
             _search.SetValueWithoutNotify(string.Empty);
             RecheckAll();
-            Select(key, _backend.BaseLocale);
+            PickCell(key, _backend.BaseLocale);
         }
 
         private void RenameKey()

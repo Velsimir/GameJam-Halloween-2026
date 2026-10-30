@@ -6,11 +6,14 @@ using Game.Scripts.ECS.Systems.Cursor;
 using Game.Scripts.ECS.Systems.DebugHelpers;
 using Game.Scripts.ECS.Systems.Doors;
 using Game.Scripts.ECS.Systems.Fear;
+using Game.Scripts.ECS.Systems.Inspect;
 using Game.Scripts.ECS.Systems.Interaction;
+using Game.Scripts.ECS.Systems.Thoughts;
 using Game.Scripts.ECS.Systems.Walk;
 using Game.Scripts.Services.Input;
 using Game.Scripts.Views;
 using Leopotam.EcsLite;
+using Velsi.Typecraft.Dialogue;
 using Zenject;
 
 namespace Game.Scripts.ECS
@@ -22,11 +25,13 @@ namespace Game.Scripts.ECS
         private readonly IEcsWorldProvider _ecsWorldProvider;
         private readonly GameConfigs _gameConfigs;
         private readonly InteractionPromptView _interactionPromptView;
+        private readonly DialoguePlayer _thoughtPlayer;
         private EcsSystems _systems;
 
         public EcsStartup(IInputService inputService, IEcsWorldProvider ecsWorldProvider, GameConfigs gameConfigs,
-            InteractionPromptView interactionPromptView)
+            InteractionPromptView interactionPromptView, DialoguePlayer thoughtPlayer)
         {
+            _thoughtPlayer = thoughtPlayer;
             _interactionPromptView = interactionPromptView;
             _inputService = inputService;
             _ecsWorldProvider = ecsWorldProvider;
@@ -78,6 +83,7 @@ namespace Game.Scripts.ECS
                 .Add(new WalkCycleSystem(_gameConfigs.PlayerConfig))
                 .Add(new InteractionRaycastSystem())
                 .Add(new InteractionRequestSystem())
+                .Add(new InspectSystem())
                 .Add(new GravitySystem())
                 .Add(new FearZoneContactSystem())
                 .Add(new FearFactorSystem(_gameConfigs.FearConfig))
@@ -98,7 +104,8 @@ namespace Game.Scripts.ECS
                 .Add(new OutlineViewSystem())
                 .Add(new DoorAnimationSystem())
                 .Add(new CursorLockSystem())
-                .Add(new InteractionPromptViewSystem(_interactionPromptView));
+                .Add(new InteractionPromptViewSystem(_interactionPromptView))
+                .Add(new ThoughtPlaybackSystem(_thoughtPlayer));
         }
 
         private void AddDebugSystems()
@@ -115,7 +122,8 @@ namespace Game.Scripts.ECS
         {
             _systems
                 .Add(new ClearInteractionRequestSystem())
-                .Add(new ClearScareRequestSystem());
+                .Add(new ClearScareRequestSystem())
+                .Add(new ClearThoughtRequestSystem());
         }
     }
 }

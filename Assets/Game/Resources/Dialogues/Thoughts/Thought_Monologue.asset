@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211ad55201324af4d9baa5251d6c7b2d, type: 3}
+  m_Name: Thought_Monologue
+  m_EditorClassIdentifier: Velsi.Typecraft.Dialogue::Velsi.Typecraft.Dialogue.DialogueAsset
+  _id: bf02f72414714b39be5e16516cd083a5
+  _defaultTable: Main
+  _startNode: 94da802707c34a398b2ff5ace97a89e3
+  _nodes:
+  - rid: 2111072919291953229
+  - rid: 2111072919291953230
+  - rid: 2111072919291953231
+  - rid: 2111072919291953232
+  - rid: 2111072919291953233
+  references:
+    version: 2
+    RefIds:
+    - rid: 2111072919291953229
+      type: {class: StartNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 94da802707c34a398b2ff5ace97a89e3
+        _position: {x: 0, y: 0}
+        _next: 6c36d1a1801344dda9a6c3fb2840194b
+    - rid: 2111072919291953230
+      type: {class: LineNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 6c36d1a1801344dda9a6c3fb2840194b
+        _position: {x: 260, y: 0}
+        _speaker: {fileID: 0}
+        _emotion: 
+        _table: 
+        _key: ui.whisper.still_here
+        _variants: []
+        _advance: 2
+        _seconds: 3
+        _next: 233cdf3aa48b4d7e94f1d96475ab5239
+    - rid: 2111072919291953231
+      type: {class: LineNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 233cdf3aa48b4d7e94f1d96475ab5239
+        _position: {x: 520, y: 0}
+        _speaker: {fileID: 0}
+        _emotion: 
+        _table: 
+        _key: ui.thought.cold
+        _variants: []
+        _advance: 2
+        _seconds: 3
+        _next: 3bb3e1a187064422b260482440405f77
+    - rid: 2111072919291953232
+      type: {class: LineNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 3bb3e1a187064422b260482440405f77
+        _position: {x: 780, y: 0}
+        _speaker: {fileID: 0}
+        _emotion: 
+        _table: 
+        _key: ui.thought.watching
+        _variants: []
+        _advance: 2
+        _seconds: 3
+        _next: bfdb52a947764f5a80b4e822f921fc2e
+    - rid: 2111072919291953233
+      type: {class: EndNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: bfdb52a947764f5a80b4e822f921fc2e
+        _position: {x: 1040, y: 0}

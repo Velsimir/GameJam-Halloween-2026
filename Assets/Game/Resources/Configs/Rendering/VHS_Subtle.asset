@@ -56,7 +56,7 @@ MonoBehaviour:
     m_Value: 360
   JitterStrength:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0
   JitterFrequency:
     m_OverrideState: 1
     m_Value: 12

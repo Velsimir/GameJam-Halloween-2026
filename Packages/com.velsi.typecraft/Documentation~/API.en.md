@@ -2,7 +2,7 @@
 
 [Русский](API.ru.md) · [English](API.en.md) · [Руководство](Manual.ru.md) · [Manual](Manual.en.md) · [README](../README.md)
 
-Package version `0.2.0` (the public API may change before 1.0). Unity 6000.0+, TextMeshPro (`com.unity.ugui` 2.0), namespace `Velsi.Typecraft.*`.
+Package version `0.3.0` (the public API may change before 1.0). Unity 6000.0+, TextMeshPro (`com.unity.ugui` 2.0), namespace `Velsi.Typecraft.*`.
 
 This document describes the whole public API of the package: the runtime, the dialogue module and the Editor part, including the embedding points (`[TypecraftMarkup]`, `TypecraftEditor.Edit`, `MarkupTextField`, `ITypecraftTab`). Examples were checked against the package sources; the code has no comments on purpose. Fragments without an enclosing type (standalone calls and assignments) are meant to run inside a method.
 
@@ -27,7 +27,7 @@ This document describes the whole public API of the package: the runtime, the di
 
 ## 1. Installation and dependencies
 
-The main way is the `com.velsi.typecraft-0.2.0.tgz` archive: put it into the project's `Packages/` and install with `Package Manager → + → Install package from tarball…`. Embedded (a folder in `Packages/`) and git URL work too.
+The main way is the `com.velsi.typecraft-0.3.0.tgz` archive: put it into the project's `Packages/` and install with `Package Manager → + → Install package from tarball…`. Embedded (a folder in `Packages/`) and git URL work too.
 
 On first load the `Velsi.Typecraft.Editor.Welcome` assembly (no dependencies, always compiles) installs the required parts and opens the Welcome window:
 
@@ -465,7 +465,7 @@ LocalizedText.Request("Main", "ui.door.locked", null, (markup, formatted) =>
 | `IReadOnlyList<StringTable> Tables` | The tables |
 | `TextEntry Lookup(string table, string key, string locale)` | The string in the locale; if missing — in the base locale (`TextEntry.Locale` reflects the real one); missing there too — `Missing` |
 | `StringTable FindTable(string table, string key = null)` | A table by id; with an empty `table` — the first one that contains the key |
-| `Request`, `Activate`, `SelectLocale` | `ITextSource` implementation; `SelectLocale` calls `Typecraft.SetLocale` |
+| `Request`, `Activate`, `SelectLocale` | `ITextSource` implementation; `SelectLocale` calls `Typecraft.SetLocale`. Editor only: `SelectLocale` remembers a locale from `Locales` in EditorPrefs (`Typecraft.SceneLocale`), and `Activate` applies it on start (Play Mode included) via `Typecraft.SetLocale`. In a build `Activate` does not change the locale |
 
 `StringTable` (`Typecraft/String Table`): `string TableId` (empty field — the asset name), `IReadOnlyList<StringEntry> Entries`, `bool TryGet(string key, string locale, out string value)` (empty values count as missing), `bool Contains(string key)`.
 
@@ -1131,7 +1131,7 @@ public interface ITextEditTarget
 | `Reference` | A `TMP_Text` for preview sizing (may be `null`) |
 | `Write(markup)` | Write the result ("Apply") |
 
-Ready implementations: `CallbackTarget(string markup, Action<string> onApply, string title, TMP_Text reference)`, `PropertyTarget(SerializedProperty)`, `TmpTextTarget(TMP_Text)`, `TypecraftTextTarget(TypecraftText)` (+ `Component`), `LocalizedTextTarget(TypecraftText text, Func<string> locale)` (+ `TableText`, `Subject`, `bool ChangesWords(string markup)`, `TransferResult RestoreWords(string markup)`, `IEnumerable<string> AllMarkups()`), `ScratchTarget` (an empty scratch area).
+Ready implementations: `CallbackTarget(string markup, Action<string> onApply, string title, TMP_Text reference)`, `TableKeyTarget(ITableBackend backend, string table, string key, Func<string> locale)` (a table string: `Markup` is `MarkupLayers.Display` in the current locale, `Write` is `MarkupLayers.Write`; for the pseudo-locale — the decorated base locale through `Pseudolocalizer`, `CanWrite == false`; if `locale` returns `null`, `Typecraft.Locale` is used; `bool IsPinned`, `TableKeyTarget Pinned(string locale)` — a copy pinned to a locale, `TableKeyTarget Followed()` — a copy that follows `locale` again), `PropertyTarget(SerializedProperty)`, `TmpTextTarget(TMP_Text)`, `TypecraftTextTarget(TypecraftText)` (+ `Component`), `LocalizedTextTarget(TypecraftText text, Func<string> locale)` (+ `TableText`, `Subject`, `bool ChangesWords(string markup)`, `TransferResult RestoreWords(string markup)`, `IEnumerable<string> AllMarkups()`), `ScratchTarget` (an empty scratch area).
 
 `PlayModeEdits` (`static`): `bool KeepAfterPlay { get; set; }` (EditorPrefs, on by default), `static void Record(TMP_Text text, string markup)` — remember an edit made in Play Mode and apply it after leaving it (by `GlobalObjectId`; objects created at runtime do not survive leaving).
 
@@ -1423,7 +1423,8 @@ Initial setup (`Editor.Setup.TypecraftSetup`): `CreateStringTables()` (menu `Too
 
 ### 10.10. Tabs, forms, layout
 
-- `ITypecraftTab` is an extra window tab (see [11.4](#114-a-custom-window-tab)). The built-in tabs are `EditorTab`, `LocalizationTab`, `LibraryTab`, `FontsTab` (`VisualElement`s; each has `Reload`/`Tick`/`Dispose` and its own methods; public members of `EditorTab`: `Overlay`, `Target`, `SetTarget(ITextEditTarget)`, `Pin(ITextEditTarget)`, `FollowSelection()`, `HasPendingWordChange`, `ResolvePendingWordChange()`, `OpenStyleForm(bool fromSelection)`, `OpenMaterialForm(string roleId)`, `OpenEffectForm()`, `Tick`, `RefreshAll`, `Dispose`).
+- `ITypecraftTab` is an extra window tab (see [11.4](#114-a-custom-window-tab)). The built-in tabs are `EditorTab`, `LocalizationTab`, `LibraryTab`, `FontsTab` (`VisualElement`s; each has `Reload`/`Tick`/`Dispose` and its own methods; public members of `EditorTab`: `Overlay`, `Target`, `SetTarget(ITextEditTarget)`, `Pin(ITextEditTarget)`, `ShowTableKey(ITextEditTarget)`, `FollowSelection()`, `HasPendingWordChange`, `ResolvePendingWordChange()`, `OpenStyleForm(bool fromSelection)`, `OpenMaterialForm(string roleId)`, `OpenEffectForm()`, `Tick`, `RefreshAll`, `Dispose`; `LocalizationTab` has the field `Action<ITextEditTarget> TargetSelected`).
+- `LocalizationTab.TargetSelected` fires when the user picks a string (a cell click, a right-click on a key, adding a key), with a `TableKeyTarget` in the shared locale (`() => Typecraft.Locale`, not the locale of the clicked column; title `table/key [locale]`, `Reference == null`). Undo/Redo, recheck, sync, import and reloading the tab do not fire it. `TypecraftWindow` wires it to `EditorTab.ShowTableKey`: it sets the target like `SetTarget`, but does nothing while the lock is on, the "was / now" window is open or there are unapplied edits that keep the words (like `FollowSelection`), and first passes unwritten words of a scene string to `ResolvePendingWordChange()` (cancel — the target stays).
 - `FormOverlay` (`VisualElement`) is the layer of forms on top of a tab: `IsOpen`, `Form`, `Show(TypecraftForm)`, `Close()`, `Tick`. `TypecraftForm` is an abstract form: `protected TypecraftForm(string title)`, event `Closed`, `Tick`, `Dispose`, `bool Submit()`, protected `Fields`, `Side`, `SaveButton`, `abstract bool Save()`, `SetError(string)`, `Close()`, `static Section(string title)`. Subclasses: `StyleForm`, `MaterialPresetForm`, `EffectForm`.
 - `ColumnsLayout`, `SplitPane`, `TypecraftLayout` are helpers for responsive layout (the narrow width is `TypecraftLayout.NarrowWidth = 700f`): `ColumnsLayout(string key, VisualElement list, VisualElement center, VisualElement side, float listWidth, float sideWidth, float sideHeight, float narrowWidth)` (`MenuButton`, `IsNarrow`, `ListShown`, `ShowList()`, `HideList()`); `SplitPane(string key, VisualElement first, VisualElement second, bool fixedFirst, float defaultWidth, float defaultHeight, float minFixed, float minFlex)` (`Vertical`, `NarrowWidth`, `FixedPane`, `ReleaseFixed()`, `RestoreFixed()`, `SetFixedVisible(bool)`, `SetFixedAuto(bool)`); `TypecraftLayout.VerticalScroll(string className = null)`, `FitScroll`, `Responsive`, `Dialog`, `ButtonRow`, `TruncatedTooltips`, the constant `FitClass`.
 
@@ -1484,8 +1485,8 @@ A short summary of what the UI does on top of the API above. A step-by-step desc
 
 **Window tabs, `Window → Typecraft`.**
 
-- **Editor** (`EditorTab`) — markup with highlighting and autocompletion, a live preview with a typewriter, a gallery of styles, icons and effects, selection with the mouse right in the preview; edits made in Play Mode survive leaving it (`PlayModeEdits`).
-- **Localization** (`LocalizationTab`) — a "key × locale" grid with table strings; `CellIssue` flags: "missing translation", "does not fit", "missing glyph", "markup mismatch"; ✦ — the layer has markup, ⚠ — the string changed and its markup is not applied (the «Только изменившиеся» filter, "changed only"); sync with CSV/TSV, Excel and Google Sheets; export to `.xlsx`/CSV/TSV/JSON; finding key usages; the `pseudo` pseudo-locale.
+- **Editor** (`EditorTab`) — markup with highlighting and autocompletion, a live preview with a typewriter, a gallery of styles, icons and effects, selection with the mouse right in the preview; edits made in Play Mode survive leaving it (`PlayModeEdits`). The preview language dropdown is shared with «Сцена:» and the Dialogues tab: picking calls `ITextSource.SelectLocale`, and the dropdown, the preview and the text of a table string (`TableKeyTarget` without unapplied edits) follow `Typecraft.Locale` wherever it is changed. With unapplied edits `RefreshLocales` pins the `TableKeyTarget` to the previous locale (`Pinned`); without them it returns it to the shared one (`Followed`) and rereads the text.
+- **Localization** (`LocalizationTab`) — a "key × locale" grid with table strings; `CellIssue` flags: "missing translation", "does not fit", "missing glyph", "markup mismatch"; ✦ — the layer has markup, ⚠ — the string changed and its markup is not applied (the «Только изменившиеся» filter, "changed only"); sync with CSV/TSV, Excel and Google Sheets; export to `.xlsx`/CSV/TSV/JSON; finding key usages; the `pseudo` pseudo-locale. The selected string also opens in the "Editor" tab without switching tabs (`TargetSelected` → `EditorTab.ShowTableKey`).
 - **Library** (`LibraryTab`) — icon sets (drag in PNGs), the style editor, "style from `TMP_Text`", material presets and custom effects. Renaming a style or an icon rewrites tags in tables and scenes (`MarkupRewriter`).
 - **Fonts** (`FontsTab`) — roles × locales, character coverage, a builder of a static font for the characters used by the strings (for CJK).
 - **Dialogues** (`DialoguesTab`) — a graph or a list of nodes, a node inspector, playback and checks.
@@ -1500,7 +1501,7 @@ A short summary of what the UI does on top of the API above. A step-by-step desc
 - Layers are listed in `TypecraftSettings → Markup Layers` and are created automatically next to the table when you first add markup. The table is found by id (for Unity Localization — by collection name) and the locale code.
 - In the game: if the snapshot matches the current table string, the layer text is shown, otherwise the plain table string. This works for the built-in source and for Unity Localization alike; the `pseudo` locale is built from the decorated text of the base locale.
 - A table string was changed (a translator, a CSV import) — the decoration stops applying, and the cell in the "Localization" tab is marked ⚠. «Перенести теги» (transfer tags) re-places the decoration on the new text by matching words (what cannot be attached exactly is shown and asked about; `Decoration.Transfer`), «Сбросить разметку» (reset markup) deletes the layer entry.
-- The "Editor" tab shows the layer text. "Apply" without changing the words writes to the layer only; if the words changed, a "before / after" dialog (`TextChangeDialog`) offers «Записать в таблицу» (write to the table) or «Вернуть слова» (restore words). It also appears when you move away from the object and when you close the window with unwritten words.
+- The "Editor" tab shows the layer text. "Apply" without changing the words writes to the layer only; if the words changed, a "before / after" dialog (`TextChangeDialog`) offers «Записать в таблицу» (write to the table) or «Вернуть слова» (restore words). It also appears when you move away from the object and when you close the window with unwritten words. The exception is a string opened by selecting it in the "Localization" tab: `MarkupLayers.Write` writes changed words to the table at once and the decoration to the layer. While the "Editor" tab has no unapplied edits it shows the current table text (cell edits and language switches are picked up by themselves); with unapplied edits the text is not refreshed, and "Apply" writes it over cell edits. A language switch with unapplied edits pins the string to the language of the edit (shown in the title) and "Apply" writes there; after applying or reverting, the string follows the shared language again.
 - Old tables with decoration right in the cells: `Tools/Typecraft/Move Markup To Layers`.
 - Renaming a style in the "Library" tab rewrites the layers; `{…}` icons live in the table and are rewritten there (and in the layer snapshots, so the decoration does not go stale).
 
@@ -1539,7 +1540,7 @@ A short summary of what the UI does on top of the API above. A step-by-step desc
 **The "Dialogues" tab.**
 
 - On the left — dialogues, speakers and flags ("+" in a section creates a new one; a new flag creates a catalog if there is none).
-- In the centre — the board: a graph (ports, dragging links, space or right-click for a new node, a minimap) or a list of nodes; the view switcher and the text locale are on the toolbar.
+- In the centre — the board: a graph (ports, dragging links, space or right-click for a new node, a minimap) or a list of nodes; the view switcher and the text locale are on the toolbar. The locale is global: picking it calls `ITextSource.SelectLocale`, like «Сцена:» in the "Localization" tab (remembered in the Editor, works in Edit and Play Mode), and the dropdown follows `Typecraft.Locale` when the toolbar is rebuilt.
 - On the right — the inspector of the selected node: speaker and emotion from lists, a key with search and a text preview, «Создать ключ» (create key) — a table string straight from the inspector (text in the base locale, the `[style]` and `<tag>` decoration goes to the markup layer), conditions with flag selection.
 - At the bottom — «▶ Проигрывание» (playback) without running the game: from the start or from the selected node, typing, choices, playback flags (editable live, «Сбросить» resets them), a log; the current node is highlighted on the board.
 - «Проверить» (check) — dialogue problems (no start, empty and broken links, unreachable nodes, an empty or missing key, no translation, stale markup, no glyphs in the font, an undeclared flag or the wrong type, an unknown emotion…), a click goes to the node; «Проверить все» checks the whole project. Renaming a flag in the tab rewrites it in all dialogues (`DialogueFlagRename`).
@@ -2056,7 +2057,7 @@ public sealed class DialogueSaver : MonoBehaviour
 
 ### 12.3. Locale and device
 
-Typecraft does not save the chosen locale or device. Keep them in your own settings and restore them with `Typecraft.SetLocale(code)` (or `ITextSource.SelectLocale`; for Unity Localization — `LocalizationSettings.SelectedLocale`) and `Typecraft.SetDevice(device)`.
+Typecraft does not save the chosen locale or device in the game (the locale picked in «Сцена:», in the Editor tab preview language or in the Dialogues tab dropdown is remembered by the built-in source in the Editor only, see [7.3](#73-built-in-tables-velsitypecrafttexttables)). Keep them in your own settings and restore them with `Typecraft.SetLocale(code)` (or `ITextSource.SelectLocale`; for Unity Localization — `LocalizationSettings.SelectedLocale`) and `Typecraft.SetDevice(device)`.
 
 ### 12.4. What the package stores in the project
 
@@ -2110,6 +2111,7 @@ See [14.3](#143-data-storage).
 - Google Sheets needs "Anyone with the link can view"; a closed sheet gives the «Таблица закрыта» (sheet is closed) error. The sheet link goes into the repository (`ProjectSettings/TypecraftTableSync.asset`).
 - Sync sources and settings live in `ProjectSettings`/EditorPrefs/SessionState and do not go into the build.
 - A `TMPAnimator` added by hand takes the TMPEffects animation database by default; pick the project database in it for your own effects.
+- A string opened in the "Editor" tab by selecting it in the "Localization" tab does not follow the table while it has unapplied edits: edit the cell meanwhile, and "Apply" writes the Editor's text over it without the "was / now" window. Apply or revert the edit first. Switching the language meanwhile is safe: the string stays in the language of the edit.
 - Before version 1.0, `public` Editor types that are not listed at the start of [section 10](#10-editor-api) as embedding points may change their signatures.
 
 ---

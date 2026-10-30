@@ -1,6 +1,6 @@
 {
   "name": "com.velsi.typecraft",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "displayName": "Typecraft",
   "description": "Text toolkit for TextMeshPro: short markup tags, style and icon libraries, device-aware input prompts, font roles per locale, TMPEffects and Unity Localization integration.",
   "unity": "6000.0",

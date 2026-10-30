@@ -1,8 +1,14 @@
 ﻿key,comment,en,ru,zh-Hans
 ui.door.locked,Подсказка у запертой двери,The door is [warn]locked[/warn]. Press {key:Interact} to inspect the lock.,"Дверь [warn]заперта[/warn]. Нажми {key:Interact}, чтобы осмотреть замок.",门[warn]锁着[/warn]。按 {key:Interact} 检查门锁。
 ui.whisper.still_here,Шёпот после закрытия двери,[whisper]It is still here…[/whisper],[whisper]Он всё ещё здесь…[/whisper],
+ui.thought.cold,Тестовая мысль: холод,[whisper]It is so cold in here…[/whisper],[whisper]Здесь так холодно…[/whisper],
+ui.thought.watching,Тестовая мысль: взгляд,I feel [warn]someone is watching[/warn] me.,"Кажется, [warn]за мной наблюдают[/warn].",
 ui.location.basement,Заголовок локации,[title]Basement[/title],[title]Подвал[/title],[title]地下室[/title]
 ui.interact.open,Подсказка: открыть,Open {key:Interact},Открыть {key:Interact},
 ui.interact.close,Подсказка: закрыть,Close {key:Interact},Закрыть {key:Interact},
 ui.interact.inspect,Подсказка: осмотреть,Inspect {key:Interact},Осмотреть {key:Interact},
 ui.interact.take,Подсказка: взять,Take {key:Interact},Взять {key:Interact},
+ui.inspect.box.1,Осмотр: ящик 1,Just an old crate. Nothing special.,Старый ящик. Ничего особенного.,
+ui.inspect.box.2,Осмотр: ящик 2,The lid is nailed shut. [warn]From the inside?[/warn],Крышка забита гвоздями. [warn]Изнутри?[/warn],
+ui.inspect.box.3,Осмотр: ящик 3,I should stop staring at it.,Хватит на него смотреть.,
+ui.inspect.doll.1,Осмотр: кукла,[warn]Its eyes just moved.[/warn],[warn]Её глаза только что шевельнулись.[/warn],

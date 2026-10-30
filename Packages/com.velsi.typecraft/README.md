@@ -8,11 +8,11 @@
 
 Инструмент для текста поверх TextMeshPro: короткая разметка (`{key:Interact}`, `{candle}`, `[warn]…[/warn]`), библиотеки стилей и иконок, подсказки ввода по текущему устройству, роли шрифтов по языкам, встроенные таблицы строк, слой разметки, интеграция с TMPEffects и Unity Localization, модуль диалогов с графовым редактором.
 
-Unity 6000.0+, пространство имён `Velsi.Typecraft.*`, версия `0.2.0`.
+Unity 6000.0+, пространство имён `Velsi.Typecraft.*`, версия `0.3.0`.
 
 ### Установка
 
-1. Положи `com.velsi.typecraft-0.2.0.tgz` в папку `Packages/` проекта (так путь в `manifest.json` останется рабочим у всех, кто клонирует проект).
+1. Положи `com.velsi.typecraft-0.3.0.tgz` в папку `Packages/` проекта (так путь в `manifest.json` останется рабочим у всех, кто клонирует проект).
 2. `Window → Package Manager → + → Install package from tarball…` → выбери файл.
 3. После импорта Typecraft сам доставит обязательное и откроет окно **Welcome**:
    - **TMP Essential Resources** — штатным импортёром TMP;
@@ -65,11 +65,11 @@ Package Manager → Typecraft → Samples:
 
 A text toolkit on top of TextMeshPro: short markup (`{key:Interact}`, `{candle}`, `[warn]…[/warn]`), style and icon libraries, input prompts that follow the current device, font roles per language, built-in string tables, a markup layer, TMPEffects and Unity Localization integration, and a dialogue module with a graph editor.
 
-Unity 6000.0+, namespace `Velsi.Typecraft.*`, version `0.2.0`.
+Unity 6000.0+, namespace `Velsi.Typecraft.*`, version `0.3.0`.
 
 ### Installation
 
-1. Put `com.velsi.typecraft-0.2.0.tgz` into the project's `Packages/` folder (so the path in `manifest.json` keeps working for everyone who clones the project).
+1. Put `com.velsi.typecraft-0.3.0.tgz` into the project's `Packages/` folder (so the path in `manifest.json` keeps working for everyone who clones the project).
 2. `Window → Package Manager → + → Install package from tarball…` → pick the file.
 3. After import Typecraft installs the required parts itself and opens the **Welcome** window:
    - **TMP Essential Resources** — through the standard TMP importer;

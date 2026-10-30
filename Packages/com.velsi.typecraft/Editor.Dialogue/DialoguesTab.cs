@@ -106,6 +106,7 @@ namespace Velsi.Typecraft.Dialogue.Editor
             _localeField.RegisterValueChangedCallback(evt =>
             {
                 _locale = evt.newValue;
+                Typecraft.Settings?.TextSource?.SelectLocale(evt.newValue);
                 _board?.Refresh();
                 RebuildInspector();
                 _playback?.OnLocaleChanged();
@@ -547,7 +548,7 @@ namespace Velsi.Typecraft.Dialogue.Editor
             _tableField.SetEnabled(_asset != null);
 
             List<string> locales = backend != null ? backend.Locales.ToList() : new List<string> { Typecraft.Locale };
-            _locale = DialogueTexts.Locale(_locale);
+            _locale = DialogueTexts.Locale(Typecraft.Locale);
             _localeField.choices = locales;
             _localeField.SetValueWithoutNotify(_locale);
         }

@@ -61,7 +61,19 @@
   `BoxCollider` + authoring), дочерний `Visual` (куб без коллайдера) и `Label` (3D-текст). Размер
   зоны — `BoxCollider.size` корня и масштаб `Visual` вместе. Образцы: `FearZone` (серый, «Триггер
   зона страха») и `ScareZone` (красноватый, «Триггер зона скримера», `ScareZoneAuthoring` создаёт
-  `ScareRequest` при каждом входе игрока).
+  `ScareRequest` при каждом входе игрока), `ThoughtZone` (синеватый, «Триггер зона мысли»).
+- Подпись зоны (`Label`): всегда с `LabelBillboard` (`Scripts/Views/`, разворот лицом к камере игрока,
+  вертикаль мира сохраняется) и общим материалом `Resources/Materials/LabelOutline.mat` (чёрный
+  контур); стиль — жирный, белый, размер 8. Новые зоны делать от этого префаба-образца.
+- Мысли игрока (субтитры внизу экрана): монолог = `DialogueAsset` Typecraft (`LineNode`,
+  `Advance = AfterText`, `Seconds`) в `Resources/Dialogues/Thoughts/`. Запрос из кода —
+  `world.RequestThought(asset | key, interrupt)` (`ECS/Extensions/`), создаёт однокадровую
+  `ThoughtRequest`; уборщик один — `ClearThoughtRequestSystem`. `ThoughtPlaybackSystem` держит
+  очередь поверх `DialoguePlayer` (без `interrupt` — в очередь, с ним — обрыв и очистка очереди;
+  тот же диалог, что уже играет, перезапускается). Вывод — `ThoughtPresenter` (fade) на объекте
+  `Subtitles` внизу Canvas, `DialoguePlayer` биндится в `PlaySceneInstaller`. Зона —
+  `ThoughtTriggerAuthoring` (диалог, «один раз», «Interrupt»). `HideAfter` presenter-а должен быть
+  меньше `Seconds` в нодах на длительность fade-out.
 - Страх: `FearFactor` на игроке ведут `FearZoneContactSystem` + `FearFactorSystem` (зоны
   `FearZoneAuthoring`, побеждает максимальный `Target`) и `ScareRequestSystem`. Пугать из кода —
   создать сущность с `ScareRequest { Strength }`; уборщик один — `ClearScareRequestSystem`.
@@ -74,6 +86,9 @@
   локациями — телепортом внутри сцены, не загрузкой сцены (или сначала чинить провайдер).
 - `LoadingService` не показывает `Curtain` (закомментировано) — для затемнения звать
   `ICurtain` напрямую или вернуть вызовы.
+- `TMPWriter`/`TMPAnimator`, добавленные на объект скриптом в редакторе, сами выключаются (`Reset`) и
+  остаются выключенными в сохранённой сцене. Выключенный `TMPWriter` — нет печати и эффектов Typecraft
+  (реплика показывается сразу). После `AddComponent` включать `enabled = true` и сохранять сцену.
 - Play Mode с бута — меню `PlayFromBootstrap/Enebled` (`EntryPointSceneAutoLoader`).
   Какую сцену грузить после `Init` — `PlayFromBootstrap/Scene/{PlayRoom,ModelTest}` (EditorPrefs, только в
   редакторе; в билде всегда `Playroom`). `ModelTest.unity` — копия `PlayRoom` без тестовых механик,
@@ -90,6 +105,7 @@ Idle/Tense/Panic от `FearFactor`, луч взаимодействия с об�
 (виньетка, film grain, хроматическая аберрация; runtime-копия профиля `Global Volume`),
 подсказка взаимодействия (`InteractionPrompt { Key }` ← поле `_promptKey` в `InteractionObjectAuthoring`,
 дверь переключает `ui.interact.open/close`; `InteractionPromptView` на Canvas + `InteractionPromptViewSystem`,
-тайминги — `InteractionPromptConfig`) и точка-прицел (скрыты при `InputBlocked`).
+тайминги — `InteractionPromptConfig`) и точка-прицел (скрыты при `InputBlocked`), мысли игрока
+(субтитры, монологи на диалогах Typecraft, три тестовые зоны в `PlayRoom`).
 Нет: остального HUD-текста, инвентаря, переходов, интерактивных пространств, постоянных источников страха
 кроме тестовой зоны. `CameraCutsceneSystem` — пустая заглушка.

@@ -28,13 +28,16 @@ namespace Game.Scripts.ECS.Authoring
             poolOutlineRefs.WithOutline = _outlineRefs.WithOutline;
             poolOutlineRefs.Default = _outlineRefs.Default;
 
-            if (string.IsNullOrEmpty(_promptKey) == false)
-                EcsWorldProvider.World.GetPool<InteractionPrompt>().Add(entity).Key = _promptKey;
+            string promptKey = string.IsNullOrEmpty(_promptKey) ? DefaultPromptKey : _promptKey;
+            if (string.IsNullOrEmpty(promptKey) == false)
+                EcsWorldProvider.World.GetPool<InteractionPrompt>().Add(entity).Key = promptKey;
 
             AddSpecificTag(EcsWorldProvider.World, entity);
             
             gameObject.layer = 6;
         }
+
+        protected virtual string DefaultPromptKey => null;
 
         protected abstract void AddSpecificTag(EcsWorld world, int entity);
 

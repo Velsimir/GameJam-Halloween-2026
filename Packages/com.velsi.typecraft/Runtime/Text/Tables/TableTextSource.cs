@@ -30,14 +30,28 @@ namespace Velsi.Typecraft.Text.Tables
         public string BaseLocale => string.IsNullOrEmpty(_baseLocale) ? (_locales.Count > 0 ? _locales[0] : "en") : _baseLocale;
         public IReadOnlyList<StringTable> Tables => _tables;
 
+        private const string EditorLocaleKey = "Typecraft.SceneLocale";
+
         public void Activate()
         {
+#if UNITY_EDITOR
+            string preferred = UnityEditor.EditorPrefs.GetString(EditorLocaleKey, string.Empty);
+            if (preferred.Length > 0 && _locales.Contains(preferred))
+                Typecraft.SetLocale(preferred);
+#endif
         }
 
         public void Request(string table, string key, string locale, Action<TextEntry> onReady) =>
             onReady(Lookup(table, key, locale));
 
-        public void SelectLocale(string localeCode) => Typecraft.SetLocale(localeCode);
+        public void SelectLocale(string localeCode)
+        {
+#if UNITY_EDITOR
+            if (_locales.Contains(localeCode))
+                UnityEditor.EditorPrefs.SetString(EditorLocaleKey, localeCode);
+#endif
+            Typecraft.SetLocale(localeCode);
+        }
 
         public TextEntry Lookup(string table, string key, string locale)
         {

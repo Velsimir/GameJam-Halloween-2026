@@ -27,7 +27,7 @@ manual is within reach.
 
 ## 0. Installation and the Welcome window
 
-1. Put `com.velsi.typecraft-0.2.0.tgz` into the project's `Packages/` folder.
+1. Put `com.velsi.typecraft-0.3.0.tgz` into the project's `Packages/` folder.
 2. `Window → Package Manager → + → Install package from tarball…` → pick the file.
 3. Wait for the recompile. Typecraft installs TMP Essential Resources, TMPEffects (from the copy bundled
    in the package, no internet needed) and the TMPEffects resources, then opens the **Welcome** window.
@@ -83,7 +83,9 @@ Top to bottom:
 
 1. **Toolbar.** On the left — what is being edited (`Hint · Showcase/ui.hint [en]`: object, table, key,
    language), the 🔒 lock ("do not switch to the selected object") and the **Черновик** (Draft) button — free
-   text without an object. On the right — preview language, device (**KBM / Xbox / PS / Switch / Deck / Touch**,
+   text without an object. On the right — preview language (shared with **Сцена:** (Scene) in the Localization tab and the
+   language dropdown of the Dialogues tab: changing it here also switches scene texts, changing it there shows up here),
+   device (**KBM / Xbox / PS / Switch / Deck / Touch**,
    which decides the `{key:…}` glyphs), ❚❚/▶ — TMPEffects animation, **машинка** (typewriter) / **Весь** (whole text)
    — how the text is shown, **метки** (marks) — shows `<!wait>` pauses above the text, **Применить** (Apply, Ctrl+Enter).
 2. **Preview** — the text as it will look in game: styles, icons, the button glyph and effects.
@@ -93,8 +95,9 @@ Top to bottom:
 
 > **What is edited.** Select an object with a `TypecraftText` in the scene and the window picks it up (for
 > *Localized* mode — a table string, for *Inline* — the component's markup). For a plain `TMP_Text` there is
-> the **→ в таблицу** (to the table) button: it moves the text into a table and switches the object to a key. The 🔒 lock
-> keeps the current object while you select something else.
+> the **→ в таблицу** (to the table) button: it moves the text into a table and switches the object to a key. A table string
+> can also be opened without an object — select it in the Localization tab (see [The cell panel](#the-cell-panel)).
+> The 🔒 lock keeps the current object while you select something else — in the scene or a string in the Localization tab.
 
 ### Selection and the floating bar
 
@@ -188,6 +191,9 @@ If a table key is open and you **changed the words** (not just the decoration), 
 
 If the words did not change, «Применить» writes to the markup layer only.
 
+A string opened by selecting it in the Localization tab is the exception: changed words go to the table at once,
+without this window (see [The cell panel](#the-cell-panel)).
+
 ---
 
 ## 3. Localization tab
@@ -200,7 +206,9 @@ A grid of strings: the key on the left, then a column per language (★ marks th
 **Toolbar.** The string source and a summary (`ключей: 19 · с проблемами: 19` — keys, with issues), the table dropdown and
 **+ таблица** (+ table), **▸** (ping the table asset), search, filter, **+ ключ** (+ key), **+ язык** (+ language),
 **Синхронизировать** (Sync), **Источник…** (Source…), **Импорт…** (Import…), **Экспорт…** (Export…), **⟳** (recheck all) and
-**Сцена:** (Scene) — the language in which scene texts are shown.
+**Сцена:** (Scene) — the language in which scene texts are shown. With the built-in tables the choice is remembered
+between Play Mode runs and editor sessions; it works in the Editor only — in a build the language is set as before (the base
+one or from your own settings).
 
 **Filters:** *Все строки (all) · Есть проблемы (has issues) · Только изменившиеся (changed only) · Нет перевода (no translation) ·
 Не помещается (overflow) · Нет символа в шрифте (missing glyph) · Разметка расходится (markup mismatch)*.
@@ -228,6 +236,28 @@ Clicking a cell opens a panel at the bottom: the string field on the left (with 
 with the language's real font on the right. Buttons: **Найти в проекте** (Find in project), **Переименовать** (Rename),
 **Удалить ключ** (Delete key); below — a **Комментарий** (comment) for the translator. The **✦ Разметка в слое** block shows how the
 string is decorated and has the **Сбросить разметку** (Reset markup) button.
+
+The selected string also opens in the **Редактор** (Editor) tab — the tab itself does not switch. Only your own pick does
+this: a cell click, a right-click on a key, **+ ключ** (+ key). Ctrl+Z / Ctrl+Y, **⟳**, sync and import do not change the
+Editor target. Its title there reads like `Main/ui.door.locked [en]` (table, key, language); decorate the string with the
+gallery and the floating bar, write it with **Применить** (Apply). The language in the Editor tab is the shared preview
+language, not the language of the clicked column: clicking an `ru` cell while the shared language is `en` opens the string in
+`en`. Change the language with the Editor tab's preview language dropdown or **Сцена:**; in the pseudo-locale the string is
+read-only.
+
+- The 🔒 lock in the Editor tab is on — selecting a string does not change it.
+- The Editor tab has unapplied edits (● before the title) that keep the words — selecting a string does not change the
+  Editor tab: press **Применить** or revert the edit first.
+- The Editor tab has unwritten word changes of a scene string — the "was / now" window opens first; **Отмена** (Cancel)
+  there leaves the Editor tab as it was.
+- **Применить** on such a string writes changed words to the table at once, without the "was / now" window; the
+  decoration goes to the layer.
+- Without unapplied edits the Editor tab shows the current table text: cell edits and language switches are picked up by
+  themselves. With unapplied edits the text is not refreshed: edit the cell meanwhile, and **Применить** writes the
+  Editor's text over it. Apply or revert the edit first.
+- Switched the language while there are unapplied edits — the string stays in the language of the edit (shown in the
+  title) and **Применить** writes there. After applying or reverting, the string switches to the shared language and
+  rereads the text.
 
 ### Task: add a key
 
@@ -418,7 +448,9 @@ The tab layout:
 - **Right** — the inspector of the selected node. With nothing selected it shows the dialogue itself: path, node and issue counts.
 - **Bottom** — a panel with the **▶ Проигрывание** (Playback) and **Проблемы** (Issues) pages (collapsible with the arrow on the right).
 - **Toolbar** on top: dialogue picker, the default string table, **+ Нода**, **Проверить · N** (Check), **▶ Проиграть** (Play),
-  board view and text language.
+  board view and text language. The language is shared by the whole window and the scene — the same one as **Сцена:**
+  (Scene) in the Localization tab: picking it here switches scene texts (in Edit and Play Mode) and is remembered the same
+  way, and a change in «Сцена:» shows up here.
 
 Pan the board with the middle mouse button and zoom with the wheel; links are dragged from output to input, **Delete** removes,
 **Ctrl+C / Ctrl+V / Ctrl+D** copy and duplicate.

@@ -79,3 +79,6 @@ crashlytics-build.properties
 
 # CodeGraph local index
 .codegraph/
+
+/Assets/Screenshots/
+/Assets/Screenshots.meta
