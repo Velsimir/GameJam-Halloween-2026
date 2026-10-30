@@ -1,0 +1,29 @@
+{
+  "exclude": [
+    "Library/",
+    "Temp/",
+    "Obj/",
+    "obj/",
+    "Logs/",
+    "UserSettings/",
+    "Build/",
+    "Builds/",
+    "MemoryCaptures/",
+    "Recordings/",
+    "**/*.csproj",
+    "**/*.sln",
+    "**/*.unitypackage"
+  ],
+  "deprioritize": [
+    "Assets/Plugins/",
+    "Assets/ThirdParty/",
+    "Assets/Packages/",
+    "Assets/_TypecraftDocsDemo/",
+    "Assets/_TypecraftDocsTools/",
+    "Assets/_TypecraftTmp/",
+    "Packages/com.velsi.typecraft/",
+    "Assets/Editor Default Resources/",
+    "Assets/**/Demos/",
+    "Assets/**/Examples/"
+  ]
+}

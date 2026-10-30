@@ -76,3 +76,6 @@ crashlytics-build.properties
 
 # JetBrains Rider
 .idea/
+
+# CodeGraph local index
+.codegraph/
