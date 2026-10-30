@@ -38,6 +38,10 @@
 - Конфиги — `Assets/Game/Resources/Configs/`, корневой `GameConfigs.asset` через `ConfigsInstaller`.
 - Префабы — `Assets/Game/Resources/Prefabs/` (`Player`, `Loading/Curtain`).
 - `_TypecraftDocs*`, `_TypecraftTmp` — служебное пакета, не трогать.
+- Ретро-эффекты PSX и VHS: код `Scripts/Rendering/{PSX,VHS}/`, шейдеры `Resources/Shaders/{PSX,VHS}/`, профили
+  `Resources/Configs/Rendering/` (`PSX_Default`, `VHS_Subtle`, `VHS_Heavy`); в сценах Volume `RetroFX`,
+  `RetroFX_VHS`, `RetroFX_VHS_Heavy` (вес ведёт `VhsBoost`), правятся в инспекторе Volume, в т.ч. в Play Mode;
+  подробности — `Docs/Retro-FX.md`, `Docs/PSX-Guide.md`.
 
 ## Конвенции
 - Новая механика = компоненты-структуры в `ECS/Components/<Фича>/`, системы в
