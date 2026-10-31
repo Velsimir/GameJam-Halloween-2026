@@ -1,4 +1,5 @@
 using Game.Scripts.Configs;
+using Game.Scripts.Configs.Audio;
 using Game.Scripts.ECS.Components.Doors;
 using Game.Scripts.ECS.Components.Interaction;
 using Leopotam.EcsLite;
@@ -21,6 +22,13 @@ namespace Game.Scripts.ECS.Authoring
         [SerializeField] private float _rattleDuration = 0.35f;
         [SerializeField] private float _rattleAngle = 2.5f;
         [SerializeField] private float _rattleCycles = 3f;
+        [SerializeField] private ItemDefinition _lockItem;
+        [SerializeField] private string _lockStepId;
+        [SerializeField] private string _lockPromptKey = "ui.interact.lock_door";
+        [SerializeField] private string _lockDoneThoughtKey = "ui.thought.door_lock_done";
+        [SerializeField] private string _lockNoItemThoughtKey = "ui.thought.door_lock_no_keys";
+        [SerializeField] private SoundDefinition _openSound;
+        [SerializeField] private SoundDefinition _closeSound;
 
         protected override void AddSpecificTag(EcsWorld world, int entity)
         {
@@ -37,6 +45,8 @@ namespace Game.Scripts.ECS.Authoring
             door.RattleDuration = _rattleDuration;
             door.RattleAngle = _rattleAngle;
             door.RattleCycles = _rattleCycles;
+            door.OpenSound = _openSound;
+            door.CloseSound = _closeSound;
 
             string promptKey = door.IsOpen ? door.ClosePromptKey : door.OpenPromptKey;
 
@@ -47,6 +57,18 @@ namespace Game.Scripts.ECS.Authoring
                 locked.LockedThoughtKey = _lockedThoughtKey;
                 locked.UnlockedThoughtKey = _unlockedThoughtKey;
                 promptKey = door.LockedPromptKey;
+            }
+
+            if (_lockItem != null && string.IsNullOrEmpty(_lockStepId) == false)
+            {
+                ref var lockable = ref world.GetPool<LockableDoor>().Add(entity);
+                lockable.Item = _lockItem;
+                lockable.StepId = _lockStepId;
+                lockable.LockPromptKey = _lockPromptKey;
+                lockable.LockedThoughtKey = _lockedThoughtKey;
+                lockable.UnlockedThoughtKey = _unlockedThoughtKey;
+                lockable.LockDoneThoughtKey = _lockDoneThoughtKey;
+                lockable.NoItemThoughtKey = _lockNoItemThoughtKey;
             }
 
             var promptPool = world.GetPool<InteractionPrompt>();

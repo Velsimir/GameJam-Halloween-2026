@@ -8,10 +8,12 @@ namespace Game.Scripts.Configs.Scenario
     {
         [SerializeField, Min(1)] private int _day = 1;
         [SerializeField] private string _titleKey;
+        [SerializeField] private DiaryDayEntry _diary = new DiaryDayEntry();
         [SerializeField] private List<DayStep> _steps = new List<DayStep>();
 
         public int Day => _day;
         public string TitleKey => _titleKey;
+        public DiaryDayEntry Diary => _diary;
         public IReadOnlyList<DayStep> Steps => _steps;
 
         public IEnumerable<string> ValidationErrors()

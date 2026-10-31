@@ -11,6 +11,7 @@ namespace Game.Scripts.Services.Input
         public ReactiveProperty<Vector2> Move { get; private set; }
         public ReactiveProperty<Vector2> Look { get; private set; }
         public ReactiveProperty<bool> Interact { get; private set; }
+        public ReactiveProperty<bool> Cancel { get; private set; }
 
         public InputService()
         {
@@ -20,6 +21,10 @@ namespace Game.Scripts.Services.Input
             Move = BindMovementInput(_inputActions.Player.Move);
             Look = BindMovementInput(_inputActions.Player.Look);
             Interact = BindInteractInput(_inputActions.Player.Interact);
+
+            var cancelAction = new InputAction("Cancel", InputActionType.Button, "<Keyboard>/escape");
+            cancelAction.Enable();
+            Cancel = BindInteractInput(cancelAction);
         }
 
         private ReactiveProperty<Vector2> BindMovementInput(InputAction playerMove)

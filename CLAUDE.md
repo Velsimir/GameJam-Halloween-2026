@@ -112,6 +112,19 @@
 - Новые проходимые проёмы — не уже 1,3 м. Тексты мыслей в блок-ауте помечены `TODO:` в `Localization.csv`
   (ключи `ui.thought.neighbor_door`, `stairs_up_closed`, `stairs_down`, `block_door_locked`); после
   правки CSV строки в таблицу `Main` подтягиваются через окно Typecraft (синхронизация таблицы).
+- Аномалии «по взгляду»: `AnomalyAuthoring` (`_target`, `_thoughtKey`, дистанция, угол) → `AnomalySightSystem` даёт мысль один раз,
+  когда цель активна, в конусе взгляда и без стены между головой и целью. Образец: `Anomalies/ChairRoot` (`ui.thought.d2.chair`).
+- Рейкаст интеракции (`InteractionRaycastSystem`) отсекает цель, если между головой и точкой попадания есть чужой не-триггерный коллайдер.
+- Двери закрываются сами, когда `ScreenFadeView.Alpha` доходит до 1 (`DoorCloseOnFadeSystem`).
+- Запереть дверь: `DoorAuthoring._lockItem` + `_lockStepId` → `LockableDoor`; пока цель двери `ScenarioActive`, E на закрытой двери
+  вешает `Locked` и завершает шаг (`External`). Образец: `Door_Entrance` (`entrance_door`, шаг `lock_door` после `to_block`).
+- Зубная щётка — держатель `ToothbrushPickup` на `KeyHookAuthoring` (`take_brush`/`return_brush`, цель `toothbrush`); `Sink` щётку не тратит.
+  Утром и вечером: взять → `brush_teeth` → положить.
+- Вставание с кровати: `CameraCutsceneSystem` по `LyingInBed.Progress` — приподнялся → поворот → вертикаль; числа в `BedAuthoring`.
+- Звук: `IAudioService` (ProjectContext, `Services/Audio/`) — единственная точка воспроизведения (`Play`/`PlayAt`/`PlayOn`, пул, loop с fade, `SoundHandle.Stop`);
+  микшер `Resources/AudioMixer.mixer` (Music/Ambience/SFX/Voice/UI, exposed `<Группа>Volume`, громкость — `SetBusVolume`). Новый звук: ассет `SoundDefinition`
+  (меню `Configs/Audio/Sound`, `Resources/Configs/Audio/Sounds/`: клипы, группа, громкость/pitch-разброс, loop, 3D) → добавить в `SoundLibrary`; поля `SoundDefinition` — в authoring/конфигах
+  (`Day*` эпизод/`SoundAction`, `DoorAuthoring`, `KettleAuthoring`, `FadeActionAuthoring`, `DiaryView`), числа шагов/дыхания/будильника по дням — `AudioConfig`, случайные 3D-звуки в зоне — `AmbientEmitterProfile` + `AmbientEmitterAuthoring` (группа `Audio` в `Apartment`).
 - Без комментариев в коде.
 
 ## Как собрать новый день
@@ -195,7 +208,7 @@
 | 13 | `return_home2` | `hallway` | EnterZone | |
 | 14 | `hang_keys` | `keys` | External | `KeyHook._hangStepId` |
 | 15 | `fridge_stock` | `fridge` | External | `FridgeAuthoring._stockStepId`; если холодильник остался открытым — нажать дважды |
-| 16 | `diary` | `diary` | Interact | заглушка |
+| 16 | `diary` | `diary` | External | `DiaryClosedSystem`: дневник закрыт, все страницы дня допечатаны; закрыл раньше — мысль-напоминание шага |
 | 17 | `to_bathroom_night` | `bathroom` | EnterZone | старт: `GiveItem Toothbrush` |
 | 18 | `brush_teeth` | `sink` | External | |
 | 19 | `sleep` | `bed` | External | `BedAuthoring._completeStepId` → `DayFinished` |
@@ -203,6 +216,18 @@
 День 2 = день 1 + аномалии: письмо `ui.thought.d2.letter` (шаг 11); при `return_home` включается `Anomalies/ChairRoot`
 (`anomaly_chair`) + мысль `d2.chair`; скрытый шаг `block_return` (EnterZone `block_corridor`) после `stairs_shop`:
 `ScareAction 0.35` + шёпот `ui.thought.d2.whisper`.
+
+## Дневник
+Интерактивное окно-разворот блокнота. Образец: `Apartment/DayObjects/Diary`, шаг дня 1 `diary`.
+- Данные: `DayScenario._diary` (`DiaryDayEntry`): `_dateOverride` (пусто = вычислить, иначе показывается как есть, можно с разметкой Typecraft — сбой даты как аномалия), `_narrativeKeys` (одна страница = один ключ Typecraft таблицы `Main`, `diary.d<N>.page<M>`). Строка действия — `DayStep._diaryLineKey` (`diary.line.<id шага>`, пусто = шаг не пишется); добавляется при завершении шага, после шага `diary` строки уже не пишутся.
+- Как добавить страницы: дописать ключ в `_narrativeKeys` дня и строку в `Localization.csv` (ru/en), страница должна влезать (~9 строк шрифта `diary`, размер 44). Строки действий идут после нарратива с новой страницы и сами переносятся по реальному замеру TMP.
+- Даты: `IDiaryService` (ProjectContext) при старте дня 1 запоминает `DateTime.Today`, день N = эта дата + (N−1); формат по `Typecraft.Locale` (ru «31 октября», en «October 31»).
+- История: `IDiaryService.Records` (ключи, не тексты: пересобирается под локаль); `Restart()` на «Начать сначала» чистит всё. Прошлые дни показываются сразу, сегодняшний день — пустой, пока дневник не открыт на шаге `diary` (`ScenarioActive` на цели `diary`); тогда он «раскрывается» (`Reveal`) и печатается TMPWriter; `ReadPages` — сколько страниц допечатано.
+- Поведение: каждый день с левой страницы, нечётный хвост — пустая правая; после сегодняшних страниц 3 пустых разворота. Клик по печатающейся странице допечатывает её и сразу идёт печать следующей; когда обе страницы разворота допечатаны и остались непрочитанные, разворот листается сам. Назад/вперёд — стрелки или клик по левой/правой странице; вперёд ограничен первым непрочитанным разворотом. Закрыть — Esc (`IInputService.Cancel`) или крестик.
+- До шага `diary` дневник открывается (прошлые дни читаются) и играет мысль `ui.thought.diary.too_early`.
+- ECS: `DiaryAuthoring : InteractionObjectAuthoring` (`ui.interact.read`, `_completeStepId = diary`) + `ScenarioTargetAuthoring` с `_gated = false`; `DiaryInteractionSystem` (E → `DiaryOpenRequest`) → `DiaryWindowSystem` (`DiaryOpen` + `InputBlocked`, Esc, закрытие → `DiaryClosed`) → `DiaryClosedSystem` (`CompleteScenarioStep` или мысль-напоминание). Все три стоят в Simulation до `DayScenarioSystem`; уборщики `ClearDiaryOpenRequestSystem`, `ClearDiaryClosedSystem`.
+- View: `Resources/Prefabs/UI/DiaryView` в Canvas каждой игровой сцены (`PlaySceneInstaller` биндит `DiaryView`); шрифт — роль `diary` в `FontProfile`; стрелки — временные `Image`, звук листания — поле `_flipClip` (пусто = тишина). Для печати у `Body` страницы нужны `TMPWriter` (WriteOnStart/WriteOnNewText выключены) и `TMPAnimator`.
+- Редактор: F8 — открыть дневник из любого места (только чтение, без шага).
 
 ## Поток дня и перезагрузка сцены
 - Мир: `EcsStartup.Dispose()` зовёт `IEcsWorldProvider.Reset()` (уничтожает мир и обнуляет ссылку); следующий
@@ -253,6 +278,7 @@ Idle/Tense/Panic от `FearFactor`, луч взаимодействия с об�
 лестница наверх дают мысль), ядро дневного сценария (`DayScenario` в данных, шаги по порядку, гейт
 «не сейчас», `Day01` и `Day02` в `Apartment`; смена дней и «Конец» работают; сценарий выбирается
 по номеру дня, не по сцене — `Day01` запустится и в `PlayRoom`).
+Готово также: интерактивный дневник (раздел «Дневник»).
 Нет: остального HUD-текста, интерактивных пространств, постоянных источников страха кроме тестовой
 зоны, логики выхода по лестнице вниз (задача 14), финальных моделей и текстов. `CameraCutsceneSystem` —
 пустая заглушка.

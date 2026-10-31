@@ -25,6 +25,10 @@ namespace Game.Scripts.Configs.Scenario
         [SerializeField] private ScenarioCondition _condition;
         [SerializeField] private ItemDefinition _item;
 
+        [Header("Diary")]
+        [SerializeField, Tooltip("Строка в дневнике после выполнения шага. Пусто = шаг не пишется")]
+        private string _diaryLineKey;
+
         [Header("Episode")]
         [SerializeField] private DayEpisode _episode;
 
@@ -38,6 +42,7 @@ namespace Game.Scripts.Configs.Scenario
         public string TargetId => _targetId;
         public ScenarioCondition Condition => _condition;
         public ItemDefinition Item => _item;
+        public string DiaryLineKey => _diaryLineKey;
         public DayEpisode Episode => _episode != null && _episode.Enabled ? _episode : null;
         public IReadOnlyList<ScenarioAction> StartActions => _startActions;
         public IReadOnlyList<ScenarioAction> CompleteActions => _completeActions;

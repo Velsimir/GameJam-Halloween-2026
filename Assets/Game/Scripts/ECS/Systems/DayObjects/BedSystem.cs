@@ -1,3 +1,4 @@
+using Game.Scripts.Configs.Audio;
 using Game.Scripts.ECS.Components.Camera;
 using Game.Scripts.ECS.Components.DayObjects;
 using Game.Scripts.ECS.Components.Input;
@@ -5,6 +6,7 @@ using Game.Scripts.ECS.Components.Interaction;
 using Game.Scripts.ECS.Components.Movement;
 using Game.Scripts.ECS.Components.Player;
 using Game.Scripts.ECS.Extensions;
+using Game.Scripts.Services.Audio;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -12,6 +14,10 @@ namespace Game.Scripts.ECS.Systems.DayObjects
 {
     public class BedSystem : IEcsInitSystem, IEcsRunSystem
     {
+        private readonly AudioConfig _audioConfig;
+        private readonly IAudioService _audio;
+        private readonly int _day;
+
         private EcsWorld _world;
         private EcsFilter _bedFilter;
         private EcsFilter _wakeRequestFilter;
@@ -26,6 +32,13 @@ namespace Game.Scripts.ECS.Systems.DayObjects
         private EcsPool<LookRotation> _poolLook;
         private EcsPool<VerticalMovement> _poolVertical;
         private EcsPool<Focused> _poolFocused;
+
+        public BedSystem(AudioConfig audioConfig, IAudioService audio, int day)
+        {
+            _audioConfig = audioConfig;
+            _audio = audio;
+            _day = day;
+        }
 
         public void Init(IEcsSystems systems)
         {
@@ -69,9 +82,16 @@ namespace Game.Scripts.ECS.Systems.DayObjects
                     ref var lying = ref _poolLying.Add(player);
                     lying.Look = bed.Look;
                     lying.GetUpDuration = bed.GetUpDuration;
+                    lying.RiseHeight = bed.RiseHeight;
+                    lying.TurnAngle = bed.TurnAngle;
+                    lying.LyingPitch = bed.LyingPitch;
+                    lying.SitPitch = bed.SitPitch;
+                    lying.RisePhase = bed.RisePhase;
+                    lying.TurnPhase = bed.TurnPhase;
                     lying.WakeStepId = bed.WakeStepId;
                     lying.Progress = 0f;
                     lying.GettingUp = false;
+                    lying.Alarm = _audio.PlayOn(_audioConfig.AlarmFor(_day), bed.AlarmPoint);
 
                     if (_poolBlocked.Has(player) == false) _poolBlocked.Add(player);
                     if (_poolInteractWhenBlocked.Has(player) == false) _poolInteractWhenBlocked.Add(player);
@@ -93,6 +113,7 @@ namespace Game.Scripts.ECS.Systems.DayObjects
                     if (lying.GettingUp) break;
 
                     lying.GettingUp = true;
+                    lying.Alarm.Stop();
                     if (_poolFocused.Has(wake)) _poolFocused.Del(wake);
                     break;
                 }

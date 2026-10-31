@@ -1,4 +1,5 @@
 using Game.Scripts.Configs;
+using Game.Scripts.Configs.Audio;
 using Game.Scripts.ECS.Components.DayObjects;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -10,8 +11,7 @@ namespace Game.Scripts.ECS.Authoring
         [SerializeField, Tooltip("<0 = из ScreenFadeConfig")] private float _fadeOutTime = -1f;
         [SerializeField, Tooltip("<0 = из ScreenFadeConfig")] private float _holdTime = -1f;
         [SerializeField, Tooltip("<0 = из ScreenFadeConfig")] private float _fadeInTime = -1f;
-        [SerializeField] private AudioClip _clip;
-        [SerializeField, Range(0f, 1f)] private float _volume = 1f;
+        [SerializeField] private SoundDefinition _sound;
         [SerializeField] private string _completeStepId;
         [SerializeField] private ItemDefinition _requiredItem;
         [SerializeField] private bool _consumeItem;
@@ -27,8 +27,7 @@ namespace Game.Scripts.ECS.Authoring
             trigger.FadeOut = _fadeOutTime;
             trigger.Hold = _holdTime;
             trigger.FadeIn = _fadeInTime;
-            trigger.Clip = _clip;
-            trigger.Volume = _volume;
+            trigger.Sound = _sound;
             trigger.StepId = _completeStepId;
             trigger.RequiredItem = _requiredItem;
             trigger.ConsumeItem = _consumeItem;

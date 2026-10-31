@@ -45,6 +45,7 @@ Shader "Retro/PSX Lit"
             #pragma shader_feature_local _PSX_VERTEX_LIGHTING
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile _ _ADDITIONAL_LIGHTS
+            #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -71,7 +72,7 @@ Shader "Retro/PSX Lit"
                 half3 vertexLight : TEXCOORD4;
             };
 
-            half3 AccumulateLight(float3 positionWS, half3 normalWS, bool useShadows)
+            half3 AccumulateBaseLight(float3 positionWS, half3 normalWS, bool useShadows)
             {
                 half3 result = SampleSH(normalWS);
 
@@ -86,13 +87,32 @@ Shader "Retro/PSX Lit"
                 }
                 result += mainLight.color * (saturate(dot(normalWS, mainLight.direction)) * mainLight.distanceAttenuation * mainLight.shadowAttenuation);
 
-                #if defined(_ADDITIONAL_LIGHTS) && !defined(USE_FORWARD_PLUS)
-                    uint count = GetAdditionalLightsCount();
-                    for (uint i = 0u; i < count; ++i)
+                return result;
+            }
+
+            half3 AccumulateAdditionalLight(float3 positionWS, half3 normalWS, float2 normalizedScreenUV)
+            {
+                half3 result = 0;
+
+                #if defined(_ADDITIONAL_LIGHTS)
+                    InputData inputData = (InputData)0;
+                    inputData.positionWS = positionWS;
+                    inputData.normalizedScreenSpaceUV = normalizedScreenUV;
+
+                    uint pixelLightCount = GetAdditionalLightsCount();
+
+                    #if USE_CLUSTER_LIGHT_LOOP
+                    [loop] for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
                     {
-                        Light light = GetAdditionalLight(i, positionWS);
+                        Light light = GetAdditionalLight(lightIndex, positionWS);
                         result += light.color * (saturate(dot(normalWS, light.direction)) * light.distanceAttenuation);
                     }
+                    #endif
+
+                    LIGHT_LOOP_BEGIN(pixelLightCount)
+                        Light light = GetAdditionalLight(lightIndex, positionWS);
+                        result += light.color * (saturate(dot(normalWS, light.direction)) * light.distanceAttenuation);
+                    LIGHT_LOOP_END
                 #endif
 
                 return result;
@@ -120,7 +140,7 @@ Shader "Retro/PSX Lit"
                 output.normalWS = normalWS;
 
                 #if defined(_PSX_VERTEX_LIGHTING)
-                    output.vertexLight = AccumulateLight(positions.positionWS, normalWS, false);
+                    output.vertexLight = AccumulateBaseLight(positions.positionWS, normalWS, false);
                 #else
                     output.vertexLight = 0;
                 #endif
@@ -145,8 +165,10 @@ Shader "Retro/PSX Lit"
                 #if defined(_PSX_VERTEX_LIGHTING)
                     half3 light = input.vertexLight;
                 #else
-                    half3 light = AccumulateLight(input.positionWS, normalize(input.normalWS), true);
+                    half3 light = AccumulateBaseLight(input.positionWS, normalize(input.normalWS), true);
                 #endif
+
+                light += AccumulateAdditionalLight(input.positionWS, normalize(input.normalWS), GetNormalizedScreenSpaceUV(input.positionCS));
 
                 half3 color = albedo.rgb * light + emission * _EmissionColor.rgb;
                 return half4(color, 1.0);

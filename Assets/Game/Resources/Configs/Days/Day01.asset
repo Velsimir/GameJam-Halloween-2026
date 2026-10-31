@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.Scenario.DayScenario
   _day: 1
   _titleKey: ui.day.title
+  _diary:
+    _dateOverride: 
+    _narrativeKeys:
+    - diary.d1.page1
+    - diary.d1.page2
   _steps:
   - _id: wake_up
     _objectiveKey: ui.objective.d1.wake_up
@@ -25,8 +30,9 @@ MonoBehaviour:
     _targetId: 
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.wake_up
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -43,8 +49,28 @@ MonoBehaviour:
     _targetId: bathroom
     _condition: 1
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.to_bathroom
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: take_brush
+    _objectiveKey: ui.objective.d1.take_brush
+    _startThought: {fileID: 0}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: 
+    _idleSeconds: 0
+    _targetId: toothbrush
+    _condition: 3
+    _item: {fileID: 0}
+    _diaryLineKey: 
+    _episode:
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -61,8 +87,28 @@ MonoBehaviour:
     _targetId: sink
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.brush_teeth
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: return_brush
+    _objectiveKey: ui.objective.d1.return_brush
+    _startThought: {fileID: 0}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: 
+    _idleSeconds: 0
+    _targetId: toothbrush
+    _condition: 3
+    _item: {fileID: 0}
+    _diaryLineKey: 
+    _episode:
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -79,8 +125,9 @@ MonoBehaviour:
     _targetId: hallway
     _condition: 1
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.to_hallway
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -97,8 +144,9 @@ MonoBehaviour:
     _targetId: keys
     _condition: 2
     _item: {fileID: 11400000, guid: 3dc5e8a8a9bad2445b6e046be8f3a7b4, type: 2}
+    _diaryLineKey: diary.line.take_keys
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -116,8 +164,28 @@ MonoBehaviour:
     _targetId: block_corridor
     _condition: 1
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.to_block
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: lock_door
+    _objectiveKey: ui.objective.d1.lock_door
+    _startThought: {fileID: 0}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: 
+    _idleSeconds: 0
+    _targetId: entrance_door
+    _condition: 3
+    _item: {fileID: 0}
+    _diaryLineKey: 
+    _episode:
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -134,8 +202,9 @@ MonoBehaviour:
     _targetId: stairs_down
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.stairs_down
     _episode:
-      _clips: []
+      _sound: {fileID: 11400000, guid: bfe893d1094ffd94ebfa2c1687b04ec5, type: 2}
       _seconds: 5
       _timeLabel: 18:40
       _giveItem: {fileID: 0}
@@ -153,8 +222,9 @@ MonoBehaviour:
     _targetId: hallway
     _condition: 1
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.return_home
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -171,8 +241,9 @@ MonoBehaviour:
     _targetId: kettle
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.kettle
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -189,8 +260,9 @@ MonoBehaviour:
     _targetId: fridge
     _condition: 0
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.fridge_check
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -207,8 +279,9 @@ MonoBehaviour:
     _targetId: mailbox
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.mailbox
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -226,8 +299,9 @@ MonoBehaviour:
     _targetId: stairs_shop
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.stairs_shop
     _episode:
-      _clips: []
+      _sound: {fileID: 11400000, guid: ed4eee7fde380be48b1586a19e8c4811, type: 2}
       _seconds: 5
       _timeLabel: 20:15
       _giveItem: {fileID: 11400000, guid: 2395ed2ced81e9341b7e006cf18a2e85, type: 2}
@@ -245,8 +319,9 @@ MonoBehaviour:
     _targetId: hallway
     _condition: 1
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.return_home2
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -263,8 +338,9 @@ MonoBehaviour:
     _targetId: keys
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.hang_keys
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -281,8 +357,9 @@ MonoBehaviour:
     _targetId: fridge
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: diary.line.fridge_stock
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -297,10 +374,11 @@ MonoBehaviour:
     _reminderThoughtKey: ui.thought.d1.diary_remind
     _idleSeconds: 30
     _targetId: diary
-    _condition: 0
+    _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: 
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -317,14 +395,33 @@ MonoBehaviour:
     _targetId: bathroom
     _condition: 1
     _item: {fileID: 0}
+    _diaryLineKey: 
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
       _debugName: 
-    _startActions:
-    - rid: 3000000000000000005
+    _startActions: []
+    _completeActions: []
+  - _id: take_brush
+    _objectiveKey: ui.objective.d1.take_brush
+    _startThought: {fileID: 0}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: 
+    _idleSeconds: 0
+    _targetId: toothbrush
+    _condition: 3
+    _item: {fileID: 0}
+    _diaryLineKey: 
+    _episode:
+      _sound: {fileID: 0}
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
     _completeActions: []
   - _id: brush_teeth
     _objectiveKey: ui.objective.d1.brush_teeth_night
@@ -336,8 +433,28 @@ MonoBehaviour:
     _targetId: sink
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: 
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: return_brush
+    _objectiveKey: ui.objective.d1.return_brush
+    _startThought: {fileID: 0}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: 
+    _idleSeconds: 0
+    _targetId: toothbrush
+    _condition: 3
+    _item: {fileID: 0}
+    _diaryLineKey: 
+    _episode:
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -354,8 +471,9 @@ MonoBehaviour:
     _targetId: bed
     _condition: 3
     _item: {fileID: 0}
+    _diaryLineKey: 
     _episode:
-      _clips: []
+      _sound: {fileID: 0}
       _seconds: 0
       _timeLabel: 
       _giveItem: {fileID: 0}
@@ -385,7 +503,3 @@ MonoBehaviour:
       data:
         _targetId: stairs_shop_toggle
         _active: 1
-    - rid: 3000000000000000005
-      type: {class: GiveItemAction, ns: Game.Scripts.Configs.Scenario.Actions, asm: Assembly-CSharp}
-      data:
-        _item: {fileID: 11400000, guid: 2d5b26484ce4e2d4ea72ed5ee897dc01, type: 2}

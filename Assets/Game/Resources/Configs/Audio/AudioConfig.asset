@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ce71112788cef4481e2b15bd8aee82, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.Audio.AudioConfig
+  _mixer: {fileID: 24100000, guid: 2a74c880a206e4041b0f88ce9ad9fb57, type: 2}
+  _library: {fileID: 11400000, guid: 28e20b2cde45fc449bb92eb308da7eea, type: 2}
+  _poolSize: 24
+  _loopFadeIn: 0.6
+  _loopFadeOut: 0.6
+  _masterVolume: 1
+  _musicVolume: 1
+  _ambienceVolume: 1
+  _sfxVolume: 1
+  _voiceVolume: 1
+  _uiVolume: 1
+  _footstep: {fileID: 11400000, guid: a02f8c526e90a764f97a468e0504daa4, type: 2}
+  _footstepPan: 0.25
+  _breath: {fileID: 11400000, guid: 110871f8209d190459048658ed42ac69, type: 2}
+  _breathStartFear: 0.15
+  _breathStopFear: 0.08
+  _breathMinVolume: 0.2
+  _breathMaxVolume: 1
+  _breathMinPitch: 0.95
+  _breathMaxPitch: 1.15
+  _breathResponse: 3
+  _alarms:
+  - FromDay: 1
+    Sound: {fileID: 11400000, guid: 3f9e93e7c4f749e49b52e6663f91d5cf, type: 2}
+  - FromDay: 3
+    Sound: {fileID: 11400000, guid: 1375de14d7e5b624abc1cdad92885a19, type: 2}
+  - FromDay: 4
+    Sound: {fileID: 11400000, guid: ad6031d5f078a4f458986afcf83dd666, type: 2}
+  - FromDay: 5
+    Sound: {fileID: 11400000, guid: baeed5de9f2de1d4a9eaaa4e00d0fffe, type: 2}

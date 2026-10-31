@@ -31,3 +31,8 @@ MonoBehaviour:
       _variant:
         _font: {fileID: 11400000, guid: c0a1fdfbed51ab441889607ced2590d8, type: 2}
         _materials: []
+  - _id: diary
+    _default:
+      _font: {fileID: 11400000, guid: 39aa8566c12aff24f8442b65eefc2aaf, type: 2}
+      _materials: []
+    _localeOverrides: []

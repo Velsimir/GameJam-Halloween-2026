@@ -303,7 +303,7 @@ MonoBehaviour:
   _hideOnPeak: []
   _spawn: {fileID: 0}
   _look: {fileID: 0}
-  _getUpDuration: 2.5
+  _getUpDuration: 4.5
   _wakeStepId: 
   _lieOnStart: 0
   _lieThoughtKey: ui.thought.bed_wake

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc88bc4410d9f094aa9c0a60447741f7, type: 3}
   m_Name: ObjectiveConfig
   m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.ObjectiveConfig
-  _appearTime: 0.6
-  _holdTime: 1.8
-  _flyTime: 1
-  _strikeTime: 0.45
-  _fadeOutTime: 0.5
-  _collapseTime: 0.3
-  _visibilityFadeTime: 0.25
+  _appearTime: 0.2
+  _holdTime: 0.4
+  _flyTime: 0.3
+  _strikeTime: 0.15
+  _fadeOutTime: 0.25
+  _collapseTime: 0.15
+  _visibilityFadeTime: 0.15
   _centerScale: 2.6
   _appearFromScale: 0.85
   _appearCurve:

@@ -9,11 +9,18 @@ namespace Game.Scripts.ECS.Systems.DayObjects
 {
     public class KettleSystem : IEcsInitSystem, IEcsRunSystem
     {
+        private readonly IAudioService _audio;
+
         private EcsWorld _world;
         private EcsFilter _kettleFilter;
         private EcsFilter _requestFilter;
         private EcsPool<Kettle> _poolKettle;
         private EcsPool<InteractionPrompt> _poolPrompt;
+
+        public KettleSystem(IAudioService audio)
+        {
+            _audio = audio;
+        }
 
         public void Init(IEcsSystems systems)
         {
@@ -32,7 +39,7 @@ namespace Game.Scripts.ECS.Systems.DayObjects
                 if (kettle.On) continue;
 
                 SetOn(ref kettle, true);
-                OneShotAudio.Play(kettle.Clip, kettle.Volume);
+                _audio.Play(kettle.Sound);
                 _world.CompleteScenarioStep(kettle.StepId);
             }
 

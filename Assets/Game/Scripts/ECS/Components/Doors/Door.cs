@@ -1,3 +1,4 @@
+using Game.Scripts.Configs.Audio;
 using UnityEngine;
 
 namespace Game.Scripts.ECS.Components.Doors
@@ -17,5 +18,7 @@ namespace Game.Scripts.ECS.Components.Doors
         public float RattleDuration;
         public float RattleAngle;
         public float RattleCycles;
+        public SoundDefinition OpenSound;
+        public SoundDefinition CloseSound;
     }
 }

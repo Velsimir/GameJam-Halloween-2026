@@ -1,4 +1,5 @@
 using Game.Scripts.Configs;
+using Game.Scripts.Configs.Audio;
 using UnityEngine;
 
 namespace Game.Scripts.ECS.Components.DayObjects
@@ -8,8 +9,7 @@ namespace Game.Scripts.ECS.Components.DayObjects
         public float FadeOut;
         public float Hold;
         public float FadeIn;
-        public AudioClip Clip;
-        public float Volume;
+        public SoundDefinition Sound;
         public string StepId;
         public ItemDefinition RequiredItem;
         public bool ConsumeItem;

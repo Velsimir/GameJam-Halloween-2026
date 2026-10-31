@@ -18,8 +18,9 @@ namespace Game.Scripts.ECS.Systems.Transition
         private readonly ScreenFadeConfig _config;
         private readonly DayFlowConfig _flowConfig;
         private readonly ScreenFadeView _view;
-        private readonly IDayAudio _audio;
+        private readonly IAudioService _audio;
 
+        private SoundHandle _episodeSound;
         private EcsWorld _world;
         private EcsFilter _filter;
         private EcsPool<Transitioning> _poolTransitioning;
@@ -28,7 +29,7 @@ namespace Game.Scripts.ECS.Systems.Transition
         private EcsPool<VerticalMovement> _poolVertical;
         private EcsPool<InputBlocked> _poolBlocked;
 
-        public TransitionSystem(ScreenFadeConfig config, DayFlowConfig flowConfig, ScreenFadeView view, IDayAudio audio)
+        public TransitionSystem(ScreenFadeConfig config, DayFlowConfig flowConfig, ScreenFadeView view, IAudioService audio)
         {
             _config = config;
             _flowConfig = flowConfig;
@@ -78,7 +79,7 @@ namespace Game.Scripts.ECS.Systems.Transition
                         break;
 
                     case TransitionPhase.Episode:
-                        if (transitioning.Timer >= transitioning.Episode.Seconds)
+                        if (transitioning.Timer >= transitioning.Episode.Duration)
                         {
                             EndEpisode(ref transitioning);
                             Teleport(entity, ref transitioning);
@@ -117,12 +118,12 @@ namespace Game.Scripts.ECS.Systems.Transition
         {
             DayEpisode episode = transitioning.Episode;
             _view.SetCaption(episode.TimeLabel);
-            _audio.Play(episode.DebugName ?? transitioning.StepId, episode.Clips, _flowConfig.EpisodeVolume);
+            _episodeSound = _audio.Play(episode.Sound);
         }
 
         private void EndEpisode(ref Transitioning transitioning)
         {
-            _audio.Stop();
+            _episodeSound.Stop(_flowConfig.EpisodeSoundFadeOut);
             _view.SetCaption(null);
             _world.TryAddItem(transitioning.Episode.GiveItem);
         }

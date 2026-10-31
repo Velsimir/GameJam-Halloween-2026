@@ -14,6 +14,7 @@ namespace Game.Scripts.Dependencies.MonoInstallers
             Container.Bind<ScreenFadeView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<DayIntroView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<EndScreenView>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<DiaryView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<DialoguePlayer>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesTo<EcsStartup>().AsSingle().NonLazy();
         }
