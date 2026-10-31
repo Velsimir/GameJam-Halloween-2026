@@ -13,7 +13,9 @@ namespace Game.Scripts.Configs
         [SerializeField] private InteractionPromptConfig _interactionPromptConfig;
 
         [SerializeField] private ScreenFadeConfig _screenFadeConfig;
+        [SerializeField] private ObjectiveConfig _objectiveConfig;
 
+        public ObjectiveConfig ObjectiveConfig => _objectiveConfig;
         public ScreenFadeConfig ScreenFadeConfig => _screenFadeConfig;
         public PlayerConfig PlayerConfig => _playerConfig;
         public WalkConfig WalkConfig => _walkConfig;

@@ -9,6 +9,7 @@ using Game.Scripts.ECS.Systems.Fear;
 using Game.Scripts.ECS.Systems.Inspect;
 using Game.Scripts.ECS.Systems.Interaction;
 using Game.Scripts.ECS.Systems.Items;
+using Game.Scripts.ECS.Systems.Objectives;
 using Game.Scripts.ECS.Systems.Thoughts;
 using Game.Scripts.ECS.Systems.Transition;
 using Game.Scripts.ECS.Systems.Walk;
@@ -29,11 +30,14 @@ namespace Game.Scripts.ECS
         private readonly InteractionPromptView _interactionPromptView;
         private readonly DialoguePlayer _thoughtPlayer;
         private readonly ScreenFadeView _screenFadeView;
+        private readonly ObjectivesView _objectivesView;
         private EcsSystems _systems;
 
         public EcsStartup(IInputService inputService, IEcsWorldProvider ecsWorldProvider, GameConfigs gameConfigs,
-            InteractionPromptView interactionPromptView, DialoguePlayer thoughtPlayer, ScreenFadeView screenFadeView)
+            InteractionPromptView interactionPromptView, DialoguePlayer thoughtPlayer, ScreenFadeView screenFadeView,
+            ObjectivesView objectivesView)
         {
+            _objectivesView = objectivesView;
             _screenFadeView = screenFadeView;
             _thoughtPlayer = thoughtPlayer;
             _interactionPromptView = interactionPromptView;
@@ -75,7 +79,8 @@ namespace Game.Scripts.ECS
         {
             _systems.Add(new PlayerInputSystem(_inputService));
 #if UNITY_EDITOR
-            _systems.Add(new ScareDebugSystem());
+            _systems.Add(new ScareDebugSystem())
+                .Add(new ObjectiveDebugSystem());
 #endif
         }
 
@@ -100,6 +105,7 @@ namespace Game.Scripts.ECS
 
         private void AddPresentationSystems()
         {
+            var thoughtPlayback = new ThoughtPlaybackSystem(_thoughtPlayer);
             _systems
                 .Add(new ClearCameraOffsetSystem())
                 .Add(new CameraWalkBobSystem())
@@ -113,7 +119,8 @@ namespace Game.Scripts.ECS
                 .Add(new DoorAnimationSystem())
                 .Add(new CursorLockSystem())
                 .Add(new InteractionPromptViewSystem(_interactionPromptView))
-                .Add(new ThoughtPlaybackSystem(_thoughtPlayer));
+                .Add(new ObjectiveSystem(_objectivesView, _thoughtPlayer, thoughtPlayback))
+                .Add(thoughtPlayback);
         }
 
         private void AddDebugSystems()
@@ -131,7 +138,9 @@ namespace Game.Scripts.ECS
             _systems
                 .Add(new ClearInteractionRequestSystem())
                 .Add(new ClearScareRequestSystem())
-                .Add(new ClearThoughtRequestSystem());
+                .Add(new ClearThoughtRequestSystem())
+                .Add(new ClearObjectiveShowRequestSystem())
+                .Add(new ClearObjectiveCompleteRequestSystem());
         }
     }
 }
