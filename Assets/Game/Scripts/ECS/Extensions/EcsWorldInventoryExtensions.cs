@@ -34,5 +34,19 @@ namespace Game.Scripts.ECS.Extensions
 
             return false;
         }
+
+        public static bool TryRemoveItem(this EcsWorld world, ItemDefinition item)
+        {
+            if (item == null) return false;
+
+            EcsPool<Inventory> pool = world.GetPool<Inventory>();
+            foreach (int player in world.Filter<PlayerTag>().Inc<Inventory>().End())
+            {
+                if (pool.Get(player).Items.Remove(item))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

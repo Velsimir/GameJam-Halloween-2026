@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6c23b1683061ae478d53488efaa55b5, type: 3}
+  m_Name: Day01_Test
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.Scenario.DayScenario
+  _day: 1
+  _titleKey: ui.day.01.title
+  _steps:
+  - _id: wash
+    _objectiveKey: ui.objective.day01_wash
+    _startThought: {fileID: 0}
+    _startThoughtKey: ui.thought.day01_wash
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.day01_wash_remind
+    _idleSeconds: 20
+    _targetId: bathroom_sink
+    _condition: 1
+    _item: {fileID: 0}
+    _startActions: []
+    _completeActions: []
+  - _id: keys
+    _objectiveKey: ui.objective.day01_keys
+    _startThought: {fileID: 0}
+    _startThoughtKey: ui.thought.day01_keys
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.day01_keys_remind
+    _idleSeconds: 20
+    _targetId: keys
+    _condition: 2
+    _item: {fileID: 11400000, guid: 3dc5e8a8a9bad2445b6e046be8f3a7b4, type: 2}
+    _startActions:
+    - rid: 2111072932119445620
+    _completeActions: []
+  - _id: leave
+    _objectiveKey: ui.objective.day01_leave
+    _startThought: {fileID: 0}
+    _startThoughtKey: ui.thought.day01_leave
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.day01_leave_remind
+    _idleSeconds: 25
+    _targetId: entrance_door
+    _condition: 0
+    _item: {fileID: 0}
+    _startActions: []
+    _completeActions:
+    - rid: 2111072932119445621
+    - rid: 2111072932119445622
+  references:
+    version: 2
+    RefIds:
+    - rid: 2111072932119445620
+      type: {class: SetActiveAction, ns: Game.Scripts.Configs.Scenario.Actions, asm: Assembly-CSharp}
+      data:
+        _targetId: keys_hook
+        _active: 1
+    - rid: 2111072932119445621
+      type: {class: ScareAction, ns: Game.Scripts.Configs.Scenario.Actions, asm: Assembly-CSharp}
+      data:
+        _strength: 0.35
+    - rid: 2111072932119445622
+      type: {class: ThoughtAction, ns: Game.Scripts.Configs.Scenario.Actions, asm: Assembly-CSharp}
+      data:
+        _dialogue: {fileID: 0}
+        _key: ui.thought.day01_done
+        _interrupt: 0

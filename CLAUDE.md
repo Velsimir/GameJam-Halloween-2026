@@ -114,6 +114,65 @@
   правки CSV строки в таблицу `Main` подтягиваются через окно Typecraft (синхронизация таблицы).
 - Без комментариев в коде.
 
+## Как собрать новый день
+Дневной сценарий — только данные: строго по шагам, активна лишь цель текущего шага.
+1. Ассет `DayScenario` в `Resources/Configs/Days/` (меню `Configs/Scenario/DayScenario`): номер дня,
+   ключ заголовка, список `DayStep`. Добавить его в `GameConfigs._dayScenarios`; какой день играть —
+   `IDayProgressService.CurrentDay` (ProjectContext, по умолчанию 1). Нет сценария на день или день завершён —
+   шагов нет, все цели отпираются и работают как обычные объекты. Ошибки шагов (пустой `TargetId` у
+   `Interact`/`EnterZone`, пустой `Item` у `HasItem`, пустой `Id` у `External`) — `LogError` на старте сцены.
+2. `DayStep`: `Id`, `ObjectiveKey` (пусто = скрытый шаг без карточки), мысль старта и напоминания
+   (`DialogueAsset` или ключ — ключ превращается в мысль через `ThoughtDialogueFactory`), `IdleSeconds`
+   (0 = без напоминаний, таймер стоит при `InputBlocked`), `TargetId`, условие: `Interact` (нажал E на цели;
+   запертая `Locked` дверь без предмета и отказавший переход `TransitionDoor` не засчитываются), `EnterZone`, `HasItem` (поле `Item`),
+   `External` (из кода `world.CompleteScenarioStep(stepId)` — вызывать до `DayScenarioSystem` в кадре:
+   из Input/Simulation или Unity-колбэка). `StartActions`/`CompleteActions` — кнопка-выпадашка у элемента
+   списка: `ThoughtAction`, `ScareAction`, `SetActiveAction`, `GiveItemAction`, `TakeItemAction`, `SoundAction` (2D).
+3. На объект сцены — `ScenarioTargetAuthoring { Id }`. Рядом с `InteractionObjectAuthoring` берёт его сущность
+   (дверь, подбор, осмотр); без него — своя сущность, а триггер-коллайдер даёт `EnterZone` (префаб
+   `Resources/Prefabs/Zones/ScenarioZone`; срабатывает и когда игрок уже стоит в зоне на старте шага).
+   Цель с `ScenarioLocked` не подсвечивается, без подсказки, на E — мысль «не сейчас» (`ScenarioConfig`,
+   `Resources/Configs/Scenario/`; не чаще кулдауна и не поверх играющей мысли). Заперта цель, только пока её
+   `Id` встречается в текущем или будущих шагах; после — обычный объект. Объекты без authoring
+   (межкомнатные двери) не затрагиваются. `_gated = false` — цель никогда не запирается (authoring только ради
+   `SetActiveAction`).
+4. `SetActiveAction` ищет объект по `Id` в `ScenarioTargetRegistry` (регистрация в `Awake`). Изначально
+   выключенный объект сам не зарегистрируется: на активный родитель — отдельный `ScenarioTargetAuthoring`
+   со своим `Id`, `_gated = false` и `_toggleTarget` = выключенный объект; дубль `Id` — предупреждение в консоли (образец `Scenario/KeysHook_Scenario` → `Pickup_Keys`
+   в `Apartment`).
+- ECS: компоненты `ECS/Components/Scenario/` (`ScenarioTarget`, `ScenarioActive`, `ScenarioLocked`, `ScenarioProgress`;
+  однокадровые `ScenarioZoneEntered`, `ScenarioExternalComplete`, `DayFinished` — уборщики в Cleanup).
+  `ScenarioGateSystem` стоит сразу после `InteractionRequestSystem` (снимает `InteractionRequest` у неактивной цели),
+  `DayScenarioSystem` — после `PickupSystem`, до `ScareRequestSystem` (иначе `ScareAction` теряется).
+- Отладка в редакторе: F3 — завершить текущий шаг (с `CompleteActions`), F6 — шаг в консоль.
+- Образец: `Day01_Test` в `Apartment` — зона `bathroom_sink` → ключи `keys` (`HasItem Keys_Apartment`,
+  появляются `SetActiveAction keys_hook`) → входная дверь `entrance_door` (скример 0.35 + мысль).
+
+## Объекты шагов дня
+Префабы — `Resources/Prefabs/DayObjects/` (`Bed`, `ToothbrushPickup`, `Sink`, `KeyHook`, `Kettle`, `Fridge`,
+`Mailbox`, `Diary`, `StairsDown`), сцена `Apartment`, группа `DayObjects`. У каждого корневой `ScenarioTargetAuthoring`
+(id: `bed`, `toothbrush`, `sink`, `keys`, `kettle`, `fridge`, `mailbox`, `diary`, `stairs_down`).
+- Действие с затемнением: `FadeActionAuthoring` → `FadeActionTrigger` → `FadeActionSystem` вешает на игрока `FadeAction`
+  + `InputBlocked`: FadeOut → пик (звук, `_requiredItem` снимается при `_consumeItem`, `_showOnPeak`/`_hideOnPeak`) → Hold →
+  FadeIn → `CompleteScenarioStep(_completeStepId)`. Тайминги `<0` = из `ScreenFadeConfig`. Условие шага — `External`
+  (`Interact` засчитался бы сразу при нажатии).
+- Все `*System` объектов стоят в Simulation до `DayScenarioSystem` (иначе `External` теряется в Cleanup);
+  `DoorInteractionSystem` перенесён туда же ради `Fridge`/`Mailbox`.
+- Кровать: `BedAuthoring` (`_lieOnStart`, `_spawn`, `_look`, `_wakeStepId`, `_completeStepId` сна). Лёжа: `LyingInBed` +
+  `InputBlocked` + `InteractWhenBlocked` (Interact проходит при блокировке), камеру ведёт `CameraCutsceneSystem` в `_look`;
+  «встать» — отдельная сущность `BedWake` с подсказкой `ui.interact.get_up`. Поза лёжа — по `BedLook` в `Points`.
+- Крючок: `KeyHookAuthoring`, видимость ключей = `_keysVisual`; один Interact — взять, если ключи висят, иначе повесить
+  (`_takeStepId`/`_hangStepId`). Дочерний `KeysHookToggle` (`keys_hook`, `_gated=false`) оставляет `SetActiveAction`.
+  Входная дверь `Door_Entrance` заперта `Keys_Apartment` (`_requiredItem`).
+- Холодильник и почтовый ящик — наследники `DoorAuthoring` (шарнир `DoorPivot`). Холодильник: с `Groceries` в инвентаре
+  первое открытие кладёт продукты (`_stockStepId`), иначе мысль «пусто». Письмо — `SetMailboxLetterAction`
+  (`TargetId` + ключ мысли) в `StartActions` шага.
+- Чайник: `KettleAuthoring`, индикатор — смена материала, выключается сам через `_duration`. Лестница вниз:
+  `StepInteractAuthoring` (мысль + `External`). Лестница вверх — прежний `Level/StairsUp` (заперта, мысль).
+- Звук: `AudioClip` в authoring, пусто = тишина (`Services/Audio/OneShotAudio`).
+- Тест всех объектов: `Configs/Days/Day99_ObjectsTest` (12 шагов, в `GameConfigs`); чтобы играть — поставить ему `_day = 1`,
+  а `Day01_Test` сдвинуть на другой номер.
+
 ## Ловушки
 - `EcsStartup.Dispose()` уничтожает `EcsWorld`, а `EcsWorldProvider` — синглтон ProjectContext
   и держит ссылку на мёртвый мир. Перезагрузка/смена игровой сцены сломает ECS. Переходы между
@@ -132,7 +191,7 @@
 Через `codegraph explore` (индекс `.codegraph/`, конфиг `codegraph.json`), не Grep.
 Сцены, префабы и значения SO граф не видит — Unity MCP / Read.
 
-## Состояние (2026-10-30)
+## Состояние (2026-10-31)
 Готово: WASD + гравитация, взгляд мышью, покачивание камеры, смешивание шумов
 Idle/Tense/Panic от `FearFactor`, луч взаимодействия с обводкой, дверь открыть/закрыть,
 захват курсора и блокировка ввода, зоны страха, скример (тряска + FOV), постобработка от страха
@@ -144,7 +203,9 @@ Idle/Tense/Panic от `FearFactor`, луч взаимодействия с об�
 Готово также: предметы и инвентарь (подбор, `HasItem`, замки дверей), переходы между локациями
 (`TransitionDoor`, фейд), осмотр объектов (`InspectableAuthoring`), блок-аут `Apartment` (квартира,
 коридор блока, площадка с лестницами-заглушками; внутренние двери открываются, соседские двери и
-лестница наверх дают мысль).
+лестница наверх дают мысль), ядро дневного сценария (`DayScenario` в данных, шаги по порядку, гейт
+«не сейчас», тестовый `Day01_Test` в `Apartment`; реакции на `DayFinished` пока нет; сценарий выбирается
+по номеру дня, не по сцене — `Day01_Test` запустится и в `PlayRoom`).
 Нет: остального HUD-текста, интерактивных пространств, постоянных источников страха кроме тестовой
 зоны, логики выхода по лестнице вниз (задача 14), финальных моделей и текстов. `CameraCutsceneSystem` —
 пустая заглушка.

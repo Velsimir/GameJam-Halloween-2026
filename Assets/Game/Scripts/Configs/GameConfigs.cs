@@ -1,3 +1,4 @@
+using Game.Scripts.Configs.Scenario;
 using Game.Scripts.ECS.Authoring;
 using UnityEngine;
 
@@ -15,12 +16,29 @@ namespace Game.Scripts.Configs
         [SerializeField] private ScreenFadeConfig _screenFadeConfig;
         [SerializeField] private ObjectiveConfig _objectiveConfig;
 
+        [SerializeField] private ScenarioConfig _scenarioConfig;
+        [SerializeField] private DayScenario[] _dayScenarios;
+
         public ObjectiveConfig ObjectiveConfig => _objectiveConfig;
+        public ScenarioConfig ScenarioConfig => _scenarioConfig;
         public ScreenFadeConfig ScreenFadeConfig => _screenFadeConfig;
         public PlayerConfig PlayerConfig => _playerConfig;
         public WalkConfig WalkConfig => _walkConfig;
         public GravityConfig GravityConfig => _gravityConfigs;
         public FearConfig FearConfig => _fearConfig;
         public InteractionPromptConfig InteractionPromptConfig => _interactionPromptConfig;
+
+        public DayScenario FindDayScenario(int day)
+        {
+            if (_dayScenarios == null) return null;
+
+            foreach (DayScenario scenario in _dayScenarios)
+            {
+                if (scenario != null && scenario.Day == day)
+                    return scenario;
+            }
+
+            return null;
+        }
     }
 }

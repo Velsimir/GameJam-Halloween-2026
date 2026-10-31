@@ -1,3 +1,4 @@
+using Game.Scripts.ECS.Components.DayObjects;
 using Game.Scripts.ECS.Components.Input;
 using Game.Scripts.ECS.Components.Movement;
 using Game.Scripts.ECS.Components.Player;
@@ -16,6 +17,7 @@ namespace Game.Scripts.ECS.Systems
         private EcsPool<MouseInputDirection> _lookPool;
         private EcsPool<InteractInput> _interactPool;
         private EcsPool<InputBlocked> _blockedPool;
+        private EcsPool<InteractWhenBlocked> _interactWhenBlockedPool;
         private bool _interactWasPressed;
 
         public PlayerInputSystem(IInputService inputService)
@@ -31,6 +33,7 @@ namespace Game.Scripts.ECS.Systems
             _lookPool = world.GetPool<MouseInputDirection>();
             _interactPool = world.GetPool<InteractInput>();
             _blockedPool = world.GetPool<InputBlocked>();
+            _interactWhenBlockedPool = world.GetPool<InteractWhenBlocked>();
         }
 
         public void Run(IEcsSystems systems)
@@ -49,7 +52,7 @@ namespace Game.Scripts.ECS.Systems
                 horizontalMovement.Direction = blocked ? Vector2.zero : _inputService.Move.CurrentValue;
 
                 ref InteractInput interactInput = ref _interactPool.Get(entity);
-                interactInput.IsInteractPressed = blocked == false && justPressed;
+                interactInput.IsInteractPressed = (blocked == false || _interactWhenBlockedPool.Has(entity)) && justPressed;
             }
         }
     }

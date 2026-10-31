@@ -37,7 +37,7 @@ namespace Game.Scripts.ECS.Systems.Doors
                 {
                     ref var locked = ref _poolLocked.Get(entity);
 
-                    if (_world.HasItem(locked.Item) == false)
+                    if (_world.CanUnlock(locked) == false)
                     {
                         _world.RequestThought(locked.LockedThoughtKey);
                         Rattle(entity);

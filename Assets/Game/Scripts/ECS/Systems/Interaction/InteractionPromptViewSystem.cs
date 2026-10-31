@@ -1,6 +1,8 @@
+using Game.Scripts.ECS.Components.DayObjects;
 using Game.Scripts.ECS.Components.Input;
 using Game.Scripts.ECS.Components.Interaction;
 using Game.Scripts.ECS.Components.Player;
+using Game.Scripts.ECS.Components.Scenario;
 using Game.Scripts.Views;
 using Leopotam.EcsLite;
 
@@ -13,6 +15,7 @@ namespace Game.Scripts.ECS.Systems.Interaction
         private EcsFilter _playerFilter;
         private EcsFilter _focusedFilter;
         private EcsPool<InputBlocked> _blockedPool;
+        private EcsPool<InteractWhenBlocked> _interactWhenBlockedPool;
         private EcsPool<InteractionPrompt> _promptPool;
         private string _shownKey;
         private bool? _crosshairVisible;
@@ -26,8 +29,9 @@ namespace Game.Scripts.ECS.Systems.Interaction
         {
             EcsWorld world = systems.GetWorld();
             _playerFilter = world.Filter<PlayerTag>().End();
-            _focusedFilter = world.Filter<Focused>().Inc<InteractionPrompt>().End();
+            _focusedFilter = world.Filter<Focused>().Inc<InteractionPrompt>().Exc<ScenarioLocked>().End();
             _blockedPool = world.GetPool<InputBlocked>();
+            _interactWhenBlockedPool = world.GetPool<InteractWhenBlocked>();
             _promptPool = world.GetPool<InteractionPrompt>();
         }
 
@@ -36,7 +40,7 @@ namespace Game.Scripts.ECS.Systems.Interaction
             bool blocked = false;
             foreach (int player in _playerFilter)
             {
-                blocked = _blockedPool.Has(player);
+                blocked = _blockedPool.Has(player) && _interactWhenBlockedPool.Has(player) == false;
                 break;
             }
 
