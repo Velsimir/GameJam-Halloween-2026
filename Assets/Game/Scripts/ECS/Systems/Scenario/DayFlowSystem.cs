@@ -4,7 +4,9 @@ using Game.Scripts.Configs.Scenario;
 using Game.Scripts.ECS.Components.Input;
 using Game.Scripts.ECS.Components.Player;
 using Game.Scripts.ECS.Components.Scenario;
+using Game.Scripts.Services.Audio;
 using Game.Scripts.Services.DayProgress;
+using Game.Scripts.Services.Diary;
 using Game.Scripts.Services.SceneLoader;
 using Game.Scripts.Views;
 using Leopotam.EcsLite;
@@ -17,20 +19,25 @@ namespace Game.Scripts.ECS.Systems.Scenario
     {
         private readonly GameConfigs _configs;
         private readonly IDayProgressService _dayProgress;
+        private readonly IDiaryService _diary;
         private readonly ISceneLoader _sceneLoader;
         private readonly ScreenFadeView _fadeView;
         private readonly EndScreenView _endView;
+        private readonly IAudioService _audio;
 
+        private SoundHandle _music;
         private EcsWorld _world;
         private EcsFilter _finishedFilter;
         private EcsFilter _playerFilter;
         private bool _running;
 
         public DayFlowSystem(GameConfigs configs, IDayProgressService dayProgress, ISceneLoader sceneLoader,
-            ScreenFadeView fadeView, EndScreenView endView)
+            ScreenFadeView fadeView, EndScreenView endView, IDiaryService diary, IAudioService audio)
         {
+            _audio = audio;
             _configs = configs;
             _dayProgress = dayProgress;
+            _diary = diary;
             _sceneLoader = sceneLoader;
             _fadeView = fadeView;
             _endView = endView;
@@ -101,12 +108,15 @@ namespace Game.Scripts.ECS.Systems.Scenario
         private async UniTask ShowEndAsync(DayFlowConfig flow)
         {
             _endView.EnableInput();
+            _music = _audio.Play(flow.EndMusic);
             await FadeAsync(_endView, 0f, 1f, flow.EndFadeIn);
         }
 
         private void OnRestart()
         {
+            _music.Stop();
             _dayProgress.Restart();
+            _diary.Restart();
             Debug.Log($"[DayFlow] restart from day {_dayProgress.CurrentDay}");
             _sceneLoader.LoadSceneSingleAsync(CurrentScene()).Forget();
         }

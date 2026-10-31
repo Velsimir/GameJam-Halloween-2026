@@ -208,10 +208,9 @@ MonoBehaviour:
   _volume: 1
   _completeStepId: brush_teeth
   _requiredItem: {fileID: 11400000, guid: 2d5b26484ce4e2d4ea72ed5ee897dc01, type: 2}
-  _consumeItem: 1
+  _consumeItem: 0
   _missingItemThoughtKey: ui.thought.sink_no_brush
-  _showOnPeak:
-  - {fileID: 6138971444510820813}
+  _showOnPeak: []
   _hideOnPeak: []
 --- !u!114 &1121859504506736260
 MonoBehaviour:

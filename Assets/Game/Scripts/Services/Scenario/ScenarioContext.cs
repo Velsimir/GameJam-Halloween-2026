@@ -1,24 +1,26 @@
+using System.Collections.Generic;
+using Game.Scripts.Configs.Audio;
+using Game.Scripts.Services.Audio;
 using UnityEngine;
 
 namespace Game.Scripts.Services.Scenario
 {
     public class ScenarioContext
     {
-        private AudioSource _audio;
+        private readonly IAudioService _audio;
+        private readonly List<SoundHandle> _loops = new List<SoundHandle>();
 
-        public void PlaySound(AudioClip clip, float volume)
+        public ScenarioContext(IAudioService audio)
         {
-            if (clip == null) return;
+            _audio = audio;
+        }
 
-            if (_audio == null)
-            {
-                var host = new GameObject("ScenarioAudio");
-                _audio = host.AddComponent<AudioSource>();
-                _audio.playOnAwake = false;
-                _audio.spatialBlend = 0f;
-            }
+        public void PlaySound(SoundDefinition sound)
+        {
+            if (sound == null) return;
 
-            _audio.PlayOneShot(clip, volume);
+            SoundHandle handle = _audio.Play(sound);
+            if (sound.Loop) _loops.Add(handle);
         }
 
         public void SetActive(string targetId, bool active)
@@ -31,8 +33,10 @@ namespace Game.Scripts.Services.Scenario
 
         public void Dispose()
         {
-            if (_audio != null) Object.Destroy(_audio.gameObject);
-            _audio = null;
+            foreach (SoundHandle handle in _loops)
+                handle.Stop();
+
+            _loops.Clear();
         }
     }
 }

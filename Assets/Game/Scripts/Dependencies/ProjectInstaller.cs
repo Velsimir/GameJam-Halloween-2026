@@ -2,6 +2,7 @@ using Game.Scripts.ECS;
 using Game.Scripts.Services.Audio;
 using Game.Scripts.Services.CoroutineRunner;
 using Game.Scripts.Services.DayProgress;
+using Game.Scripts.Services.Diary;
 using Game.Scripts.Services.Input;
 using Game.Scripts.Services.Loading;
 using Game.Scripts.Services.SceneLoader;
@@ -40,7 +41,8 @@ namespace Game.Scripts.Dependencies
             
             Container.BindInterfacesTo<EcsWorldProvider>().AsSingle().NonLazy();
             Container.BindInterfacesTo<DayProgressService>().AsSingle();
-            Container.BindInterfacesTo<DayAudioService>().AsSingle();
+            Container.BindInterfacesTo<DiaryService>().AsSingle();
+            Container.BindInterfacesTo<AudioService>().AsSingle().NonLazy();
         }
     }
 }

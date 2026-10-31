@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8906997496909764578}
   - component: {fileID: 7083234190401099836}
-  - component: {fileID: 2944660432613092721}
   - component: {fileID: 6438439156664983267}
+  - component: {fileID: 1472014110295244626}
   m_Layer: 0
   m_Name: Diary
   m_TagString: Untagged
@@ -56,31 +56,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.1, z: 0.36}
   m_Center: {x: 0, y: 0.02, z: 0}
---- !u!114 &2944660432613092721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3134063785834870954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faedf4a67ff56b345b27e1b1cec84793, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.ECS.Authoring.InspectableAuthoring
-  _outlineRefs:
-    MeshRenderer: {fileID: 2605038659499971740}
-    WithOutline:
-    - {fileID: 2100000, guid: dea6514cf6330044096ab70919176652, type: 2}
-    - {fileID: 2100000, guid: d31802418da658a4c94bf8cf41898c36, type: 2}
-    Default:
-    - {fileID: 2100000, guid: dea6514cf6330044096ab70919176652, type: 2}
-  _promptKey: 
-  _thoughtKeys:
-  - ui.thought.diary_entry
-  _oneShot: 0
-  _interruptThought: 0
-  _scareStrength: 0
 --- !u!114 &6438439156664983267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,8 +69,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.ECS.Authoring.ScenarioTargetAuthoring
   _id: diary
-  _gated: 1
+  _gated: 0
   _toggleTarget: {fileID: 0}
+--- !u!114 &1472014110295244626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3134063785834870954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f5568c5424bfc4c84281f0aa69180e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.ECS.Authoring.DiaryAuthoring
+  _outlineRefs:
+    MeshRenderer: {fileID: 2605038659499971740}
+    WithOutline:
+    - {fileID: 2100000, guid: dea6514cf6330044096ab70919176652, type: 2}
+    - {fileID: 2100000, guid: d31802418da658a4c94bf8cf41898c36, type: 2}
+    Default:
+    - {fileID: 2100000, guid: dea6514cf6330044096ab70919176652, type: 2}
+  _promptKey: 
+  _completeStepId: diary
+  _tooEarlyThoughtKey: ui.thought.diary.too_early
 --- !u!1 &4371347081176801603
 GameObject:
   m_ObjectHideFlags: 0

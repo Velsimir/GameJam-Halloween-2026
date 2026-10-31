@@ -10,6 +10,8 @@ using Game.Scripts.ECS.Components.Player;
 using Game.Scripts.ECS.Components.Scenario;
 using Game.Scripts.ECS.Components.Transition;
 using Game.Scripts.ECS.Extensions;
+using Game.Scripts.Services.Audio;
+using Game.Scripts.Services.Diary;
 using Game.Scripts.Services.Scenario;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -19,7 +21,8 @@ namespace Game.Scripts.ECS.Systems.Scenario
     public class DayScenarioSystem : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem
     {
         private readonly DayScenario _scenario;
-        private readonly ScenarioContext _context = new ScenarioContext();
+        private readonly IDiaryService _diary;
+        private readonly ScenarioContext _context;
 
         private EcsWorld _world;
         private EcsFilter _progressFilter;
@@ -42,9 +45,11 @@ namespace Game.Scripts.ECS.Systems.Scenario
         private EcsPool<TransitionDoor> _poolTransitionDoor;
         private EcsPool<Inventory> _poolInventory;
 
-        public DayScenarioSystem(DayScenario scenario)
+        public DayScenarioSystem(DayScenario scenario, IDiaryService diary, IAudioService audio)
         {
             _scenario = scenario;
+            _diary = diary;
+            _context = new ScenarioContext(audio);
         }
 
         public void Init(IEcsSystems systems)
@@ -149,6 +154,7 @@ namespace Game.Scripts.ECS.Systems.Scenario
         {
             _world.CompleteObjective(step.ObjectiveKey);
             Execute(step.CompleteActions);
+            _diary.AddLine(step.DiaryLineKey);
 
             progress.StepIndex++;
             DeactivateTargets(progress.StepIndex);

@@ -1,3 +1,4 @@
+using Game.Scripts.Configs.Audio;
 using Game.Scripts.Configs.Scenario;
 using Game.Scripts.ECS.Authoring;
 using UnityEngine;
@@ -20,7 +21,10 @@ namespace Game.Scripts.Configs
         [SerializeField] private DayScenario[] _dayScenarios;
         [SerializeField] private DayFlowConfig _dayFlowConfig;
 
+        [SerializeField] private AudioConfig _audioConfig;
+
         public DayFlowConfig DayFlowConfig => _dayFlowConfig;
+        public AudioConfig AudioConfig => _audioConfig;
 
         public DayScenario FindNextDayScenario(int day)
         {

@@ -24,3 +24,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5db5bbeda87f6fe42ab664d8187e85e4, type: 2}
   - {fileID: 11400000, guid: e99d381cfdff8084eb60c26aab9b1b67, type: 2}
   _dayFlowConfig: {fileID: 11400000, guid: 6f2a7e1fdaa0aab40a21e2b0beaddf7d, type: 2}
+  _audioConfig: {fileID: 11400000, guid: 9a1e503d4ff456a49b0d313dcb27d530, type: 2}

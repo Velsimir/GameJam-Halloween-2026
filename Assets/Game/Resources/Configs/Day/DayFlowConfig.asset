@@ -15,8 +15,8 @@ MonoBehaviour:
   _titleKey: ui.day.title
   _introHold: 2
   _introFadeOut: 1.2
-  _introClip: {fileID: 0}
-  _introVolume: 0.8
+  _introSound: {fileID: 0}
   _dayFadeOut: 1.2
   _endFadeIn: 1
-  _episodeVolume: 0.8
+  _endMusic: {fileID: 11400000, guid: c4564062df5c9ad46b4512133bd7470a, type: 2}
+  _episodeSoundFadeOut: 0.4

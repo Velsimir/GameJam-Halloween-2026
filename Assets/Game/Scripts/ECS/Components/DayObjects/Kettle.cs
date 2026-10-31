@@ -1,3 +1,4 @@
+using Game.Scripts.Configs.Audio;
 using UnityEngine;
 
 namespace Game.Scripts.ECS.Components.DayObjects
@@ -10,8 +11,7 @@ namespace Game.Scripts.ECS.Components.DayObjects
         public Renderer Indicator;
         public Material OnMaterial;
         public Material OffMaterial;
-        public AudioClip Clip;
-        public float Volume;
+        public SoundDefinition Sound;
         public string StepId;
         public string PromptKey;
     }

@@ -16,6 +16,7 @@ namespace Game.Scripts.ECS.Systems.DayObjects
     {
         private readonly ScreenFadeConfig _config;
         private readonly ScreenFadeView _view;
+        private readonly IAudioService _audio;
 
         private EcsWorld _world;
         private EcsFilter _triggerFilter;
@@ -27,10 +28,11 @@ namespace Game.Scripts.ECS.Systems.DayObjects
         private EcsPool<Transitioning> _poolTransitioning;
         private EcsPool<LyingInBed> _poolLying;
 
-        public FadeActionSystem(ScreenFadeConfig config, ScreenFadeView view)
+        public FadeActionSystem(ScreenFadeConfig config, ScreenFadeView view, IAudioService audio)
         {
             _config = config;
             _view = view;
+            _audio = audio;
         }
 
         public void Init(IEcsSystems systems)
@@ -75,8 +77,7 @@ namespace Game.Scripts.ECS.Systems.DayObjects
                     action.FadeOut = trigger.FadeOut >= 0f ? trigger.FadeOut : _config.FadeOutTime;
                     action.Hold = trigger.Hold >= 0f ? trigger.Hold : _config.HoldTime;
                     action.FadeIn = trigger.FadeIn >= 0f ? trigger.FadeIn : _config.FadeInTime;
-                    action.Clip = trigger.Clip;
-                    action.Volume = trigger.Volume;
+                    action.Sound = trigger.Sound;
                     action.StepId = trigger.StepId;
                     action.ConsumeItem = trigger.ConsumeItem ? trigger.RequiredItem : null;
                     action.ShowOnPeak = trigger.ShowOnPeak;
@@ -137,7 +138,7 @@ namespace Game.Scripts.ECS.Systems.DayObjects
 
         private void Peak(ref FadeAction action)
         {
-            OneShotAudio.Play(action.Clip, action.Volume);
+            _audio.Play(action.Sound);
 
             if (action.ConsumeItem != null)
                 _world.TryRemoveItem(action.ConsumeItem);

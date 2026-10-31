@@ -33,11 +33,37 @@ namespace Game.Scripts.ECS.Systems.Camera
                 ref var offset = ref _cameraOffsetPool.Get(entity);
 
                 Vector3 lyingPosition = parent.InverseTransformPoint(lying.Look.position);
-                Quaternion lyingRotation = Quaternion.Inverse(parent.rotation) * lying.Look.rotation;
-                float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(lying.Progress));
+                Vector3 standPosition = offset.Position;
+                Quaternion standRotation = Quaternion.Euler(offset.Rotation);
 
-                offset.Position = Vector3.Lerp(lyingPosition, offset.Position, t);
-                offset.Rotation = Quaternion.Slerp(lyingRotation, Quaternion.Euler(offset.Rotation), t).eulerAngles;
+                Quaternion lyingRotation = Quaternion.Euler(lying.LyingPitch, lying.TurnAngle, 0f);
+                Quaternion sitRotation = Quaternion.Euler(lying.SitPitch, lying.TurnAngle, 0f);
+
+                Vector3 sitPosition = Vector3.Lerp(lyingPosition, standPosition, lying.RisePhase) + Vector3.up * lying.RiseHeight;
+                Vector3 turnPosition = Vector3.Lerp(lyingPosition, standPosition, lying.RisePhase + lying.TurnPhase);
+
+                float progress = Mathf.Clamp01(lying.Progress);
+                float riseEnd = lying.RisePhase;
+                float turnEnd = Mathf.Min(lying.RisePhase + lying.TurnPhase, 0.99f);
+
+                if (progress < riseEnd)
+                {
+                    float t = Mathf.SmoothStep(0f, 1f, progress / riseEnd);
+                    offset.Position = Vector3.Lerp(lyingPosition, sitPosition, t);
+                    offset.Rotation = Quaternion.Slerp(lyingRotation, sitRotation, t).eulerAngles;
+                }
+                else if (progress < turnEnd)
+                {
+                    float t = Mathf.SmoothStep(0f, 1f, (progress - riseEnd) / (turnEnd - riseEnd));
+                    offset.Position = Vector3.Lerp(sitPosition, turnPosition, t);
+                    offset.Rotation = Quaternion.Slerp(sitRotation, standRotation, t).eulerAngles;
+                }
+                else
+                {
+                    float t = Mathf.SmoothStep(0f, 1f, (progress - turnEnd) / (1f - turnEnd));
+                    offset.Position = Vector3.Lerp(turnPosition, standPosition, t);
+                    offset.Rotation = standRotation.eulerAngles;
+                }
             }
         }
     }

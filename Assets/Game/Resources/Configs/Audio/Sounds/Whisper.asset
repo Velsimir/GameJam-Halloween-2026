@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa3f9870e0bed3479c4b8500568e19b, type: 3}
+  m_Name: Whisper
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.Audio.SoundDefinition
+  _id: whisper
+  _clips:
+  - {fileID: 8300000, guid: 615728c132b1e744984310bca2492a4a, type: 3}
+  - {fileID: 8300000, guid: 73802a7878853cc4ab8e09d4a773702f, type: 3}
+  - {fileID: 8300000, guid: c893d2a8524abfb42bd4bb9b645782bf, type: 3}
+  - {fileID: 8300000, guid: d9d58e2d7926a784b892fd04a0c14e34, type: 3}
+  - {fileID: 8300000, guid: 13f8807b4e458144284abbd0de12456c, type: 3}
+  - {fileID: 8300000, guid: e3ae9e1f04308584fb7e42092588937c, type: 3}
+  - {fileID: 8300000, guid: 856f9164347c70a4cbc87651c8993f0b, type: 3}
+  - {fileID: 8300000, guid: c43215bb6d57e2e42bfa4734c81ef59d, type: 3}
+  - {fileID: 8300000, guid: bd7d59626293ea5409726bc515e4665a, type: 3}
+  - {fileID: 8300000, guid: 2875ca065a61ad84f8698402e530abf4, type: 3}
+  - {fileID: 8300000, guid: 68a4e60d921d4114fa45ef1222e5147f, type: 3}
+  - {fileID: 8300000, guid: b920cb7479d3e834e908b3072a69556d, type: 3}
+  - {fileID: 8300000, guid: fd1f28b4383fca546ac491f4b8844e8c, type: 3}
+  - {fileID: 8300000, guid: 03ee80b9db3db5d418dfd8f6159fa311, type: 3}
+  - {fileID: 8300000, guid: 89d3dc5cdb7c6fb4ab26f0f3ef6cfae7, type: 3}
+  _group: {fileID: -2764853707643978847, guid: 2a74c880a206e4041b0f88ce9ad9fb57, type: 2}
+  _volume: 0.8
+  _volumeSpread: 0.15
+  _pitch: 1
+  _pitchSpread: 0.06
+  _loop: 0
+  _spatial: 1
+  _minDistance: 1.5
+  _maxDistance: 12

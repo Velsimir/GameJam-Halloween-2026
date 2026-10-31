@@ -14,7 +14,7 @@ namespace Game.Scripts.ECS.Systems.Scenario
     {
         private readonly DayFlowConfig _config;
         private readonly DayIntroView _view;
-        private readonly IDayAudio _audio;
+        private readonly IAudioService _audio;
         private readonly int _day;
         private readonly bool _enabled;
 
@@ -25,7 +25,7 @@ namespace Game.Scripts.ECS.Systems.Scenario
         private bool _started;
         private bool _finished;
 
-        public DayIntroSystem(DayFlowConfig config, DayIntroView view, IDayAudio audio, int day, bool enabled)
+        public DayIntroSystem(DayFlowConfig config, DayIntroView view, IAudioService audio, int day, bool enabled)
         {
             _config = config;
             _view = view;
@@ -64,7 +64,7 @@ namespace Game.Scripts.ECS.Systems.Scenario
                     ref var intro = ref _poolIntro.Add(player);
                     intro.OwnsBlock = _poolBlocked.Has(player) == false;
                     if (intro.OwnsBlock) _poolBlocked.Add(player);
-                    _audio.Play($"intro day {_day}", new[] { _config.IntroClip }, _config.IntroVolume);
+                    _audio.Play(_config.IntroSound);
                 }
 
                 ref var state = ref _poolIntro.Get(player);
