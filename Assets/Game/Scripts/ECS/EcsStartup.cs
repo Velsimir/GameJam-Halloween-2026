@@ -171,6 +171,7 @@ namespace Game.Scripts.ECS
                 .Add(new OutlineViewSystem())
                 .Add(new DoorCloseOnFadeSystem(_screenFadeView))
                 .Add(new DoorAnimationSystem())
+                .Add(new BackgroundAudioSystem(_gameConfigs.AudioConfig, _audio))
                 .Add(new FootstepAudioSystem(_gameConfigs.AudioConfig, _audio))
                 .Add(new FearBreathSystem(_gameConfigs.AudioConfig, _gameConfigs.FearConfig, _audio))
                 .Add(new AmbientEmitterSystem(_gameConfigs.FearConfig, _audio, _dayProgress.CurrentDay))

@@ -75,7 +75,9 @@ namespace Game.Scripts.ECS.Systems.DayObjects
                     action.Phase = TransitionPhase.FadeOut;
                     action.Timer = 0f;
                     action.FadeOut = trigger.FadeOut >= 0f ? trigger.FadeOut : _config.FadeOutTime;
-                    action.Hold = trigger.Hold >= 0f ? trigger.Hold : _config.HoldTime;
+                    float hold = trigger.Hold >= 0f ? trigger.Hold : _config.HoldTime;
+                    float soundLength = trigger.Sound != null ? trigger.Sound.MaxClipLength : 0f;
+                    action.Hold = Mathf.Max(hold, soundLength);
                     action.FadeIn = trigger.FadeIn >= 0f ? trigger.FadeIn : _config.FadeInTime;
                     action.Sound = trigger.Sound;
                     action.StepId = trigger.StepId;
