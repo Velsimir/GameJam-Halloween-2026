@@ -35,6 +35,7 @@ namespace Game.Scripts.Services.SceneLoader
     {
         Init,
         Playroom,
-        ModelTest
+        ModelTest,
+        Apartment
     }
 }

@@ -19,3 +19,7 @@ ui.thought.door_unlocked,Мысль: дверь отперта,The key fits.,К�
 ui.interact.go,Подсказка: пройти,Go through {key:Interact},Пройти {key:Interact},
 ui.thought.corridor_enter,Мысль: вход в коридор,It is so quiet here…,Здесь слишком тихо…,
 ui.thought.room_enter,Мысль: возврат в комнату,Back in the room. Something feels different.,Снова в комнате. Что-то изменилось.,
+ui.thought.neighbor_door,Мысль: дверь соседа (заглушка),TODO: Not my door.,TODO: Это не моя дверь.,
+ui.thought.stairs_up_closed,Мысль: лестница наверх закрыта (заглушка),TODO: The grate is locked.,TODO: Решётка закрыта.,
+ui.thought.stairs_down,Мысль: лестница вниз (заглушка),TODO: Stairs down.,TODO: Лестница вниз.,
+ui.thought.block_door_locked,Мысль: запертая дверь блока (заглушка),TODO: Locked.,TODO: Заперто.,

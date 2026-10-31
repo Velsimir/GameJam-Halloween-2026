@@ -11,6 +11,7 @@ namespace Game.Scripts.Editor
         private const string MenuPath = "PlayFromBootstrap/Enebled";
         private const string PlayRoomMenuPath = "PlayFromBootstrap/Scene/PlayRoom";
         private const string ModelTestMenuPath = "PlayFromBootstrap/Scene/ModelTest";
+        private const string ApartmentMenuPath = "PlayFromBootstrap/Scene/Apartment";
         private const string PlayFromBootstrapKey = "PlayFromBootstrapKey";
         private const int BootSceneIndex = 0;
 
@@ -50,6 +51,16 @@ namespace Game.Scripts.Editor
         private static bool SelectModelTestValidate()
         {
             Menu.SetChecked(ModelTestMenuPath, GetSelectedScene() == ScenesName.ModelTest);
+            return true;
+        }
+
+        [MenuItem(ApartmentMenuPath, false, 102)]
+        private static void SelectApartment() => SelectScene(ScenesName.Apartment);
+
+        [MenuItem(ApartmentMenuPath, true)]
+        private static bool SelectApartmentValidate()
+        {
+            Menu.SetChecked(ApartmentMenuPath, GetSelectedScene() == ScenesName.Apartment);
             return true;
         }
 

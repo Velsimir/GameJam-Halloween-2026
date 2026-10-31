@@ -92,6 +92,26 @@
   последняя на Canvas). Тайминги — `ScreenFadeConfig` (`Resources/Configs/Transition/`). Во время перехода
   курсор остаётся захваченным (`CursorLockSystem`). Образцы в `PlayRoom`: `TransitionDoor_ToCorridor` (заперта
   ключом), `TransitionDoor_ToRoom`, коридор `Corridor` в точке (0, 0, -60).
+- Блок-аут игрового уровня — сцена `Apartment.unity` (основная, дневной цикл; `PlayRoom` — тестовая).
+  Иерархия: `Level/{Apartment/{Hall,Kitchen,Bathroom,Hallway},BlockCorridor,Landing}`, рядом `Lights`
+  (тёплые в квартире, холодные с `LightFlicker` в коридоре и на площадке) и `Points` (пустые Transform
+  для задачи 13: `Spawn_Bed`, `BedLook`, `Sink`, `ToothbrushSpot`, `KeysHook`, `Kettle`, `Fridge`,
+  `Diary`, `Mailbox`, `StairsDown`, `StairsUp`, `Spawn_Landing`). Материалы — `Resources/Materials/Blockout/`
+  (PSX Lit, серые оттенки по зонам). Размеры: коридор блока 34 × 4 м, квартира ≈ 8,7 × 7,5 м, потолок 2,7 м;
+  проёмы под проходимые двери — 1,3 м (капсула игрока диаметром 1 м).
+- Префабы-заглушки интерактива — `Resources/Prefabs/Level/` (`Door`, `NeighborDoor`, `StairsDown`,
+  `StairsUp`). Правило: корень = только логика (коллайдер + authoring, `_pivot` двери = корень),
+  дочерний `Visual` = кубы без логики и коллайдеров. `OutlineRefs` (`_outlineRefs`) ссылается на
+  `MeshRenderer` внутри `Visual`; `Default`/`WithOutline` — материалы этого рендерера (+ `Outline.mat`).
+- Замена заглушки на модель: открыть префаб → удалить дочерние кубы `Visual` (или весь `Visual`) →
+  положить модель под корень с тем же именем `Visual`, сохранив нулевой локальный Transform корня и
+  положение петли (у `Door` корень стоит в петле, полотно смещено по +X) → у authoring на корне
+  назначить `OutlineRefs.MeshRenderer` на `MeshRenderer` модели (главная деталь, которая подсвечивается),
+  `Default` = материалы этого рендерера, `WithOutline` = те же материалы + `Resources/Shaders/Outline/Materials/Outline.mat`
+  → подогнать `BoxCollider` корня под модель. Размер/позицию правят на префабе, не на экземплярах в сцене.
+- Новые проходимые проёмы — не уже 1,3 м. Тексты мыслей в блок-ауте помечены `TODO:` в `Localization.csv`
+  (ключи `ui.thought.neighbor_door`, `stairs_up_closed`, `stairs_down`, `block_door_locked`); после
+  правки CSV строки в таблицу `Main` подтягиваются через окно Typecraft (синхронизация таблицы).
 - Без комментариев в коде.
 
 ## Ловушки
@@ -104,7 +124,7 @@
   остаются выключенными в сохранённой сцене. Выключенный `TMPWriter` — нет печати и эффектов Typecraft
   (реплика показывается сразу). После `AddComponent` включать `enabled = true` и сохранять сцену.
 - Play Mode с бута — меню `PlayFromBootstrap/Enebled` (`EntryPointSceneAutoLoader`).
-  Какую сцену грузить после `Init` — `PlayFromBootstrap/Scene/{PlayRoom,ModelTest}` (EditorPrefs, только в
+  Какую сцену грузить после `Init` — `PlayFromBootstrap/Scene/{PlayRoom,ModelTest,Apartment}` (EditorPrefs, только в
   редакторе; в билде всегда `Playroom`). `ModelTest.unity` — копия `PlayRoom` без тестовых механик,
   моделек кладут под корень `Models`.
 
@@ -121,5 +141,10 @@ Idle/Tense/Panic от `FearFactor`, луч взаимодействия с об�
 дверь переключает `ui.interact.open/close`; `InteractionPromptView` на Canvas + `InteractionPromptViewSystem`,
 тайминги — `InteractionPromptConfig`) и точка-прицел (скрыты при `InputBlocked`), мысли игрока
 (субтитры, монологи на диалогах Typecraft, три тестовые зоны в `PlayRoom`).
-Нет: остального HUD-текста, инвентаря, переходов, интерактивных пространств, постоянных источников страха
-кроме тестовой зоны. `CameraCutsceneSystem` — пустая заглушка.
+Готово также: предметы и инвентарь (подбор, `HasItem`, замки дверей), переходы между локациями
+(`TransitionDoor`, фейд), осмотр объектов (`InspectableAuthoring`), блок-аут `Apartment` (квартира,
+коридор блока, площадка с лестницами-заглушками; внутренние двери открываются, соседские двери и
+лестница наверх дают мысль).
+Нет: остального HUD-текста, интерактивных пространств, постоянных источников страха кроме тестовой
+зоны, логики выхода по лестнице вниз (задача 14), финальных моделей и текстов. `CameraCutsceneSystem` —
+пустая заглушка.
