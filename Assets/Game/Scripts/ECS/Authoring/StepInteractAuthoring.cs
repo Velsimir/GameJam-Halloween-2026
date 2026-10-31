@@ -8,6 +8,7 @@ namespace Game.Scripts.ECS.Authoring
     {
         [SerializeField] private string _thoughtKey;
         [SerializeField] private string _completeStepId;
+        [SerializeField] private Transform _episodeSpawn;
 
         protected override string DefaultPromptKey => "ui.interact.use";
 
@@ -16,6 +17,7 @@ namespace Game.Scripts.ECS.Authoring
             ref var interact = ref world.GetPool<StepInteract>().Add(entity);
             interact.ThoughtKey = _thoughtKey;
             interact.StepId = _completeStepId;
+            interact.EpisodeSpawn = _episodeSpawn;
         }
     }
 }

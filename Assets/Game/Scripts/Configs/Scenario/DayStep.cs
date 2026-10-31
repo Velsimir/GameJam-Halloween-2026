@@ -25,6 +25,9 @@ namespace Game.Scripts.Configs.Scenario
         [SerializeField] private ScenarioCondition _condition;
         [SerializeField] private ItemDefinition _item;
 
+        [Header("Episode")]
+        [SerializeField] private DayEpisode _episode;
+
         [Header("Actions")]
         [SerializeReference, SubclassSelector] private List<ScenarioAction> _startActions = new List<ScenarioAction>();
         [SerializeReference, SubclassSelector] private List<ScenarioAction> _completeActions = new List<ScenarioAction>();
@@ -35,6 +38,7 @@ namespace Game.Scripts.Configs.Scenario
         public string TargetId => _targetId;
         public ScenarioCondition Condition => _condition;
         public ItemDefinition Item => _item;
+        public DayEpisode Episode => _episode != null && _episode.Enabled ? _episode : null;
         public IReadOnlyList<ScenarioAction> StartActions => _startActions;
         public IReadOnlyList<ScenarioAction> CompleteActions => _completeActions;
 

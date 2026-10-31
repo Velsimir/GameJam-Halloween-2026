@@ -18,6 +18,22 @@ namespace Game.Scripts.Configs
 
         [SerializeField] private ScenarioConfig _scenarioConfig;
         [SerializeField] private DayScenario[] _dayScenarios;
+        [SerializeField] private DayFlowConfig _dayFlowConfig;
+
+        public DayFlowConfig DayFlowConfig => _dayFlowConfig;
+
+        public DayScenario FindNextDayScenario(int day)
+        {
+            if (_dayScenarios == null) return null;
+
+            for (int i = 0; i < _dayScenarios.Length - 1; i++)
+            {
+                if (_dayScenarios[i] != null && _dayScenarios[i].Day == day)
+                    return _dayScenarios[i + 1];
+            }
+
+            return null;
+        }
 
         public ObjectiveConfig ObjectiveConfig => _objectiveConfig;
         public ScenarioConfig ScenarioConfig => _scenarioConfig;

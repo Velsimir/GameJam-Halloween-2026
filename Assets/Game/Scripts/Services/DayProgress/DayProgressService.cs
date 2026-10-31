@@ -2,6 +2,13 @@ namespace Game.Scripts.Services.DayProgress
 {
     public class DayProgressService : IDayProgressService
     {
-        public int CurrentDay { get; set; } = 1;
+        private const int FirstDay = 1;
+
+        public int CurrentDay { get; set; } = FirstDay;
+
+        public void Restart()
+        {
+            CurrentDay = FirstDay;
+        }
     }
 }

@@ -72,6 +72,7 @@ namespace Game.Scripts.ECS.Authoring
             ScenarioTargetRegistry.Unregister(_id, ToggleTarget);
 
             if (_hasEntity == false || _ownsEntity == false || _ecsWorldProvider == null) return;
+            if (_ecsWorldProvider.IsAlive == false) return;
 
             if (_entity.Unpack(_ecsWorldProvider.World, out int entity))
                 _ecsWorldProvider.World.DelEntity(entity);

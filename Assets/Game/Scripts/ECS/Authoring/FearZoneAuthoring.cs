@@ -44,7 +44,7 @@ namespace Game.Scripts.ECS.Authoring
 
         private void OnDestroy()
         {
-            if (_ecsWorldProvider == null) return;
+            if (_ecsWorldProvider == null || _ecsWorldProvider.IsAlive == false) return;
             if (_entity.Unpack(_ecsWorldProvider.World, out int entity))
                 _ecsWorldProvider.World.DelEntity(entity);
         }

@@ -17,7 +17,9 @@ using Game.Scripts.ECS.Systems.Thoughts;
 using Game.Scripts.ECS.Systems.Transition;
 using Game.Scripts.ECS.Systems.Walk;
 using Game.Scripts.Services.DayProgress;
+using Game.Scripts.Services.Audio;
 using Game.Scripts.Services.Input;
+using Game.Scripts.Services.SceneLoader;
 using Game.Scripts.Views;
 using Leopotam.EcsLite;
 using Velsi.Typecraft.Dialogue;
@@ -36,13 +38,22 @@ namespace Game.Scripts.ECS
         private readonly ScreenFadeView _screenFadeView;
         private readonly ObjectivesView _objectivesView;
         private readonly IDayProgressService _dayProgress;
+        private readonly DayIntroView _dayIntroView;
+        private readonly EndScreenView _endScreenView;
+        private readonly ISceneLoader _sceneLoader;
+        private readonly IDayAudio _dayAudio;
         private EcsSystems _systems;
         private DayScenario _dayScenario;
 
         public EcsStartup(IInputService inputService, IEcsWorldProvider ecsWorldProvider, GameConfigs gameConfigs,
             InteractionPromptView interactionPromptView, DialoguePlayer thoughtPlayer, ScreenFadeView screenFadeView,
-            ObjectivesView objectivesView, IDayProgressService dayProgress)
+            ObjectivesView objectivesView, IDayProgressService dayProgress, DayIntroView dayIntroView,
+            EndScreenView endScreenView, ISceneLoader sceneLoader, IDayAudio dayAudio)
         {
+            _dayIntroView = dayIntroView;
+            _endScreenView = endScreenView;
+            _sceneLoader = sceneLoader;
+            _dayAudio = dayAudio;
             _dayProgress = dayProgress;
             _objectivesView = objectivesView;
             _screenFadeView = screenFadeView;
@@ -66,7 +77,7 @@ namespace Game.Scripts.ECS
         public void Dispose()
         {
             _systems.Destroy();
-            _ecsWorldProvider.World.Destroy();
+            _ecsWorldProvider.Reset();
         }
 
         private void CreateSystems()
@@ -89,8 +100,11 @@ namespace Game.Scripts.ECS
 #if UNITY_EDITOR
             _systems.Add(new ScareDebugSystem())
                 .Add(new ObjectiveDebugSystem())
-                .Add(new ScenarioDebugSystem(_dayScenario));
+                .Add(new ScenarioDebugSystem(_dayScenario))
+                .Add(new DayDebugSystem(_dayProgress));
 #endif
+            _systems.Add(new DayIntroSystem(_gameConfigs.DayFlowConfig, _dayIntroView, _dayAudio,
+                _dayProgress.CurrentDay, _dayScenario != null));
         }
 
         private void AddSimulationSystems()
@@ -112,14 +126,16 @@ namespace Game.Scripts.ECS
                 .Add(new KettleSystem())
                 .Add(new FridgeSystem())
                 .Add(new MailboxSystem())
-                .Add(new StepInteractSystem())
+                .Add(new StepInteractSystem(_dayScenario))
+                .Add(new PendingStepCompleteSystem())
                 .Add(new DayScenarioSystem(_dayScenario))
+                .Add(new DayFlowSystem(_gameConfigs, _dayProgress, _sceneLoader, _screenFadeView, _endScreenView))
                 .Add(new GravitySystem())
                 .Add(new FearZoneContactSystem())
                 .Add(new FearFactorSystem(_gameConfigs.FearConfig))
                 .Add(new ScareRequestSystem(_gameConfigs.FearConfig))
                 .Add(new TransitionDoorInteractionSystem())
-                .Add(new TransitionSystem(_gameConfigs.ScreenFadeConfig, _screenFadeView));
+                .Add(new TransitionSystem(_gameConfigs.ScreenFadeConfig, _gameConfigs.DayFlowConfig, _screenFadeView, _dayAudio));
         }
 
         private void AddPresentationSystems()

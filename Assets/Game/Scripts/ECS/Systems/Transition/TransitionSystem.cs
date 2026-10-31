@@ -1,7 +1,10 @@
 using Game.Scripts.Configs;
+using Game.Scripts.Configs.Scenario;
+using Game.Scripts.Services.Audio;
 using Game.Scripts.ECS.Components.Input;
 using Game.Scripts.ECS.Components.Movement;
 using Game.Scripts.ECS.Components.Player;
+using Game.Scripts.ECS.Components.Scenario;
 using Game.Scripts.ECS.Components.Transition;
 using Game.Scripts.ECS.Extensions;
 using Game.Scripts.Views;
@@ -13,7 +16,9 @@ namespace Game.Scripts.ECS.Systems.Transition
     public class TransitionSystem : IEcsInitSystem, IEcsRunSystem
     {
         private readonly ScreenFadeConfig _config;
+        private readonly DayFlowConfig _flowConfig;
         private readonly ScreenFadeView _view;
+        private readonly IDayAudio _audio;
 
         private EcsWorld _world;
         private EcsFilter _filter;
@@ -23,10 +28,12 @@ namespace Game.Scripts.ECS.Systems.Transition
         private EcsPool<VerticalMovement> _poolVertical;
         private EcsPool<InputBlocked> _poolBlocked;
 
-        public TransitionSystem(ScreenFadeConfig config, ScreenFadeView view)
+        public TransitionSystem(ScreenFadeConfig config, DayFlowConfig flowConfig, ScreenFadeView view, IDayAudio audio)
         {
             _config = config;
+            _flowConfig = flowConfig;
             _view = view;
+            _audio = audio;
         }
 
         public void Init(IEcsSystems systems)
@@ -56,6 +63,24 @@ namespace Game.Scripts.ECS.Systems.Transition
                         if (transitioning.Timer >= _config.FadeOutTime)
                         {
                             _view.Alpha = 1f;
+                            transitioning.Timer = 0f;
+
+                            if (transitioning.Episode != null)
+                            {
+                                BeginEpisode(ref transitioning);
+                                transitioning.Phase = TransitionPhase.Episode;
+                                break;
+                            }
+
+                            Teleport(entity, ref transitioning);
+                            transitioning.Phase = TransitionPhase.Hold;
+                        }
+                        break;
+
+                    case TransitionPhase.Episode:
+                        if (transitioning.Timer >= transitioning.Episode.Seconds)
+                        {
+                            EndEpisode(ref transitioning);
                             Teleport(entity, ref transitioning);
                             transitioning.Phase = TransitionPhase.Hold;
                             transitioning.Timer = 0f;
@@ -76,12 +101,30 @@ namespace Game.Scripts.ECS.Systems.Transition
                         if (transitioning.Timer >= _config.FadeInTime)
                         {
                             _view.Alpha = 0f;
+                            string stepId = transitioning.StepId;
                             _poolBlocked.Del(entity);
                             _poolTransitioning.Del(entity);
+
+                            if (string.IsNullOrEmpty(stepId) == false)
+                                _world.GetPool<PendingStepComplete>().Add(_world.NewEntity()).StepId = stepId;
                         }
                         break;
                 }
             }
+        }
+
+        private void BeginEpisode(ref Transitioning transitioning)
+        {
+            DayEpisode episode = transitioning.Episode;
+            _view.SetCaption(episode.TimeLabel);
+            _audio.Play(episode.DebugName ?? transitioning.StepId, episode.Clips, _flowConfig.EpisodeVolume);
+        }
+
+        private void EndEpisode(ref Transitioning transitioning)
+        {
+            _audio.Stop();
+            _view.SetCaption(null);
+            _world.TryAddItem(transitioning.Episode.GiveItem);
         }
 
         private void Teleport(int entity, ref Transitioning transitioning)

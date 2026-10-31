@@ -173,10 +173,26 @@
 - Тест всех объектов: `Configs/Days/Day99_ObjectsTest` (12 шагов, в `GameConfigs`); чтобы играть — поставить ему `_day = 1`,
   а `Day01_Test` сдвинуть на другой номер.
 
+## Поток дня и перезагрузка сцены
+- Мир: `EcsStartup.Dispose()` зовёт `IEcsWorldProvider.Reset()` (уничтожает мир и обнуляет ссылку); следующий
+  `World` создаёт новый. Сцену игры можно перезагружать (`SceneLoaderService`). Authoring в `OnDestroy` проверяет
+  `IsAlive`, чтобы не создать мир во время выгрузки. Состояние между сценами живёт только в ProjectContext
+  (`IDayProgressService`, инвентарь пересоздаётся с игроком).
+- Смена дня: `DayFinished` → `DayFlowSystem` (после `DayScenarioSystem`): `DayFadeOut` → `GameConfigs.FindNextDayScenario`
+  (следующий в массиве `_dayScenarios`, порядок массива = порядок дней; сейчас `Day99_ObjectsTest`, `Day01_Test`, `Day02`)
+  → `CurrentDay` → перезагрузка текущей игровой сцены. Следующего нет — `EndScreenView` («Конец», «Начать сначала»
+  = день 1 и перезагрузка, «Выйти»). Числа — `DayFlowConfig` (`Resources/Configs/Day/`, в `GameConfigs`).
+- Заставка: `DayIntroView` (чёрная, `ui.day.title` с `{0}` = номер дня) + `DayIntroSystem`; идёт только если на день есть
+  `DayScenario`; на время заставки игрок `InputBlocked` + `DayIntro`. UI — префаб `Resources/Prefabs/UI/DayFlowUI` в Canvas
+  сцены (`DayIntroView`, `EndScreenView`; в `ScreenFade` — `Caption` для подписи времени). Новая игровая сцена без этого
+  префаба не стартует (`PlaySceneInstaller`).
+- Эпизод на чёрном: `DayStep.Episode` (`DayEpisode`: `Clips`, `Seconds`, `TimeLabel`, `GiveItem`) + `StepInteractAuthoring`
+  с `_episodeSpawn` (точка лестницы вниз → `Spawn_Landing`). `StepInteractSystem` вешает `Transitioning` с `Episode`;
+  `TransitionSystem`: FadeOut → Episode (звук, подпись, N секунд) → телепорт → Hold → FadeIn →
+  `PendingStepComplete` (→ `External` до `DayScenarioSystem`). Звук пока заглушка: `IDayAudio` пишет `[DayAudio]` в консоль.
+- Редактор: F7 — завершить день.
+
 ## Ловушки
-- `EcsStartup.Dispose()` уничтожает `EcsWorld`, а `EcsWorldProvider` — синглтон ProjectContext
-  и держит ссылку на мёртвый мир. Перезагрузка/смена игровой сцены сломает ECS. Переходы между
-  локациями — телепортом внутри сцены, не загрузкой сцены (или сначала чинить провайдер).
 - `LoadingService` не показывает `Curtain` (закомментировано) — для затемнения звать
   `ICurtain` напрямую или вернуть вызовы.
 - `TMPWriter`/`TMPAnimator`, добавленные на объект скриптом в редакторе, сами выключаются (`Reset`) и
@@ -204,7 +220,7 @@ Idle/Tense/Panic от `FearFactor`, луч взаимодействия с об�
 (`TransitionDoor`, фейд), осмотр объектов (`InspectableAuthoring`), блок-аут `Apartment` (квартира,
 коридор блока, площадка с лестницами-заглушками; внутренние двери открываются, соседские двери и
 лестница наверх дают мысль), ядро дневного сценария (`DayScenario` в данных, шаги по порядку, гейт
-«не сейчас», тестовый `Day01_Test` в `Apartment`; реакции на `DayFinished` пока нет; сценарий выбирается
+«не сейчас», тестовый `Day01_Test` в `Apartment`; смена дней и «Конец» работают; сценарий выбирается
 по номеру дня, не по сцене — `Day01_Test` запустится и в `PlayRoom`).
 Нет: остального HUD-текста, интерактивных пространств, постоянных источников страха кроме тестовой
 зоны, логики выхода по лестнице вниз (задача 14), финальных моделей и текстов. `CameraCutsceneSystem` —
