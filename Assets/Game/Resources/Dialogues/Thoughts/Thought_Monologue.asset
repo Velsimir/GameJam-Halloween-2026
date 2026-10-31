@@ -34,7 +34,7 @@ MonoBehaviour:
       type: {class: LineNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
       data:
         _id: 6c36d1a1801344dda9a6c3fb2840194b
-        _position: {x: 260, y: 0}
+        _position: {x: 262.7536, y: 0.000002861023}
         _speaker: {fileID: 0}
         _emotion: 
         _table: 
@@ -60,7 +60,7 @@ MonoBehaviour:
       type: {class: LineNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
       data:
         _id: 3bb3e1a187064422b260482440405f77
-        _position: {x: 780, y: 0}
+        _position: {x: 790.92175, y: -0.57972497}
         _speaker: {fileID: 0}
         _emotion: 
         _table: 
