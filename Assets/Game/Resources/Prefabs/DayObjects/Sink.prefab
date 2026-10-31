@@ -204,8 +204,7 @@ MonoBehaviour:
   _fadeOutTime: -1
   _holdTime: -1
   _fadeInTime: -1
-  _clip: {fileID: 0}
-  _volume: 1
+  _sound: {fileID: 11400000, guid: 8e4edd0b941694e468ef35634e0ee8c9, type: 2}
   _completeStepId: brush_teeth
   _requiredItem: {fileID: 11400000, guid: 2d5b26484ce4e2d4ea72ed5ee897dc01, type: 2}
   _consumeItem: 0

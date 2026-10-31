@@ -23,6 +23,7 @@ MonoBehaviour:
   _sfxVolume: 1
   _voiceVolume: 1
   _uiVolume: 1
+  _background: {fileID: 11400000, guid: 72fed6cad16e68b4887b69f0a26781c5, type: 2}
   _footstep: {fileID: 11400000, guid: a02f8c526e90a764f97a468e0504daa4, type: 2}
   _footstepPan: 0.25
   _breath: {fileID: 11400000, guid: 110871f8209d190459048658ed42ac69, type: 2}

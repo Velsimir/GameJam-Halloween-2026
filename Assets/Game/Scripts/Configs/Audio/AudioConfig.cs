@@ -39,6 +39,9 @@ namespace Game.Scripts.Configs.Audio
         [SerializeField, Range(0f, 1f)] private float _voiceVolume = 1f;
         [SerializeField, Range(0f, 1f)] private float _uiVolume = 1f;
 
+        [Header("Background")]
+        [SerializeField] private SoundDefinition _background;
+
         [Header("Footsteps")]
         [SerializeField] private SoundDefinition _footstep;
         [SerializeField, Range(0f, 1f)] private float _footstepPan = 0.25f;
@@ -61,6 +64,7 @@ namespace Game.Scripts.Configs.Audio
         public int PoolSize => _poolSize;
         public float LoopFadeIn => _loopFadeIn;
         public float LoopFadeOut => _loopFadeOut;
+        public SoundDefinition Background => _background;
         public SoundDefinition Footstep => _footstep;
         public float FootstepPan => _footstepPan;
         public SoundDefinition Breath => _breath;
