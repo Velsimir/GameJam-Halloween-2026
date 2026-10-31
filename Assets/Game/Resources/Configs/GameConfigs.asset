@@ -21,7 +21,6 @@ MonoBehaviour:
   _objectiveConfig: {fileID: 11400000, guid: dfbcc0697f4375e42810fde4727ae0b6, type: 2}
   _scenarioConfig: {fileID: 11400000, guid: e5aca39f707f61944b2c9d339d2635cd, type: 2}
   _dayScenarios:
-  - {fileID: 11400000, guid: 01d88d96416becc488d5b554eddf5284, type: 2}
   - {fileID: 11400000, guid: 5db5bbeda87f6fe42ab664d8187e85e4, type: 2}
   - {fileID: 11400000, guid: e99d381cfdff8084eb60c26aab9b1b67, type: 2}
   _dayFlowConfig: {fileID: 11400000, guid: 6f2a7e1fdaa0aab40a21e2b0beaddf7d, type: 2}

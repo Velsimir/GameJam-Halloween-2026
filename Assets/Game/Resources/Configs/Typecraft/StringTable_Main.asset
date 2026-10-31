@@ -583,3 +583,474 @@ MonoBehaviour:
       _text: Quit
     - _locale: ru
       _text: "\u0412\u044B\u0439\u0442\u0438"
+  - _key: ui.objective.d1.wake_up
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: wake_up"
+    _values:
+    - _locale: en
+      _text: Get out of bed
+    - _locale: ru
+      _text: "\u0412\u0441\u0442\u0430\u0442\u044C \u0441 \u043A\u0440\u043E\u0432\u0430\u0442\u0438"
+  - _key: ui.thought.d1.wake_up
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: wake_up"
+    _values:
+    - _locale: en
+      _text: Morning already. Or still night.
+    - _locale: ru
+      _text: "\u0423\u0436\u0435 \u0443\u0442\u0440\u043E. \u0418\u043B\u0438 \u0435\u0449\u0451
+        \u043D\u043E\u0447\u044C."
+  - _key: ui.thought.d1.wake_up_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: wake_up"
+    _values:
+    - _locale: en
+      _text: Can't lie here forever.
+    - _locale: ru
+      _text: "\u041D\u0435\u043B\u044C\u0437\u044F \u043B\u0435\u0436\u0430\u0442\u044C
+        \u0432\u0435\u0447\u043D\u043E."
+  - _key: ui.objective.d1.to_bathroom
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: to_bathroom"
+    _values:
+    - _locale: en
+      _text: Go to the bathroom
+    - _locale: ru
+      _text: "\u041F\u043E\u0439\u0442\u0438 \u0432 \u0432\u0430\u043D\u043D\u0443\u044E"
+  - _key: ui.thought.d1.to_bathroom
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: to_bathroom"
+    _values:
+    - _locale: en
+      _text: Cold water. Maybe that helps.
+    - _locale: ru
+      _text: "\u0425\u043E\u043B\u043E\u0434\u043D\u0430\u044F \u0432\u043E\u0434\u0430.
+        \u041C\u043E\u0436\u0435\u0442, \u043F\u043E\u043C\u043E\u0436\u0435\u0442."
+  - _key: ui.thought.d1.to_bathroom_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: to_bathroom"
+    _values:
+    - _locale: en
+      _text: Bathroom first.
+    - _locale: ru
+      _text: "\u0421\u043D\u0430\u0447\u0430\u043B\u0430 \u0432\u0430\u043D\u043D\u0430\u044F."
+  - _key: ui.objective.d1.brush_teeth
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: brush_teeth"
+    _values:
+    - _locale: en
+      _text: Brush teeth
+    - _locale: ru
+      _text: "\u041F\u043E\u0447\u0438\u0441\u0442\u0438\u0442\u044C \u0437\u0443\u0431\u044B"
+  - _key: ui.thought.d1.brush_teeth
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: brush_teeth"
+    _values:
+    - _locale: en
+      _text: Teeth first. The rest can wait.
+    - _locale: ru
+      _text: "\u0421\u043D\u0430\u0447\u0430\u043B\u0430 \u0437\u0443\u0431\u044B.
+        \u041E\u0441\u0442\u0430\u043B\u044C\u043D\u043E\u0435 \u043F\u043E\u0434\u043E\u0436\u0434\u0451\u0442."
+  - _key: ui.thought.d1.brush_teeth_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: brush_teeth"
+    _values:
+    - _locale: en
+      _text: The toothbrush, by the sink.
+    - _locale: ru
+      _text: "\u0429\u0451\u0442\u043A\u0430 \u0443 \u0440\u0430\u043A\u043E\u0432\u0438\u043D\u044B."
+  - _key: ui.objective.d1.to_hallway
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: to_hallway"
+    _values:
+    - _locale: en
+      _text: Go to the hallway
+    - _locale: ru
+      _text: "\u0412\u044B\u0439\u0442\u0438 \u0432 \u043A\u043E\u0440\u0438\u0434\u043E\u0440"
+  - _key: ui.thought.d1.to_hallway
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: to_hallway"
+    _values:
+    - _locale: en
+      _text: Work won't wait for me.
+    - _locale: ru
+      _text: "\u0420\u0430\u0431\u043E\u0442\u0430 \u043C\u0435\u043D\u044F \u0436\u0434\u0430\u0442\u044C
+        \u043D\u0435 \u0441\u0442\u0430\u043D\u0435\u0442."
+  - _key: ui.thought.d1.to_hallway_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: to_hallway"
+    _values:
+    - _locale: en
+      _text: The hallway, by the door.
+    - _locale: ru
+      _text: "\u041A\u043E\u0440\u0438\u0434\u043E\u0440, \u0443 \u0434\u0432\u0435\u0440\u0438."
+  - _key: ui.objective.d1.take_keys
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: take_keys"
+    _values:
+    - _locale: en
+      _text: Take the keys
+    - _locale: ru
+      _text: "\u0412\u0437\u044F\u0442\u044C \u043A\u043B\u044E\u0447\u0438"
+  - _key: ui.thought.d1.take_keys
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: take_keys"
+    _values:
+    - _locale: en
+      _text: Keys. On the hook, I think.
+    - _locale: ru
+      _text: "\u041A\u043B\u044E\u0447\u0438. \u041A\u0430\u0436\u0435\u0442\u0441\u044F,
+        \u043D\u0430 \u043A\u0440\u044E\u0447\u043A\u0435."
+  - _key: ui.thought.d1.take_keys_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: take_keys"
+    _values:
+    - _locale: en
+      _text: The keys are on the hook.
+    - _locale: ru
+      _text: "\u041A\u043B\u044E\u0447\u0438 \u043D\u0430 \u043A\u0440\u044E\u0447\u043A\u0435."
+  - _key: ui.objective.d1.to_block
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: to_block"
+    _values:
+    - _locale: en
+      _text: Leave the apartment
+    - _locale: ru
+      _text: "\u0412\u044B\u0439\u0442\u0438 \u0432 \u043F\u043E\u0434\u044A\u0435\u0437\u0434"
+  - _key: ui.thought.d1.to_block
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: to_block"
+    _values:
+    - _locale: en
+      _text: Alright. Out we go.
+    - _locale: ru
+      _text: "\u041D\u0443 \u0447\u0442\u043E, \u043F\u043E\u0448\u043B\u0438."
+  - _key: ui.thought.d1.to_block_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: to_block"
+    _values:
+    - _locale: en
+      _text: Out into the block.
+    - _locale: ru
+      _text: "\u0412 \u043F\u043E\u0434\u044A\u0435\u0437\u0434."
+  - _key: ui.objective.d1.stairs_work
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: stairs_work"
+    _values:
+    - _locale: en
+      _text: Go down to work
+    - _locale: ru
+      _text: "\u0421\u043F\u0443\u0441\u0442\u0438\u0442\u044C\u0441\u044F \u043D\u0430
+        \u0440\u0430\u0431\u043E\u0442\u0443"
+  - _key: ui.thought.d1.stairs_work
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: stairs_work"
+    _values:
+    - _locale: en
+      _text: Down the stairs. Same as always.
+    - _locale: ru
+      _text: "\u0412\u043D\u0438\u0437 \u043F\u043E \u043B\u0435\u0441\u0442\u043D\u0438\u0446\u0435.
+        \u041A\u0430\u043A \u0432\u0441\u0435\u0433\u0434\u0430."
+  - _key: ui.thought.d1.stairs_work_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: stairs_work"
+    _values:
+    - _locale: en
+      _text: The stairs, down.
+    - _locale: ru
+      _text: "\u041A \u043B\u0435\u0441\u0442\u043D\u0438\u0446\u0435, \u0432\u043D\u0438\u0437."
+  - _key: ui.objective.d1.return_home
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: return_home"
+    _values:
+    - _locale: en
+      _text: Go home
+    - _locale: ru
+      _text: "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u0434\u043E\u043C\u043E\u0439"
+  - _key: ui.thought.d1.return_home
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: return_home"
+    _values:
+    - _locale: en
+      _text: Finally. Home.
+    - _locale: ru
+      _text: "\u041D\u0430\u043A\u043E\u043D\u0435\u0446-\u0442\u043E. \u0414\u043E\u043C\u043E\u0439."
+  - _key: ui.thought.d1.return_home_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: return_home"
+    _values:
+    - _locale: en
+      _text: Back to the apartment.
+    - _locale: ru
+      _text: "\u0414\u043E\u043C\u043E\u0439."
+  - _key: ui.objective.d1.kettle
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: kettle"
+    _values:
+    - _locale: en
+      _text: Boil the kettle
+    - _locale: ru
+      _text: "\u041F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0447\u0430\u0439\u043D\u0438\u043A"
+  - _key: ui.thought.d1.kettle
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: kettle"
+    _values:
+    - _locale: en
+      _text: Tea. I can't think without it.
+    - _locale: ru
+      _text: "\u0427\u0430\u044E \u0431\u044B. \u0411\u0435\u0437 \u043D\u0435\u0433\u043E
+        \u043D\u0435 \u0441\u043E\u043E\u0431\u0440\u0430\u0436\u0430\u044E."
+  - _key: ui.thought.d1.kettle_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: kettle"
+    _values:
+    - _locale: en
+      _text: The kettle is in the kitchen.
+    - _locale: ru
+      _text: "\u0427\u0430\u0439\u043D\u0438\u043A \u043D\u0430 \u043A\u0443\u0445\u043D\u0435."
+  - _key: ui.objective.d1.fridge_check
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: fridge_check"
+    _values:
+    - _locale: en
+      _text: Check the fridge
+    - _locale: ru
+      _text: "\u041F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C \u0445\u043E\u043B\u043E\u0434\u0438\u043B\u044C\u043D\u0438\u043A"
+  - _key: ui.thought.d1.fridge_check
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: fridge_check"
+    _values:
+    - _locale: en
+      _text: What do I even have to eat?
+    - _locale: ru
+      _text: "\u0427\u0442\u043E \u0443 \u043C\u0435\u043D\u044F \u0432\u043E\u043E\u0431\u0449\u0435
+        \u0435\u0441\u0442\u044C \u043F\u043E\u0435\u0441\u0442\u044C?"
+  - _key: ui.thought.d1.fridge_check_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: fridge_check"
+    _values:
+    - _locale: en
+      _text: The fridge, in the kitchen.
+    - _locale: ru
+      _text: "\u0425\u043E\u043B\u043E\u0434\u0438\u043B\u044C\u043D\u0438\u043A
+        \u043D\u0430 \u043A\u0443\u0445\u043D\u0435."
+  - _key: ui.objective.d1.mailbox
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: mailbox"
+    _values:
+    - _locale: en
+      _text: Check the mailbox
+    - _locale: ru
+      _text: "\u041F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C \u043F\u043E\u0447\u0442\u0443"
+  - _key: ui.thought.d1.mailbox
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: mailbox"
+    _values:
+    - _locale: en
+      _text: Should check the mail. Bills, probably.
+    - _locale: ru
+      _text: "\u041D\u0430\u0434\u043E \u0433\u043B\u044F\u043D\u0443\u0442\u044C
+        \u043F\u043E\u0447\u0442\u0443. \u041D\u0430\u0432\u0435\u0440\u043D\u044F\u043A\u0430
+        \u0441\u0447\u0435\u0442\u0430."
+  - _key: ui.thought.d1.mailbox_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: mailbox"
+    _values:
+    - _locale: en
+      _text: The mailbox, out on the landing.
+    - _locale: ru
+      _text: "\u041F\u043E\u0447\u0442\u043E\u0432\u044B\u0439 \u044F\u0449\u0438\u043A
+        \u043D\u0430 \u043F\u043B\u043E\u0449\u0430\u0434\u043A\u0435."
+  - _key: ui.objective.d1.stairs_shop
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: stairs_shop"
+    _values:
+    - _locale: en
+      _text: Go to the store
+    - _locale: ru
+      _text: "\u0421\u0445\u043E\u0434\u0438\u0442\u044C \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D"
+  - _key: ui.thought.d1.stairs_shop
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: stairs_shop"
+    _values:
+    - _locale: en
+      _text: Fridge is empty. Store, then.
+    - _locale: ru
+      _text: "\u0425\u043E\u043B\u043E\u0434\u0438\u043B\u044C\u043D\u0438\u043A
+        \u043F\u0443\u0441\u0442. \u0417\u043D\u0430\u0447\u0438\u0442, \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D."
+  - _key: ui.thought.d1.stairs_shop_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: stairs_shop"
+    _values:
+    - _locale: en
+      _text: The stairs again. The store.
+    - _locale: ru
+      _text: "\u041E\u043F\u044F\u0442\u044C \u043B\u0435\u0441\u0442\u043D\u0438\u0446\u0430.
+        \u0412 \u043C\u0430\u0433\u0430\u0437\u0438\u043D."
+  - _key: ui.objective.d1.return_home2
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: return_home2"
+    _values:
+    - _locale: en
+      _text: Go home
+    - _locale: ru
+      _text: "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u0434\u043E\u043C\u043E\u0439"
+  - _key: ui.thought.d1.return_home2
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: return_home2"
+    _values:
+    - _locale: en
+      _text: Heavy bags. Home.
+    - _locale: ru
+      _text: "\u0422\u044F\u0436\u0451\u043B\u044B\u0435 \u043F\u0430\u043A\u0435\u0442\u044B.
+        \u0414\u043E\u043C\u043E\u0439."
+  - _key: ui.thought.d1.return_home2_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: return_home2"
+    _values:
+    - _locale: en
+      _text: Back to the apartment.
+    - _locale: ru
+      _text: "\u0414\u043E\u043C\u043E\u0439."
+  - _key: ui.objective.d1.hang_keys
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: hang_keys"
+    _values:
+    - _locale: en
+      _text: Hang up the keys
+    - _locale: ru
+      _text: "\u041F\u043E\u0432\u0435\u0441\u0438\u0442\u044C \u043A\u043B\u044E\u0447\u0438"
+  - _key: ui.thought.d1.hang_keys
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: hang_keys"
+    _values:
+    - _locale: en
+      _text: Keys back on the hook. Habit.
+    - _locale: ru
+      _text: "\u041A\u043B\u044E\u0447\u0438 \u043D\u0430 \u043A\u0440\u044E\u0447\u043E\u043A.
+        \u041F\u0440\u0438\u0432\u044B\u0447\u043A\u0430."
+  - _key: ui.thought.d1.hang_keys_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: hang_keys"
+    _values:
+    - _locale: en
+      _text: The hook by the door.
+    - _locale: ru
+      _text: "\u041A\u0440\u044E\u0447\u043E\u043A \u0443 \u0434\u0432\u0435\u0440\u0438."
+  - _key: ui.objective.d1.fridge_stock
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: fridge_stock"
+    _values:
+    - _locale: en
+      _text: Put the groceries away
+    - _locale: ru
+      _text: "\u0423\u0431\u0440\u0430\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u044B
+        \u0432 \u0445\u043E\u043B\u043E\u0434\u0438\u043B\u044C\u043D\u0438\u043A"
+  - _key: ui.thought.d1.fridge_stock
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: fridge_stock"
+    _values:
+    - _locale: en
+      _text: Groceries away. Almost done.
+    - _locale: ru
+      _text: "\u0423\u0431\u0440\u0430\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u044B.
+        \u041F\u043E\u0447\u0442\u0438 \u0432\u0441\u0451."
+  - _key: ui.thought.d1.fridge_stock_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: fridge_stock"
+    _values:
+    - _locale: en
+      _text: The groceries. The fridge.
+    - _locale: ru
+      _text: "\u041F\u0440\u043E\u0434\u0443\u043A\u0442\u044B. \u0425\u043E\u043B\u043E\u0434\u0438\u043B\u044C\u043D\u0438\u043A."
+  - _key: ui.objective.d1.diary
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: diary"
+    _values:
+    - _locale: en
+      _text: Look at the diary
+    - _locale: ru
+      _text: "\u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0434\u043D\u0435\u0432\u043D\u0438\u043A"
+  - _key: ui.thought.d1.diary
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: diary"
+    _values:
+    - _locale: en
+      _text: The diary. I should write something down.
+    - _locale: ru
+      _text: "\u0414\u043D\u0435\u0432\u043D\u0438\u043A. \u041D\u0430\u0434\u043E
+        \u0431\u044B \u0437\u0430\u043F\u0438\u0441\u0430\u0442\u044C."
+  - _key: ui.thought.d1.diary_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: diary"
+    _values:
+    - _locale: en
+      _text: The diary, on the table.
+    - _locale: ru
+      _text: "\u0414\u043D\u0435\u0432\u043D\u0438\u043A \u043D\u0430 \u0441\u0442\u043E\u043B\u0435."
+  - _key: ui.objective.d1.to_bathroom_night
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: to_bathroom_night"
+    _values:
+    - _locale: en
+      _text: Go to the bathroom
+    - _locale: ru
+      _text: "\u041F\u043E\u0439\u0442\u0438 \u0432 \u0432\u0430\u043D\u043D\u0443\u044E"
+  - _key: ui.thought.d1.to_bathroom_night
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: to_bathroom_night"
+    _values:
+    - _locale: en
+      _text: Teeth again. Then bed.
+    - _locale: ru
+      _text: "\u0421\u043D\u043E\u0432\u0430 \u0437\u0443\u0431\u044B. \u0418 \u0441\u043F\u0430\u0442\u044C."
+  - _key: ui.thought.d1.to_bathroom_night_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: to_bathroom_night"
+    _values:
+    - _locale: en
+      _text: Bathroom.
+    - _locale: ru
+      _text: "\u0412\u0430\u043D\u043D\u0430\u044F."
+  - _key: ui.objective.d1.brush_teeth_night
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: brush_teeth_night"
+    _values:
+    - _locale: en
+      _text: Brush teeth
+    - _locale: ru
+      _text: "\u041F\u043E\u0447\u0438\u0441\u0442\u0438\u0442\u044C \u0437\u0443\u0431\u044B"
+  - _key: ui.thought.d1.brush_teeth_night
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: brush_teeth_night"
+    _values:
+    - _locale: en
+      _text: Same as every night.
+    - _locale: ru
+      _text: "\u041A\u0430\u043A \u043A\u0430\u0436\u0434\u044B\u0439 \u0432\u0435\u0447\u0435\u0440."
+  - _key: ui.thought.d1.brush_teeth_night_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: brush_teeth_night"
+    _values:
+    - _locale: en
+      _text: The sink.
+    - _locale: ru
+      _text: "\u0420\u0430\u043A\u043E\u0432\u0438\u043D\u0430."
+  - _key: ui.objective.d1.sleep
+    _comment: "\u0417\u0430\u0434\u0430\u0447\u0430 \u0434\u043D\u044F 1: sleep"
+    _values:
+    - _locale: en
+      _text: Go to sleep
+    - _locale: ru
+      _text: "\u041B\u0435\u0447\u044C \u0441\u043F\u0430\u0442\u044C"
+  - _key: ui.thought.d1.sleep
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: sleep"
+    _values:
+    - _locale: en
+      _text: Enough for today.
+    - _locale: ru
+      _text: "\u0425\u0432\u0430\u0442\u0438\u0442 \u043D\u0430 \u0441\u0435\u0433\u043E\u0434\u043D\u044F."
+  - _key: ui.thought.d1.sleep_remind
+    _comment: "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0434\u043D\u044F 1: sleep"
+    _values:
+    - _locale: en
+      _text: The bed.
+    - _locale: ru
+      _text: "\u041A\u0440\u043E\u0432\u0430\u0442\u044C."
+  - _key: ui.thought.d1.letter
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 1: \u043F\u0438\u0441\u044C\u043C\u043E"
+    _values:
+    - _locale: en
+      _text: A bill. Nothing more.
+    - _locale: ru
+      _text: "\u0421\u0447\u0451\u0442. \u041D\u0438\u0447\u0435\u0433\u043E \u0431\u043E\u043B\u044C\u0448\u0435."
+  - _key: ui.thought.d2.letter
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 2: \u043F\u0438\u0441\u044C\u043C\u043E-\u0430\u043D\u043E\u043C\u0430\u043B\u0438\u044F"
+    _values:
+    - _locale: en
+      _text: 'The letter says: "You were here yesterday. You are here today."'
+    - _locale: ru
+      _text: "\u0412 \u043F\u0438\u0441\u044C\u043C\u0435: \xAB\u0422\u044B \u0431\u044B\u043B
+        \u0437\u0434\u0435\u0441\u044C \u0432\u0447\u0435\u0440\u0430. \u0422\u044B
+        \u0437\u0434\u0435\u0441\u044C \u0438 \u0441\u0435\u0433\u043E\u0434\u043D\u044F\xBB."
+  - _key: ui.thought.d2.chair
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 2: \u0441\u0442\u0443\u043B-\u0430\u043D\u043E\u043C\u0430\u043B\u0438\u044F"
+    _values:
+    - _locale: en
+      _text: I never put a chair here.
+    - _locale: ru
+      _text: "\u042F \u043D\u0435 \u0441\u0442\u0430\u0432\u0438\u043B \u0437\u0434\u0435\u0441\u044C
+        \u0441\u0442\u0443\u043B."
+  - _key: ui.thought.d2.whisper
+    _comment: "\u041C\u044B\u0441\u043B\u044C \u0434\u043D\u044F 2: \u0448\u0451\u043F\u043E\u0442-\u0430\u043D\u043E\u043C\u0430\u043B\u0438\u044F"
+    _values:
+    - _locale: en
+      _text: '[whisper]Someone is breathing in the corridor.[/whisper]'
+    - _locale: ru
+      _text: "[whisper]\u0412 \u043A\u043E\u0440\u0438\u0434\u043E\u0440\u0435 \u043A\u0442\u043E-\u0442\u043E
+        \u0434\u044B\u0448\u0438\u0442.[/whisper]"

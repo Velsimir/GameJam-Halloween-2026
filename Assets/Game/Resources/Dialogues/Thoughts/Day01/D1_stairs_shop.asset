@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211ad55201324af4d9baa5251d6c7b2d, type: 3}
+  m_Name: D1_stairs_shop
+  m_EditorClassIdentifier: Velsi.Typecraft.Dialogue::Velsi.Typecraft.Dialogue.DialogueAsset
+  _id: 202ef25e9a7d4e74b77f1ee164c7dfec
+  _defaultTable: Main
+  _startNode: 387bce171ca845e69649a78c932fc993
+  _nodes:
+  - rid: 2111072932119445938
+  - rid: 2111072932119445939
+  - rid: 2111072932119445940
+  references:
+    version: 2
+    RefIds:
+    - rid: 2111072932119445938
+      type: {class: StartNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 387bce171ca845e69649a78c932fc993
+        _position: {x: 0, y: 0}
+        _next: 2e2f53ba89054544a120ad844447855c
+    - rid: 2111072932119445939
+      type: {class: LineNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 2e2f53ba89054544a120ad844447855c
+        _position: {x: 0, y: 0}
+        _speaker: {fileID: 0}
+        _emotion: 
+        _table: 
+        _key: ui.thought.d1.stairs_shop
+        _variants: []
+        _advance: 2
+        _seconds: 3
+        _next: fdb35d93ac534380a4183b7ec325f66a
+    - rid: 2111072932119445940
+      type: {class: EndNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: fdb35d93ac534380a4183b7ec325f66a
+        _position: {x: 0, y: 0}

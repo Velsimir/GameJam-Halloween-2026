@@ -1,0 +1,391 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6c23b1683061ae478d53488efaa55b5, type: 3}
+  m_Name: Day01
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Scripts.Configs.Scenario.DayScenario
+  _day: 1
+  _titleKey: ui.day.title
+  _steps:
+  - _id: wake_up
+    _objectiveKey: ui.objective.d1.wake_up
+    _startThought: {fileID: 11400000, guid: 6ff9eed3db56fe34b90cfbaf85232922, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.wake_up_remind
+    _idleSeconds: 30
+    _targetId: 
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: to_bathroom
+    _objectiveKey: ui.objective.d1.to_bathroom
+    _startThought: {fileID: 11400000, guid: 8da08db78d1969643b0ba9b210c6e00e, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.to_bathroom_remind
+    _idleSeconds: 30
+    _targetId: bathroom
+    _condition: 1
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: brush_teeth
+    _objectiveKey: ui.objective.d1.brush_teeth
+    _startThought: {fileID: 11400000, guid: 7e9f6ab4fc084e8448d5d1d016165b57, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.brush_teeth_remind
+    _idleSeconds: 30
+    _targetId: sink
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: to_hallway
+    _objectiveKey: ui.objective.d1.to_hallway
+    _startThought: {fileID: 11400000, guid: aad884b40a26f984ab8dd47586c84be7, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.to_hallway_remind
+    _idleSeconds: 30
+    _targetId: hallway
+    _condition: 1
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: take_keys
+    _objectiveKey: ui.objective.d1.take_keys
+    _startThought: {fileID: 11400000, guid: eac64fcc1d60677449784509ecc25a07, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.take_keys_remind
+    _idleSeconds: 30
+    _targetId: keys
+    _condition: 2
+    _item: {fileID: 11400000, guid: 3dc5e8a8a9bad2445b6e046be8f3a7b4, type: 2}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions:
+    - rid: 3000000000000000001
+    _completeActions: []
+  - _id: to_block
+    _objectiveKey: ui.objective.d1.to_block
+    _startThought: {fileID: 11400000, guid: 4bdcb9e106d7d114bbd00859c1b3df10, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.to_block_remind
+    _idleSeconds: 30
+    _targetId: block_corridor
+    _condition: 1
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: stairs_down
+    _objectiveKey: ui.objective.d1.stairs_work
+    _startThought: {fileID: 11400000, guid: 0cb3bf8583aef584584cf194ccada59e, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.stairs_work_remind
+    _idleSeconds: 30
+    _targetId: stairs_down
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 5
+      _timeLabel: 18:40
+      _giveItem: {fileID: 0}
+      _debugName: work
+    _startActions: []
+    _completeActions:
+    - rid: 3000000000000000002
+  - _id: return_home
+    _objectiveKey: ui.objective.d1.return_home
+    _startThought: {fileID: 11400000, guid: e4254e6bbf6b2ca4e8d3428b071a5113, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.return_home_remind
+    _idleSeconds: 30
+    _targetId: hallway
+    _condition: 1
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: kettle
+    _objectiveKey: ui.objective.d1.kettle
+    _startThought: {fileID: 11400000, guid: 0f48feaf8c69ad7468cea568988cb2f8, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.kettle_remind
+    _idleSeconds: 30
+    _targetId: kettle
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: fridge_check
+    _objectiveKey: ui.objective.d1.fridge_check
+    _startThought: {fileID: 11400000, guid: 509c431b55f04b24cb8addee08c3cbff, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.fridge_check_remind
+    _idleSeconds: 30
+    _targetId: fridge
+    _condition: 0
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: mailbox
+    _objectiveKey: ui.objective.d1.mailbox
+    _startThought: {fileID: 11400000, guid: c710537a43e632448abc3a7c5028f025, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.mailbox_remind
+    _idleSeconds: 30
+    _targetId: mailbox
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions:
+    - rid: 3000000000000000003
+    _completeActions: []
+  - _id: stairs_shop
+    _objectiveKey: ui.objective.d1.stairs_shop
+    _startThought: {fileID: 11400000, guid: cfecb308e264ec642adbdea606a93339, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.stairs_shop_remind
+    _idleSeconds: 30
+    _targetId: stairs_shop
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 5
+      _timeLabel: 20:15
+      _giveItem: {fileID: 11400000, guid: 2395ed2ced81e9341b7e006cf18a2e85, type: 2}
+      _debugName: street
+    _startActions:
+    - rid: 3000000000000000004
+    _completeActions: []
+  - _id: return_home2
+    _objectiveKey: ui.objective.d1.return_home2
+    _startThought: {fileID: 11400000, guid: 6ae558fe09ee7bb46a13ca478e948566, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.return_home2_remind
+    _idleSeconds: 30
+    _targetId: hallway
+    _condition: 1
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: hang_keys
+    _objectiveKey: ui.objective.d1.hang_keys
+    _startThought: {fileID: 11400000, guid: 0ba0e63855cc5ca45ad7bb72f1318d3a, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.hang_keys_remind
+    _idleSeconds: 30
+    _targetId: keys
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: fridge_stock
+    _objectiveKey: ui.objective.d1.fridge_stock
+    _startThought: {fileID: 11400000, guid: 5fd7c76fb2828844bb5303c6376b080b, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.fridge_stock_remind
+    _idleSeconds: 30
+    _targetId: fridge
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: diary
+    _objectiveKey: ui.objective.d1.diary
+    _startThought: {fileID: 11400000, guid: 6deb752abb414a44c9a56c32c6a6fc4b, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.diary_remind
+    _idleSeconds: 30
+    _targetId: diary
+    _condition: 0
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: to_bathroom_night
+    _objectiveKey: ui.objective.d1.to_bathroom_night
+    _startThought: {fileID: 11400000, guid: 202c932616e679b4eae80340fadc8561, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.to_bathroom_night_remind
+    _idleSeconds: 30
+    _targetId: bathroom
+    _condition: 1
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions:
+    - rid: 3000000000000000005
+    _completeActions: []
+  - _id: brush_teeth
+    _objectiveKey: ui.objective.d1.brush_teeth_night
+    _startThought: {fileID: 11400000, guid: 4835fe682da3606498fb85eeb4e02f9a, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.brush_teeth_night_remind
+    _idleSeconds: 30
+    _targetId: sink
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  - _id: sleep
+    _objectiveKey: ui.objective.d1.sleep
+    _startThought: {fileID: 11400000, guid: ef43c8972c341e44fb70125c083b86a4, type: 2}
+    _startThoughtKey: 
+    _reminderThought: {fileID: 0}
+    _reminderThoughtKey: ui.thought.d1.sleep_remind
+    _idleSeconds: 30
+    _targetId: bed
+    _condition: 3
+    _item: {fileID: 0}
+    _episode:
+      _clips: []
+      _seconds: 0
+      _timeLabel: 
+      _giveItem: {fileID: 0}
+      _debugName: 
+    _startActions: []
+    _completeActions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3000000000000000001
+      type: {class: SetActiveAction, ns: Game.Scripts.Configs.Scenario.Actions, asm: Assembly-CSharp}
+      data:
+        _targetId: keys_hook
+        _active: 1
+    - rid: 3000000000000000002
+      type: {class: SetActiveAction, ns: Game.Scripts.Configs.Scenario.Actions, asm: Assembly-CSharp}
+      data:
+        _targetId: stairs_down
+        _active: 0
+    - rid: 3000000000000000003
+      type: {class: SetMailboxLetterAction, ns: Game.Scripts.Configs.Scenario.Actions, asm: Assembly-CSharp}
+      data:
+        _targetId: mailbox
+        _letterThoughtKey: ui.thought.d1.letter
+    - rid: 3000000000000000004
+      type: {class: SetActiveAction, ns: Game.Scripts.Configs.Scenario.Actions, asm: Assembly-CSharp}
+      data:
+        _targetId: stairs_shop_toggle
+        _active: 1
+    - rid: 3000000000000000005
+      type: {class: GiveItemAction, ns: Game.Scripts.Configs.Scenario.Actions, asm: Assembly-CSharp}
+      data:
+        _item: {fileID: 11400000, guid: 2d5b26484ce4e2d4ea72ed5ee897dc01, type: 2}

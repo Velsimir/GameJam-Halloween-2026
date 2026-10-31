@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211ad55201324af4d9baa5251d6c7b2d, type: 3}
+  m_Name: D1_to_bathroom
+  m_EditorClassIdentifier: Velsi.Typecraft.Dialogue::Velsi.Typecraft.Dialogue.DialogueAsset
+  _id: c185a91f57514c9d91bb8037c35beb5b
+  _defaultTable: Main
+  _startNode: 60c9bad753f8416f93d541246253d68c
+  _nodes:
+  - rid: 2111072932119445908
+  - rid: 2111072932119445909
+  - rid: 2111072932119445910
+  references:
+    version: 2
+    RefIds:
+    - rid: 2111072932119445908
+      type: {class: StartNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 60c9bad753f8416f93d541246253d68c
+        _position: {x: 0, y: 0}
+        _next: 72441fa52a004bb2a60176c20cb5c327
+    - rid: 2111072932119445909
+      type: {class: LineNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 72441fa52a004bb2a60176c20cb5c327
+        _position: {x: 0, y: 0}
+        _speaker: {fileID: 0}
+        _emotion: 
+        _table: 
+        _key: ui.thought.d1.to_bathroom
+        _variants: []
+        _advance: 2
+        _seconds: 3
+        _next: 72ae1fe4ce984319b08b11d8a5627d83
+    - rid: 2111072932119445910
+      type: {class: EndNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 72ae1fe4ce984319b08b11d8a5627d83
+        _position: {x: 0, y: 0}

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211ad55201324af4d9baa5251d6c7b2d, type: 3}
+  m_Name: D1_fridge_check
+  m_EditorClassIdentifier: Velsi.Typecraft.Dialogue::Velsi.Typecraft.Dialogue.DialogueAsset
+  _id: e3f5e39d71fe4e6d9c6b56d206bd766f
+  _defaultTable: Main
+  _startNode: c034d977a2414322962164f53fe026f5
+  _nodes:
+  - rid: 2111072932119445932
+  - rid: 2111072932119445933
+  - rid: 2111072932119445934
+  references:
+    version: 2
+    RefIds:
+    - rid: 2111072932119445932
+      type: {class: StartNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: c034d977a2414322962164f53fe026f5
+        _position: {x: 0, y: 0}
+        _next: 3856f4dfe18e4d7ea0514790baebb216
+    - rid: 2111072932119445933
+      type: {class: LineNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 3856f4dfe18e4d7ea0514790baebb216
+        _position: {x: 0, y: 0}
+        _speaker: {fileID: 0}
+        _emotion: 
+        _table: 
+        _key: ui.thought.d1.fridge_check
+        _variants: []
+        _advance: 2
+        _seconds: 3
+        _next: 3d2adc39c5ec4999b6ee3889ad29439a
+    - rid: 2111072932119445934
+      type: {class: EndNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 3d2adc39c5ec4999b6ee3889ad29439a
+        _position: {x: 0, y: 0}

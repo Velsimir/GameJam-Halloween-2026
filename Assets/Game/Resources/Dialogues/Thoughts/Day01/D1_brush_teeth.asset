@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211ad55201324af4d9baa5251d6c7b2d, type: 3}
+  m_Name: D1_brush_teeth
+  m_EditorClassIdentifier: Velsi.Typecraft.Dialogue::Velsi.Typecraft.Dialogue.DialogueAsset
+  _id: c367771520fd4651bf88f60c9b6d3f9c
+  _defaultTable: Main
+  _startNode: 9205839da12d4d43be74b8c6b1ec43ef
+  _nodes:
+  - rid: 2111072932119445911
+  - rid: 2111072932119445912
+  - rid: 2111072932119445913
+  references:
+    version: 2
+    RefIds:
+    - rid: 2111072932119445911
+      type: {class: StartNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 9205839da12d4d43be74b8c6b1ec43ef
+        _position: {x: 0, y: 0}
+        _next: 3a7f41c2cf5642448f1d61b83ed8622d
+    - rid: 2111072932119445912
+      type: {class: LineNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 3a7f41c2cf5642448f1d61b83ed8622d
+        _position: {x: 0, y: 0}
+        _speaker: {fileID: 0}
+        _emotion: 
+        _table: 
+        _key: ui.thought.d1.brush_teeth
+        _variants: []
+        _advance: 2
+        _seconds: 3
+        _next: 9e7f73e863ec4862a432f912cf8051be
+    - rid: 2111072932119445913
+      type: {class: EndNode, ns: Velsi.Typecraft.Dialogue, asm: Velsi.Typecraft.Dialogue}
+      data:
+        _id: 9e7f73e863ec4862a432f912cf8051be
+        _position: {x: 0, y: 0}

@@ -145,8 +145,7 @@
   `ScenarioGateSystem` стоит сразу после `InteractionRequestSystem` (снимает `InteractionRequest` у неактивной цели),
   `DayScenarioSystem` — после `PickupSystem`, до `ScareRequestSystem` (иначе `ScareAction` теряется).
 - Отладка в редакторе: F3 — завершить текущий шаг (с `CompleteActions`), F6 — шаг в консоль.
-- Образец: `Day01_Test` в `Apartment` — зона `bathroom_sink` → ключи `keys` (`HasItem Keys_Apartment`,
-  появляются `SetActiveAction keys_hook`) → входная дверь `entrance_door` (скример 0.35 + мысль).
+- Образцы: `Day01` (полный день) и `Day02` (копия с аномалиями) — таблица ниже.
 
 ## Объекты шагов дня
 Префабы — `Resources/Prefabs/DayObjects/` (`Bed`, `ToothbrushPickup`, `Sink`, `KeyHook`, `Kettle`, `Fridge`,
@@ -170,8 +169,40 @@
 - Чайник: `KettleAuthoring`, индикатор — смена материала, выключается сам через `_duration`. Лестница вниз:
   `StepInteractAuthoring` (мысль + `External`). Лестница вверх — прежний `Level/StairsUp` (заперта, мысль).
 - Звук: `AudioClip` в authoring, пусто = тишина (`Services/Audio/OneShotAudio`).
-- Тест всех объектов: `Configs/Days/Day99_ObjectsTest` (12 шагов, в `GameConfigs`); чтобы играть — поставить ему `_day = 1`,
-  а `Day01_Test` сдвинуть на другой номер.
+- Два спуска по одной лестнице: `FindEpisode` ищет эпизод по id шага, поэтому второй спуск — отдельный объект
+  `Level/Landing/StairsShop_Root/Stairs_Shop` (id `stairs_shop`, `_gated=false`, выключен; включается `SetActiveAction
+  stairs_shop_toggle` на старте шага). Первый `Stairs_Down` выключается `CompleteActions` шага `stairs_down`.
+
+## День 1 (`Configs/Days/Day01`) — шаги по порядку
+Заставка «День N» — `DayIntroSystem`, не шаг. Эпизоды на чёрном (работа, магазин) — часть шагов 7 и 12.
+Ключи задач `ui.objective.d1.<метка>`, мысли `ui.thought.d1.<метка>` (+`_remind`), диалоги — `Resources/Dialogues/Thoughts/Day01/D1_<метка>`.
+Зоны (префаб `ScenarioZone`, группа `Scenario`): `bathroom`, `hallway`, `block_corridor`.
+
+| # | id шага | Цель (TargetId) | Условие | Примечание |
+|---|---|---|---|---|
+| 1 | `wake_up` | — | External | `BedWake` через `_wakeStepId`; «проснуться» и «встать» слиты |
+| 2 | `to_bathroom` | `bathroom` | EnterZone | |
+| 3 | `brush_teeth` | `sink` | External | щётка — `ToothbrushPickup`, `Sink` её тратит |
+| 4 | `to_hallway` | `hallway` | EnterZone | |
+| 5 | `take_keys` | `keys` | HasItem `Keys_Apartment` | старт: `SetActive keys_hook` |
+| 6 | `to_block` | `block_corridor` | EnterZone | входная дверь заперта ключами |
+| 7 | `stairs_down` | `stairs_down` | External | эпизод `work` 5 с, 18:40; в конце `Stairs_Down` выключается |
+| 8 | `return_home` | `hallway` | EnterZone | |
+| 9 | `kettle` | `kettle` | External | |
+| 10 | `fridge_check` | `fridge` | Interact | мысль «пусто» |
+| 11 | `mailbox` | `mailbox` | External | старт: `SetMailboxLetter` |
+| 12 | `stairs_shop` | `stairs_shop` | External | старт: `SetActive stairs_shop_toggle`; эпизод `street` 5 с, 20:15, выдаёт `Groceries` |
+| 13 | `return_home2` | `hallway` | EnterZone | |
+| 14 | `hang_keys` | `keys` | External | `KeyHook._hangStepId` |
+| 15 | `fridge_stock` | `fridge` | External | `FridgeAuthoring._stockStepId`; если холодильник остался открытым — нажать дважды |
+| 16 | `diary` | `diary` | Interact | заглушка |
+| 17 | `to_bathroom_night` | `bathroom` | EnterZone | старт: `GiveItem Toothbrush` |
+| 18 | `brush_teeth` | `sink` | External | |
+| 19 | `sleep` | `bed` | External | `BedAuthoring._completeStepId` → `DayFinished` |
+
+День 2 = день 1 + аномалии: письмо `ui.thought.d2.letter` (шаг 11); при `return_home` включается `Anomalies/ChairRoot`
+(`anomaly_chair`) + мысль `d2.chair`; скрытый шаг `block_return` (EnterZone `block_corridor`) после `stairs_shop`:
+`ScareAction 0.35` + шёпот `ui.thought.d2.whisper`.
 
 ## Поток дня и перезагрузка сцены
 - Мир: `EcsStartup.Dispose()` зовёт `IEcsWorldProvider.Reset()` (уничтожает мир и обнуляет ссылку); следующий
@@ -179,7 +210,7 @@
   `IsAlive`, чтобы не создать мир во время выгрузки. Состояние между сценами живёт только в ProjectContext
   (`IDayProgressService`, инвентарь пересоздаётся с игроком).
 - Смена дня: `DayFinished` → `DayFlowSystem` (после `DayScenarioSystem`): `DayFadeOut` → `GameConfigs.FindNextDayScenario`
-  (следующий в массиве `_dayScenarios`, порядок массива = порядок дней; сейчас `Day99_ObjectsTest`, `Day01_Test`, `Day02`)
+  (следующий в массиве `_dayScenarios`, порядок массива = порядок дней; сейчас `Day01`, `Day02`)
   → `CurrentDay` → перезагрузка текущей игровой сцены. Следующего нет — `EndScreenView` («Конец», «Начать сначала»
   = день 1 и перезагрузка, «Выйти»). Числа — `DayFlowConfig` (`Resources/Configs/Day/`, в `GameConfigs`).
 - Заставка: `DayIntroView` (чёрная, `ui.day.title` с `{0}` = номер дня) + `DayIntroSystem`; идёт только если на день есть
@@ -220,8 +251,8 @@ Idle/Tense/Panic от `FearFactor`, луч взаимодействия с об�
 (`TransitionDoor`, фейд), осмотр объектов (`InspectableAuthoring`), блок-аут `Apartment` (квартира,
 коридор блока, площадка с лестницами-заглушками; внутренние двери открываются, соседские двери и
 лестница наверх дают мысль), ядро дневного сценария (`DayScenario` в данных, шаги по порядку, гейт
-«не сейчас», тестовый `Day01_Test` в `Apartment`; смена дней и «Конец» работают; сценарий выбирается
-по номеру дня, не по сцене — `Day01_Test` запустится и в `PlayRoom`).
+«не сейчас», `Day01` и `Day02` в `Apartment`; смена дней и «Конец» работают; сценарий выбирается
+по номеру дня, не по сцене — `Day01` запустится и в `PlayRoom`).
 Нет: остального HUD-текста, интерактивных пространств, постоянных источников страха кроме тестовой
 зоны, логики выхода по лестнице вниз (задача 14), финальных моделей и текстов. `CameraCutsceneSystem` —
 пустая заглушка.
